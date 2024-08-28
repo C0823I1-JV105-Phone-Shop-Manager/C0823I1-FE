@@ -7,7 +7,6 @@ class UserService{
         try{
             const response = await axios.post(`${UserService.BASE_URL}/auth/login`, {username, password})
             return response.data;
-
         }catch(err){
             throw err;
         }
@@ -15,7 +14,7 @@ class UserService{
 
     static async getAllUsers(token){
         try{
-            const response = await axios.get(`${UserService.BASE_URL}/admin/get-all-users`, 
+            const response = await axios.get(`${UserService.BASE_URL}/admin/get-all-users`,
             {
                 headers: {Authorization: `Bearer ${token}`}
             })
@@ -28,7 +27,7 @@ class UserService{
 
     static async getYourProfile(token){
         try{
-            const response = await axios.get(`${UserService.BASE_URL}/adminuser/get-profile`, 
+            const response = await axios.get(`${UserService.BASE_URL}/adminstaff/profile`,
             {
                 headers: {Authorization: `Bearer ${token}`}
             })
@@ -40,7 +39,7 @@ class UserService{
 
     static async getUserById(userId, token){
         try{
-            const response = await axios.get(`${UserService.BASE_URL}/admin/get-users/${userId}`, 
+            const response = await axios.get(`${UserService.BASE_URL}/admin/get-users/${userId}`,
             {
                 headers: {Authorization: `Bearer ${token}`}
             })
@@ -52,7 +51,7 @@ class UserService{
 
     static async deleteUser(userId, token){
         try{
-            const response = await axios.delete(`${UserService.BASE_URL}/admin/delete/${userId}`, 
+            const response = await axios.delete(`${UserService.BASE_URL}/admin/delete/${userId}`,
             {
                 headers: {Authorization: `Bearer ${token}`}
             })
@@ -91,13 +90,16 @@ class UserService{
         return role === 'ADMIN'
     }
 
-    static isUser(){
+    static isStaff(){
         const role = localStorage.getItem('role')
-        return role === 'USER'
+        return role === 'STAFF'
     }
 
     static adminOnly(){
         return this.isAuthenticated() && this.isAdmin();
+    }
+    static staffOnly(){
+        return this.isAuthenticated() && this.isStaff();
     }
 
 }

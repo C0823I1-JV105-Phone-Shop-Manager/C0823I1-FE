@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import "bootstrap-icons/font/bootstrap-icons.css"; // Correctly import Bootstrap Icons CSS
 import "../assets/bootstrap/css/bootstrap.min.css";
 import "../assets/css/footer.css";

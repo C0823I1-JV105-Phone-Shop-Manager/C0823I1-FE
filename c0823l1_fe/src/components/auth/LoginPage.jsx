@@ -1,45 +1,58 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { Formik, Field, Form } from "formik";
+import { Formik, Field, Form, ErrorMessage } from "formik";
 import * as Yup from 'yup';
 import UserService from "../service/UserService";
 import mobileLogo from '../assets/img/logo/mobileLogo.png'; // Import the image
 import '../assets/css/btn-hover.css';
 import '../assets/css/checkbox-animation.css';
 import '../assets/css/field-focus.css'; // Import the field focus animation CSS file
+import '../assets/css/Error-Message.css'; // Import the error message CSS file
+import  {useNavigate} from "react-router-dom";
 
 const validationSchema = Yup.object().shape({
     username: Yup.string()
-        .required('Username is required')
-        .min(3, 'Username must be at least 3 characters')
-        .max(30, 'Username must be at most 30 characters')
-        .matches(/^[a-zA-Z0-9]+$/, 'Username must be alphanumeric'),
+        .required('Username is required'),
     password: Yup.string().required('Password is required')
-        .min(3, 'Username must be at least 3 characters')
-        .max(30, 'Username must be at most 30 characters')
 });
+let count = 3;
+
 
 function LoginPage() {
     const [error, setError] = useState('');
+    const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
 
+
+
     const handleSubmit = async (values) => {
+        setLoading(true);
+        if (count === 0) {
+            setError('You have exceeded the maximum number of attempts');
+            setLoading(false);
+            return;
+        }
         try {
             const userData = await UserService.login(values.username, values.password);
-            console.log(userData);
             if (userData.token) {
                 localStorage.setItem('token', userData.token);
                 localStorage.setItem('role', userData.role);
-                navigate('/profile');
+                console.log(userData);
+                if (userData.role === 'ADMIN') {
+                    navigate('/admin/' + userData.token );
+                } else if (userData.role === 'STAFF') {
+                    navigate('/staff/' + userData.token );
+                }
             } else {
-                setError(userData.message);
+                count--;
+                setError('Invalid username or password , ' + count + ' attempts left');
             }
         } catch (error) {
             console.log(error);
             setError(error.message);
+        } finally {
             setTimeout(() => {
-                setError('');
-            }, 5000);
+                setLoading(false);
+            }, 3000);
         }
     };
 
@@ -70,9 +83,11 @@ function LoginPage() {
                                                     <Form className="user">
                                                         <div className="mb-3">
                                                             <Field className="form-control form-control-user form-focus" type="text" id="username" name="username" placeholder="Enter Username..." />
+                                                            <ErrorMessage name="username" component="div" className="error-message" />
                                                         </div>
                                                         <div className="mb-3">
                                                             <Field className="form-control form-control-user form-focus" type="password" id="password" name="password" placeholder="Password" />
+                                                            <ErrorMessage name="password" component="div" className="error-message" />
                                                         </div>
                                                         <div className="mb-3">
                                                             <div className="custom-checkbox small">
@@ -86,9 +101,9 @@ function LoginPage() {
                                                             className="btn d-block btn-user w-100 btn-info btn-login"
                                                             type="submit"
                                                             style={{ color: 'rgb(255,255,255)', backgroundColor : "#5BBABE" }}
-                                                            disabled={!values.username || !values.password}
+                                                            disabled={!values.username || !values.password || loading}
                                                         >
-                                                            Login
+                                                            {loading ? 'Loading...' : 'Login'}
                                                         </button>
                                                     </Form>
                                                 )}
@@ -99,9 +114,9 @@ function LoginPage() {
                                 </div>
                             </div>
                         </div>
-                        <footer className="text-center mt-4">
+                        <p className="text-center mt-4">
                             <p>C08 Dev | All Right Reserved &copy; {new Date().getFullYear()} </p>
-                        </footer>
+                        </p>
                     </div>
                 </div>
             </div>
