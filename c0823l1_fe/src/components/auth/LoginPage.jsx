@@ -8,6 +8,7 @@ import '../assets/css/checkbox-animation.css';
 import '../assets/css/field-focus.css'; // Import the field focus animation CSS file
 import '../assets/css/Error-Message.css'; // Import the error message CSS file
 import  {useNavigate} from "react-router-dom";
+import {toast} from "react-toastify";
 
 const validationSchema = Yup.object().shape({
     username: Yup.string()
@@ -36,7 +37,22 @@ function LoginPage() {
             if (userData.token) {
                 localStorage.setItem('token', userData.token);
                 localStorage.setItem('role', userData.role);
-                    navigate('/user/' + userData.token );
+                    navigate('/user/'  );
+                toast.success("Login successfully", {
+                    position: "top-right",
+                    autoClose: 3000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    style: {
+                        backgroundColor: '#28a745',
+                        color: '#fff',
+                        fontWeight: 'bold',
+                        fontSize: '16px'
+                    }
+                });
             } else {
                 count--;
                 setError('Invalid username or password , ' + count + ' attempts left');
