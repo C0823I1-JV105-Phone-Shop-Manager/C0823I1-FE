@@ -36,12 +36,7 @@ function LoginPage() {
             if (userData.token) {
                 localStorage.setItem('token', userData.token);
                 localStorage.setItem('role', userData.role);
-                console.log(userData);
-                if (userData.role === 'ADMIN') {
-                    navigate('/admin/' + userData.token );
-                } else if (userData.role === 'STAFF') {
-                    navigate('/staff/' + userData.token );
-                }
+                    navigate('/user/' + userData.token );
             } else {
                 count--;
                 setError('Invalid username or password , ' + count + ' attempts left');
