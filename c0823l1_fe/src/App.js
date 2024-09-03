@@ -1,9 +1,11 @@
 import React from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import LoginPage from './components/auth/LoginPage';
-import HomePage from './components/userspage/HomePage';
+import Dashboard from './components/userspage/Dashboard';
 import {ToastContainer} from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
+import {PrivateRoutes} from "./components/routes/PrivateRoutes";
+import {AdminRoutes} from "./components/routes/AdminRoutes";
 
 function App() {
 
@@ -11,10 +13,17 @@ function App() {
       <BrowserRouter>
         <div className="App">
             <Routes>
-              <Route exact path="/" element={<LoginPage />} />
-              <Route exact path="/login" element={<LoginPage />} />
-                <Route exact path="/user" element={<HomePage />} />
-              <Route path="*" element={<Navigate to="/login" />} />‰
+              <Route  path="/login" element={<LoginPage />}  />
+                <Route path="*" element={<Navigate to="/login" />} />‰
+
+                <Route element={<PrivateRoutes />} >
+                    <Route  path="/user" element={<Dashboard />} />
+                </Route>
+
+                <Route element={<AdminRoutes />} >
+
+                </Route>
+
             </Routes>
         </div>
           <ToastContainer />

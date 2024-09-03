@@ -7,7 +7,7 @@ import Footer from "../common/Footer";
 import "../assets/css/animate.min.css";
 import "../assets/fonts/fontawesome-all.min.css";
 
-export default function HomePage() {
+export default function Dashboard() {
     return (
         <div id="page-top" className="d-flex flex-column min-vh-100">
             <div id="wrapper" className="flex-grow-1">
