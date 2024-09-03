@@ -1,4 +1,5 @@
 import axios from "axios";
+import Swal from "sweetalert2";
 
 class UserService{
     static BASE_URL = "http://localhost:1010"
@@ -97,10 +98,14 @@ class UserService{
     }
 
     /**AUTHENTICATION CHECKER */
-    static logout(){
-        localStorage.removeItem('token')
-        localStorage.removeItem('role')
-    }
+    static logout() {
+                localStorage.clear();
+                Swal.fire(
+                    'Logged out!',
+                    'You have been logged out.',
+                    'success'
+                );
+            }
 
     static isAuthenticated(){
         const token = localStorage.getItem('token')
