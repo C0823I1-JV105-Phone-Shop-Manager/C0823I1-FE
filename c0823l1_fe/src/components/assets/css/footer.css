@@ -1,0 +1,17 @@
+/* Add this CSS to ensure the footer sticks to the bottom */
+html, body {
+    height: 100%;
+}
+
+#page-top {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+footer {
+    background-color: #36B9CC;
+}
+
+#wrapper {
+    flex: 1;
+}
