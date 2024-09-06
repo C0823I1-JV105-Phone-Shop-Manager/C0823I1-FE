@@ -2,11 +2,11 @@ import React from 'react';
 import "bootstrap-icons/font/bootstrap-icons.css";
 import "../assets/bootstrap/css/bootstrap.min.css";
 import avatar from "../assets/img/dogs/image2.jpeg";
-import NavTop from "./NavTop";
-import UpdateInfo from "../updatePage/UpdateInfo";
-import UpdatePassword from "../updatePage/UpdatePassword";
+import NavTop from "../common/NavTop";
+import UpdateInfo from ".//UpdateInfo";
+import UpdatePassword from ".//UpdatePassword";
 
-function ProfilePage() {
+function Profile() {
     return (
         <div className="d-flex flex-column" id="content-wrapper">
             <div id="content">
@@ -35,4 +35,4 @@ function ProfilePage() {
     );
 }
 
-export default ProfilePage;
+export default Profile;

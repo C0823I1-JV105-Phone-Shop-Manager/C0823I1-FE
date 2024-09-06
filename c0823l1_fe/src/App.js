@@ -8,6 +8,7 @@ import {ToastContainer} from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import {PrivateRoutes} from "./components/routes/PrivateRoutes";
 import {AdminRoutes} from "./components/routes/AdminRoutes";
+import ProductDashboard from "./components/userspage/ProductDashboard";
 
 function App() {
 
@@ -20,6 +21,7 @@ function App() {
 
                 <Route element={<PrivateRoutes />} >
                     <Route  path="/user" element={<Dashboard />} />
+                    <Route  path="/user/product" element={<ProductDashboard />} />
                 </Route>
 
                 <Route element={<AdminRoutes />} >
