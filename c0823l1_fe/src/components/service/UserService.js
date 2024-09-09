@@ -1,5 +1,6 @@
 import axios from "axios";
 import Swal from "sweetalert2";
+import {Navigate} from "react-router-dom";
 
 class UserService{
     static BASE_URL = "http://localhost:1010"
@@ -105,7 +106,7 @@ class UserService{
                     'You have been logged out.',
                     'success'
                 );
-            }
+                    }
 
     static isAuthenticated(){
         const token = localStorage.getItem('token')
