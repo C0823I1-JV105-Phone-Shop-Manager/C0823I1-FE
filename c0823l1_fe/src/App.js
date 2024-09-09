@@ -8,10 +8,9 @@ import 'react-toastify/dist/ReactToastify.css';
 import {PrivateRoutes} from "./components/routes/PrivateRoutes";
 import {AdminRoutes} from "./components/routes/AdminRoutes";
 import SupplierCreate from "./components/supplierPage/SupplierCreate";
-import ProductDashboard from "./components/userspage/ProductDashboard";
-import ListSupplier from "./supplier/listSupplier";
 import SupplierUpdate from "./components/supplierPage/SupplierUpdate";
-
+import ProductDashboard from "./ProductComponent/ProductDashboard";
+import ListSupplier from "./SupplierComponent/listSupplier";
 
 function App() {
   return (

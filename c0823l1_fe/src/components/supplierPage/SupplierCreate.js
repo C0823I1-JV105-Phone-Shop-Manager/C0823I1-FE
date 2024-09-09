@@ -50,7 +50,7 @@ function SupplierCreate() {
             const response = await createSupplier(supplier, token);
             if (response.status === 201) {
                 toast.success("Thêm mới thành công!");
-                navigate("/supplier/list")
+                navigate("/user/supplier")
             } else if (response.status === 400 ) {
                 toast.error("Thêm mới thất bại. Dữ liệu nhập vào không hợp lệ.");
             } else if (response.status === 409 || response.status === undefined) {

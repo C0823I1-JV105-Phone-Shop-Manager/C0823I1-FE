@@ -37,7 +37,7 @@ function LoginPage() {
             if (userData.token) {
                 localStorage.setItem('token', userData.token);
                 localStorage.setItem('role', userData.role);
-                    navigate('/user/'  );
+                    navigate('/user/profile'  );
                 toast.success("Login successfully", {
                     position: "top-right",
                     autoClose: 3000,
