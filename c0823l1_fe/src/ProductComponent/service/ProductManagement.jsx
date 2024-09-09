@@ -1,8 +1,8 @@
 import React from 'react';
 import "bootstrap-icons/font/bootstrap-icons.css";
-import "../assets/bootstrap/css/bootstrap.min.css";
-import NavTop from "../common/NavTop";
-import "../assets/css/ProductCss/ProductCss.css";
+import "../../components/assets/bootstrap/css/bootstrap.min.css";
+import NavTop from "../../components/common/NavTop";
+import "../../components/assets/css/ProductCss/ProductCss.css";
 
 function ProductManagement() {
     return (

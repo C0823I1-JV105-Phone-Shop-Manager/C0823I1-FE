@@ -2,19 +2,6 @@ import {memo, useState} from "react";
 import 'mdb-react-ui-kit/dist/css/mdb.min.css';
 import "@fortawesome/fontawesome-free/css/all.min.css";
 import '../header/style.css';
-import logo from "../../../../assets/img/logo.png";
-import apple from "../../../../assets/img/apple.webp";
-import sony from "../../../../assets/img/brand-icon-sony_2.webp";
-import nokia from "../../../../assets/img/frame_37_1.webp";
-import samsung from "../../../../assets/img/frame_60.webp";
-import xiaomi from "../../../../assets/img/frame_61.webp";
-import oppo from "../../../../assets/img/frame_62.webp";
-import realme from "../../../../assets/img/frame_63.webp";
-import asus from "../../../../assets/img/frame_67.webp";
-import huawei from "../../../../assets/img/huawei (1).png";
-import slide1 from '../../../../assets/img/720x220--2--720x220.png';
-import slide2 from '../../../../assets/img/Carousel.png';
-import slide3 from '../../../../assets/img/Thiết kế chưa có tên.png';
 import {ROUTERS} from "../../../../utils/router";
 import {
     MDBBtn,
@@ -38,6 +25,19 @@ const Header = ({handleSearch,onBrandClick}) => {
             path: ROUTERS.USER.HOME
         }
     ]);
+    const huawei="https://firebasestorage.googleapis.com/v0/b/fb-phone-manager.appspot.com/o/huawei%20(1).png?alt=media&token=d19dc912-15c1-4e92-9891-2f5c6c0f9b4d"
+    const asus="https://firebasestorage.googleapis.com/v0/b/fb-phone-manager.appspot.com/o/frame_67.webp?alt=media&token=bf7af5dd-e349-409f-99d0-cf791872f246"
+    const realme="https://firebasestorage.googleapis.com/v0/b/fb-phone-manager.appspot.com/o/frame_63.webp?alt=media&token=edb2a87e-b039-4580-a38f-b04f278dbe5d"
+    const oppo="https://firebasestorage.googleapis.com/v0/b/fb-phone-manager.appspot.com/o/frame_62.webp?alt=media&token=63117d4a-78dc-4265-ae51-c33099520183"
+    const xiaomi="https://firebasestorage.googleapis.com/v0/b/fb-phone-manager.appspot.com/o/frame_61.webp?alt=media&token=9b31b994-52f7-4347-9a77-b92f4498e8e4"
+    const samsung="https://firebasestorage.googleapis.com/v0/b/fb-phone-manager.appspot.com/o/frame_60.webp?alt=media&token=c4f57909-d6f5-4574-b4f0-bc7b06ab5659"
+    const nokia="https://firebasestorage.googleapis.com/v0/b/fb-phone-manager.appspot.com/o/frame_37_1.webp?alt=media&token=01b53b79-c646-49b5-9740-ed2140f3606e"
+    const sony="https://firebasestorage.googleapis.com/v0/b/fb-phone-manager.appspot.com/o/brand-icon-sony_2.webp?alt=media&token=5337ccc1-799c-452f-82dd-a5fbb87e559e"
+    const logo="https://firebasestorage.googleapis.com/v0/b/fb-phone-manager.appspot.com/o/logo.png?alt=media&token=2a849590-992c-43b7-bdef-8b248642abd1"
+    const apple="https://firebasestorage.googleapis.com/v0/b/fb-phone-manager.appspot.com/o/apple.webp?alt=media&token=04b2aa63-9abc-465e-b312-6261c9f88b1f"
+    const slide1="https://firebasestorage.googleapis.com/v0/b/fb-phone-manager.appspot.com/o/720x220--2--720x220.png?alt=media&token=813a4f07-4ca3-4cf1-b92c-94de6f5250a6"
+    const slide2="https://firebasestorage.googleapis.com/v0/b/fb-phone-manager.appspot.com/o/Carousel.png?alt=media&token=7daca841-1283-4f81-a1d9-b065177910bb"
+    const slide3="https://firebasestorage.googleapis.com/v0/b/fb-phone-manager.appspot.com/o/Thi%E1%BA%BFt%20k%E1%BA%BF%20ch%C6%B0a%20c%C3%B3%20t%C3%AAn.png?alt=media&token=fa14e11a-a6e9-46a9-b27b-6ab97d23e6e3"
     const [searchTerm, setSearchTerm] = useState("");
     const brands = [
         { id: 1, src: apple, alt: "Apple" },

@@ -1,5 +1,3 @@
-
-
 .App-logo {
   height: 40vmin;
   pointer-events: none;
@@ -34,4 +32,17 @@
     transform: rotate(360deg);
   }
 }
+.btn-login:hover {
+  animation: btn-hover-animation 0.5s ease-in-out forwards;
+}
 
+@keyframes btn-hover-animation {
+  0% {
+    background-color: #5BBABE;
+    color: rgb(255, 255, 255);
+  }
+  100% {
+    background-color: white ;
+    color: #36B9CC;
+  }
+}

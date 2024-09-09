@@ -1,12 +1,11 @@
 export const ROUTERS = {
     USER: {
-        HOME: '/user/home',
-        DETAIL: '/user/home/detail',
+        HOME: '/',
+        DETAIL: '/detail',
 
     },
     ADMIN: {
         HOME: '/admin/home',
-
     },
 
 }

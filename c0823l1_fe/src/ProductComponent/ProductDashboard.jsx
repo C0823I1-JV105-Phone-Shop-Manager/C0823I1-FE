@@ -1,11 +1,11 @@
 import React from 'react';
-import  {SideNav} from "../common/SideNav";
+import  {SideNav} from "../components/common/SideNav";
 import "bootstrap-icons/font/bootstrap-icons.css"; // Correctly import Bootstrap Icons CSS
-import "../assets/bootstrap/css/bootstrap.min.css";
-import Footer from "../common/Footer";
-import "../assets/css/animate.min.css";
-import "../assets/fonts/fontawesome-all.min.css";
-import ProductManagement from "../ProductPage/ProductManagement";
+import "../components/assets/bootstrap/css/bootstrap.min.css";
+import Footer from "../components/common/Footer";
+import "../components/assets/css/animate.min.css";
+import "../components/assets/fonts/fontawesome-all.min.css";
+import ProductManagement from "./service/ProductManagement";
 
 export default function ProductDashboard() {
     return (
