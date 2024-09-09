@@ -1,8 +1,9 @@
-import { Link } from "react-router-dom";
-import { useEffect, useState } from "react";
+
+import {Link} from "react-router-dom";
+import {useEffect, useState} from "react";
 import * as supplierService from "./service/SupplierService";
 import Footer from "../components/common/Footer";
-import { SideNav } from "../components/common/SideNav";
+import {SideNav} from "../components/common/SideNav";
 import NavTop from "../components/common/NavTop";
 import {deleteSuppliersByUid} from "./service/SupplierService";
 
@@ -76,10 +77,10 @@ function ListSupplier() {
     return (
         <div id="page-top" className="d-flex flex-column min-vh-100">
             <div id="wrapper" className="flex-grow-1">
-                <SideNav />
+                <SideNav/>
                 <div className="d-flex flex-column" id="content-wrapper">
                     <div id="content">
-                        <NavTop />
+                        <NavTop/>
                         <div className="container mt-5">
                             <form className="row mb-4">
                                 <div className="col-md-12 d-flex justify-content-between align-items-center">
@@ -160,7 +161,7 @@ function ListSupplier() {
 
                                     {/* Tìm kiếm theo từ khóa */}
                                     <div className="input-group w-25 ms-auto">
-                                    <input
+                                        <input
                                             type="text"
                                             className="form-control"
                                             placeholder="Tìm theo SDT"
@@ -179,8 +180,13 @@ function ListSupplier() {
                                 </div>
                             </form>
 
-                            {/* Nút xóa nhiều nhà cung cấp */}
-                            <div className="d-flex justify-content-end mb-3">
+                            <div className="d-flex justify-content-between mb-3">
+                                {/* Nút thêm nhà cung cấp */}
+                                <Link to="/supplier/create" className="btn btn-info">
+                                    Thêm nhà cung cấp
+                                </Link>
+
+                                {/* Nút xóa nhiều nhà cung cấp */}
                                 <button
                                     className="btn btn-danger"
                                     onClick={handleDelete}
@@ -222,7 +228,8 @@ function ListSupplier() {
                                                         onChange={() => handleCheckboxChange(supplier.uid)}
                                                     />
                                                 </td>
-                                                <td>{index + 1}</td> {/* STT bắt đầu từ 1 cho mỗi trang */}
+                                                <td>{index + 1}</td>
+                                                {/* STT bắt đầu từ 1 cho mỗi trang */}
                                                 <td>{supplier.uid}</td>
                                                 <td>{supplier.name}</td>
                                                 <td>{supplier.address}</td>
@@ -263,7 +270,7 @@ function ListSupplier() {
                                                 <button
                                                     className="page-link"
                                                     onClick={() => handlePageChange(index)}
-                                                    style={{ fontWeight: page === index ? 'bold' : 'normal' }}
+                                                    style={{fontWeight: page === index ? 'bold' : 'normal'}}
                                                 >
                                                     {index + 1}
                                                 </button>
@@ -285,7 +292,7 @@ function ListSupplier() {
                     </div>
                 </div>
             </div>
-            <Footer />
+            <Footer/>
         </div>
     );
 };

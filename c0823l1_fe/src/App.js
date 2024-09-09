@@ -1,15 +1,16 @@
 import './App.css';
 import React from 'react';
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import {BrowserRouter, Routes, Route, Navigate} from "react-router-dom";
 import LoginPage from './components/auth/LoginPage';
 import Dashboard from './components/userspage/Dashboard';
 import { ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
-import { PrivateRoutes } from "./components/routes/PrivateRoutes";
+import {PrivateRoutes} from "./components/routes/PrivateRoutes";
+import {AdminRoutes} from "./components/routes/AdminRoutes";
+import SupplierCreate from "./components/supplierPage/SupplierCreate";
+import SupplierUpdate from "./components/supplierPage/SupplierUpdate";
 import ProductDashboard from "./ProductComponent/ProductDashboard";
-import RouterCustom from "./HomeComponent/RouterCustom";
 import ListSupplier from "./SupplierComponent/listSupplier";
-import DashboardError from "./components/userspage/DashboardError";
 
 function App() {
   return (
@@ -20,9 +21,11 @@ function App() {
             {/*authonly*/}
           <Route element={<PrivateRoutes />}>
               <Route path="*" element={<DashboardError />} />
-            <Route path="/user/profile" element={<Dashboard />} />
-            <Route path="/user/product" element={<ProductDashboard />} />
+              <Route path="/user/profile" element={<Dashboard />} />
+              <Route path="/user/product" element={<ProductDashboard />} />
               <Route  path="user/supplier" element={<ListSupplier />} />
+              <Route path="/supplier/create" element={<SupplierCreate/>}/>
+              <Route path="/supplier/update/:id" element={<SupplierUpdate/>}/>
           </Route>
             {/*Homepage*/}
             <Route path="/" element={<RouterCustom/>}/>
