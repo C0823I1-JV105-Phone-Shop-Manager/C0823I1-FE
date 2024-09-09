@@ -1,0 +1,31 @@
+.btn-login {
+    animation: btn-not-hover-animation 0.5s ease-in-out forwards;
+}
+
+.btn-login:hover {
+    animation: btn-hover-animation 0.5s ease-in-out forwards;
+}
+
+@keyframes btn-not-hover-animation {
+    0% {
+        background-color: #36B9CC;
+        color: #ffffff;
+    }
+    100% {
+        background-color: #5BBABE;
+        color: #ffffff;
+    }
+}
+
+@keyframes btn-hover-animation {
+    0% {
+        background-color: #5BBABE;
+        color: #ffffff;
+
+    }
+    100% {
+        background-color: #36B9CC;
+        color: #ffffff;
+    }
+}
+
