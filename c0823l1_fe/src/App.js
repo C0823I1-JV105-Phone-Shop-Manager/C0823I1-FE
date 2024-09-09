@@ -10,6 +10,7 @@ import { AdminRoutes } from "./components/routes/AdminRoutes";
 import ProductDashboard from "./ProductComponent/ProductDashboard";
 import RouterCustom from "./HomeComponent/RouterCustom";
 import ListSupplier from "./SupplierComponent/listSupplier";
+import DashboardError from "./components/userspage/DashboardError";
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
           <Route path="/login" element={<LoginPage />} />
             {/*authonly*/}
           <Route element={<PrivateRoutes />}>
+              <Route path="*" element={<DashboardError />} />
             <Route path="/user" element={<Dashboard />} />
             <Route path="/user/product" element={<ProductDashboard />} />
               <Route  path="user/supplier" element={<ListSupplier />} />
@@ -26,7 +28,7 @@ function App() {
             {/*admin*/}
           <Route element={<AdminRoutes />} />
             {/*Homepage*/}
-            <Route path="*" element={<RouterCustom/>}/>
+            <Route path="/" element={<RouterCustom/>}/>
         </Routes>
       <ToastContainer />
     </BrowserRouter>

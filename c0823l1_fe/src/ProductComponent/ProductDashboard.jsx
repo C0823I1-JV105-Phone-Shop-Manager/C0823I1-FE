@@ -5,14 +5,13 @@ import "../components/assets/bootstrap/css/bootstrap.min.css";
 import Footer from "../components/common/Footer";
 import "../components/assets/css/animate.min.css";
 import "../components/assets/fonts/fontawesome-all.min.css";
-import ProductManagement from "./service/ProductManagement";
 
 export default function ProductDashboard() {
     return (
         <div id="page-top" className="d-flex flex-column min-vh-100">
             <div id="wrapper" className="flex-grow-1">
                 <SideNav />
-                <ProductManagement />
+                {/*<ProductManagement />*/}
             </div>
             <Footer />
         </div>
