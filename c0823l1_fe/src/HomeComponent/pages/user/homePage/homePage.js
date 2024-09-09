@@ -34,7 +34,7 @@ const HomePage = ({search, brandS}) => {
         }
     };
 
-        const filterPhonesByBrand = async (brand, page) => {
+    const filterPhonesByBrand = async (brand, page) => {
         try {
             let allPhones = await PhoneService.filterPhonesByBrand(brand, page);
             setPhones(allPhones);
@@ -90,8 +90,12 @@ const HomePage = ({search, brandS}) => {
         } else {
             allPhones = await PhoneService.filterPhones(price, brand, camera, storage, cpu, currentPage);
         }
-        setPhones(allPhones);
-        setTotalPages(allPhones.totalPages);
+        if (!allPhones || allPhones.content.length === 0) {
+            setPhones(null);
+        } else {
+            setPhones(allPhones);
+            setTotalPages(allPhones.totalPages);
+        }
     }
 
 
@@ -102,12 +106,14 @@ const HomePage = ({search, brandS}) => {
     }
     if (!phones) return (
         <>
-             <div className="text-center mt-5" style={{height: '100vh'}}>
-                    <MDBIcon fas icon="search" size="3x"/>
-                    <p className="mt-3">No results found</p>
-             </div>
+            <div className="text-center mt-5" style={{height: '100vh'}}>
+                <MDBIcon fas icon="search" size="3x"/>
+                <p className="mt-3">No results found</p>
+            </div>
         </>
     );
+
+
 
     return (
         <>

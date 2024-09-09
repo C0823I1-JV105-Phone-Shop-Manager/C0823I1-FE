@@ -6,7 +6,6 @@ import Dashboard from './components/userspage/Dashboard';
 import { ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import { PrivateRoutes } from "./components/routes/PrivateRoutes";
-import { AdminRoutes } from "./components/routes/AdminRoutes";
 import ProductDashboard from "./ProductComponent/ProductDashboard";
 import RouterCustom from "./HomeComponent/RouterCustom";
 import ListSupplier from "./SupplierComponent/listSupplier";
@@ -21,12 +20,10 @@ function App() {
             {/*authonly*/}
           <Route element={<PrivateRoutes />}>
               <Route path="*" element={<DashboardError />} />
-            <Route path="/user" element={<Dashboard />} />
+            <Route path="/user/profile" element={<Dashboard />} />
             <Route path="/user/product" element={<ProductDashboard />} />
               <Route  path="user/supplier" element={<ListSupplier />} />
           </Route>
-            {/*admin*/}
-          <Route element={<AdminRoutes />} />
             {/*Homepage*/}
             <Route path="/" element={<RouterCustom/>}/>
         </Routes>

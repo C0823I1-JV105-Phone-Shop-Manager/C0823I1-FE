@@ -25,20 +25,20 @@ export function SideNav() {
                 <hr className="sidebar-divider my-0" />
                 <ul className="navbar-nav text-light" id="accordionSidebar">
                     <li className="nav-item">
-                        <NavLink className="nav-link" to="/user">
+                        <NavLink className="nav-link" to="/user/profile">
                             <i className="bi bi-person"></i>
                             <span>Quản lý thông tin cá nhân</span>
                         </NavLink>
                     </li>
                     {UserService.isAdmin() && (
                         <li className="nav-item">
-                            <a className="btn btn-link nav-link btn-side-nav" data-bs-toggle="collapse" aria-expanded="false" aria-controls="collapse-3" href="#collapse-3" role="button" id="adminDashboard">
+                            <a className="btn btn-link nav-link btn-side-nav" data-bs-toggle="collapse" aria-expanded="true" aria-controls="collapse-3" href="#collapse-3" role="button" id="adminDashboard">
                                 <i className="bi bi-people"></i>
                                 <span>Admin</span>
                             </a>
                             <div className="collapse" id="collapse-3">
                                 <div className="bg-white border rounded pulse animated py-2 collapse-inner">
-                                    <NavLink className="pulse animated collapse-item" to="/StaffList" style={{ background: 'rgb(255,255,255)', color: 'rgb(0,0,0)' }}>
+                                    <NavLink className="pulse animated collapse-item" to="/user/staff" >
                                         Quản lý nhân viên
                                     </NavLink>
                                 </div>
@@ -46,38 +46,38 @@ export function SideNav() {
                         </li>
                     )}
                     <li className="nav-item">
-                        <a className="btn btn-link nav-link btn-side-nav" data-bs-toggle="collapse" aria-expanded="false" aria-controls="collapse-1" href="#collapse-1" role="button" id="buisnessStaff">
+                        <a className="btn btn-link nav-link btn-side-nav" data-bs-toggle="collapse" aria-expanded="true" aria-controls="collapse-1" href="#collapse-1" role="button" id="buisnessStaff">
                             <i className="bi bi-briefcase"></i>
                             <span> Kinh doanh</span>
                         </a>
                         <div className="collapse" id="collapse-1">
                             <div className="bg-white border rounded pulse animated py-2 collapse-inner">
-                                <NavLink className="collapse-item" to="/BuisnessList">Quản lý kinh doanh</NavLink>
-                                <NavLink className="collapse-item" to="/BuisnessList">Quản lý báo cáo</NavLink>
+                                <NavLink className="collapse-item" to="/user/buisness">Quản lý kinh doanh</NavLink>
+                                <NavLink className="collapse-item" to="/user/report">Quản lý báo cáo</NavLink>
                                 <NavLink className="collapse-item" to="/user/product">Xem thông tin hàng hóa</NavLink>
                                 <NavLink className="collapse-item" to="/user/supplier">Quản lý nhà cung cấp</NavLink>
                             </div>
                         </div>
                     </li>
                     <li className="nav-item">
-                        <a className="btn btn-link nav-link btn-side-nav" data-bs-toggle="collapse" aria-expanded="false" aria-controls="collapse-4" href="#collapse-4" role="button" id="saleStaff">
+                        <a className="btn btn-link nav-link btn-side-nav" data-bs-toggle="collapse" aria-expanded="true" aria-controls="collapse-4" href="#collapse-4" role="button" id="saleStaff">
                             <i className="bi bi-cart"></i>
                             <span> Bán hàng</span>
                         </a>
                         <div className="collapse" id="collapse-4">
                             <div className="bg-white border rounded pulse animated py-2 collapse-inner">
-                                <NavLink className="collapse-item" to="/SaleList">Quản lý bán hàng</NavLink>
+                                <NavLink className="collapse-item" to="/user/sale">Quản lý bán hàng</NavLink>
                             </div>
                         </div>
                     </li>
                     <li className="nav-item">
-                        <a className="btn btn-link pulse animated nav-link btn-side-nav" data-bs-toggle="collapse" aria-expanded="false" aria-controls="collapse-2" href="#collapse-2" role="button" id="storageStaff">
+                        <a className="btn btn-link pulse animated nav-link btn-side-nav" data-bs-toggle="collapse" aria-expanded="true" aria-controls="collapse-2" href="#collapse-2" role="button" id="storageStaff">
                             <i className="bi bi-box"></i>
                             <span>Thủ kho</span>
                         </a>
                         <div className="collapse" id="collapse-2">
                             <div className="bg-white border rounded pulse animated py-2 collapse-inner">
-                                <NavLink className="collapse-item" to="/StorageList">Quản lý nhập/xuất kho</NavLink>
+                                <NavLink className="collapse-item" to="/user/storage">Quản lý nhập/xuất kho</NavLink>
                             </div>
                         </div>
                     </li>

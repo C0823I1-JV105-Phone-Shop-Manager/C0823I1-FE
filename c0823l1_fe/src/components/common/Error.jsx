@@ -8,7 +8,7 @@ function ErrorPage() {
         <div className="d-flex flex-column" id="content-wrapper">
             <div id="content">
                 <NavTop />
-                <h1>404</h1>
+                <h1>Coming soon...</h1>
             </div>
         </div>
     );
