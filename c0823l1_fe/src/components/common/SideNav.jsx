@@ -82,7 +82,7 @@ export function SideNav() {
                         </div>
                     </li>
                     <li className="nav-item">
-                        <Link className="nav-link" to="/logout" onClick={() => UserService.logout()}>
+                        <Link className="nav-link" to="/login" onClick={() => UserService.logout()}>
                             <i className="bi bi-box-arrow-right"></i>
                             <span>Log out</span>
                         </Link>
