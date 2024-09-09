@@ -5,6 +5,7 @@ import Footer from "../components/common/Footer";
 import { SideNav } from "../components/common/SideNav";
 import NavTop from "../components/common/NavTop";
 import {deleteSuppliersByUid} from "../components/service/SupplierService";
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 function ListSupplier() {
     const [suppliers, setSuppliers] = useState([]);
