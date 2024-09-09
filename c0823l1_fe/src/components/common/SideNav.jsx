@@ -1,11 +1,12 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import {Link, NavLink} from 'react-router-dom';
 import "../assets/bootstrap/css/bootstrap.min.css";
 import "bootstrap-icons/font/bootstrap-icons.css";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
 import "../assets/js/theme.js";
 import "../assets/js/bs-init.js";
 import UserService from "../service/UserService";
+import "../assets/css/side-nav.css";
 
 export function SideNav() {
     return (
@@ -24,64 +25,64 @@ export function SideNav() {
                 <hr className="sidebar-divider my-0" />
                 <ul className="navbar-nav text-light" id="accordionSidebar">
                     <li className="nav-item">
-                        <Link className="nav-link active" to="/Profile">
+                        <NavLink className="nav-link" to="/user">
                             <i className="bi bi-person"></i>
                             <span>Quản lý thông tin cá nhân</span>
-                        </Link>
+                        </NavLink>
                     </li>
                     {UserService.isAdmin() && (
                         <li className="nav-item">
-                            <a className="btn btn-link nav-link" data-bs-toggle="collapse" aria-expanded="false" aria-controls="collapse-3" href="#collapse-3" role="button" id="adminDashboard">
+                            <a className="btn btn-link nav-link btn-side-nav" data-bs-toggle="collapse" aria-expanded="false" aria-controls="collapse-3" href="#collapse-3" role="button" id="adminDashboard">
                                 <i className="bi bi-people"></i>
                                 <span>Admin</span>
                             </a>
                             <div className="collapse" id="collapse-3">
                                 <div className="bg-white border rounded pulse animated py-2 collapse-inner">
-                                    <Link className="pulse animated collapse-item" to="/StaffList" style={{ background: 'rgb(255,255,255)', color: 'rgb(0,0,0)' }}>
+                                    <NavLink className="pulse animated collapse-item" to="/StaffList" style={{ background: 'rgb(255,255,255)', color: 'rgb(0,0,0)' }}>
                                         Quản lý nhân viên
-                                    </Link>
+                                    </NavLink>
                                 </div>
                             </div>
                         </li>
                     )}
                     <li className="nav-item">
-                        <a className="btn btn-link nav-link" data-bs-toggle="collapse" aria-expanded="false" aria-controls="collapse-1" href="#collapse-1" role="button" id="buisnessStaff">
+                        <a className="btn btn-link nav-link btn-side-nav" data-bs-toggle="collapse" aria-expanded="false" aria-controls="collapse-1" href="#collapse-1" role="button" id="buisnessStaff">
                             <i className="bi bi-briefcase"></i>
-                            <span>Nhân viên kinh doanh</span>
+                            <span> Kinh doanh</span>
                         </a>
                         <div className="collapse" id="collapse-1">
                             <div className="bg-white border rounded pulse animated py-2 collapse-inner">
-                                <Link className="collapse-item" to="/BuisnessList">Quản lý kinh doanh</Link>
-                                <Link className="collapse-item" to="/BuisnessList">Quản lý báo cáo</Link>
-                                <Link className="collapse-item" to="/BuisnessList">Xem thông tin hàng hóa</Link>
-                                <Link className="collapse-item" to="/BuisnessList">Quản lý nhà cung cấp</Link>
+                                <NavLink className="collapse-item" to="/BuisnessList">Quản lý kinh doanh</NavLink>
+                                <NavLink className="collapse-item" to="/BuisnessList">Quản lý báo cáo</NavLink>
+                                <NavLink className="collapse-item" to="/user/product">Xem thông tin hàng hóa</NavLink>
+                                <NavLink className="collapse-item" to="/BuisnessList">Quản lý nhà cung cấp</NavLink>
                             </div>
                         </div>
                     </li>
                     <li className="nav-item">
-                        <a className="btn btn-link nav-link" data-bs-toggle="collapse" aria-expanded="false" aria-controls="collapse-4" href="#collapse-4" role="button" id="saleStaff">
+                        <a className="btn btn-link nav-link btn-side-nav" data-bs-toggle="collapse" aria-expanded="false" aria-controls="collapse-4" href="#collapse-4" role="button" id="saleStaff">
                             <i className="bi bi-cart"></i>
-                            <span>Nhân viên bán hàng</span>
+                            <span> Bán hàng</span>
                         </a>
                         <div className="collapse" id="collapse-4">
                             <div className="bg-white border rounded pulse animated py-2 collapse-inner">
-                                <Link className="collapse-item" to="/SaleList">Quản lý bán hàng</Link>
+                                <NavLink className="collapse-item" to="/SaleList">Quản lý bán hàng</NavLink>
                             </div>
                         </div>
                     </li>
                     <li className="nav-item">
-                        <a className="btn btn-link pulse animated nav-link" data-bs-toggle="collapse" aria-expanded="false" aria-controls="collapse-2" href="#collapse-2" role="button" id="storageStaff">
+                        <a className="btn btn-link pulse animated nav-link btn-side-nav" data-bs-toggle="collapse" aria-expanded="false" aria-controls="collapse-2" href="#collapse-2" role="button" id="storageStaff">
                             <i className="bi bi-box"></i>
                             <span>Thủ kho</span>
                         </a>
                         <div className="collapse" id="collapse-2">
                             <div className="bg-white border rounded pulse animated py-2 collapse-inner">
-                                <Link className="collapse-item" to="/StorageList">Quản lý nhập/xuất kho</Link>
+                                <NavLink className="collapse-item" to="/StorageList">Quản lý nhập/xuất kho</NavLink>
                             </div>
                         </div>
                     </li>
                     <li className="nav-item">
-                        <Link className="nav-link" to="/logout" onClick={() => UserService.logout()}>
+                        <Link className="nav-link" to="/login" onClick={() => UserService.logout()}>
                             <i className="bi bi-box-arrow-right"></i>
                             <span>Log out</span>
                         </Link>
