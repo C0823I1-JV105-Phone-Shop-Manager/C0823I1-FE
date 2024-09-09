@@ -15,7 +15,6 @@ import ListSupplier from "./SupplierComponent/listSupplier";
 function App() {
   return (
       <BrowserRouter>
-        <div className="App">
             <Routes>
               <Route  path="/login" element={<LoginPage />}  />
                 <Route path="*" element={<Navigate to="/login"/>}/>‰
@@ -30,7 +29,6 @@ function App() {
                 <Route element={<AdminRoutes />}>
                 </Route>
             </Routes>
-        </div>
           <ToastContainer />
       </BrowserRouter>
   );
