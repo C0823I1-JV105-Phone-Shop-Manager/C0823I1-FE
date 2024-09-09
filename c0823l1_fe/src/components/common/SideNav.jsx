@@ -55,7 +55,7 @@ export function SideNav() {
                                 <NavLink className="collapse-item" to="/BuisnessList">Quản lý kinh doanh</NavLink>
                                 <NavLink className="collapse-item" to="/BuisnessList">Quản lý báo cáo</NavLink>
                                 <NavLink className="collapse-item" to="/user/product">Xem thông tin hàng hóa</NavLink>
-                                <NavLink className="collapse-item" to="/BuisnessList">Quản lý nhà cung cấp</NavLink>
+                                <NavLink className="collapse-item" to="/user/supplier">Quản lý nhà cung cấp</NavLink>
                             </div>
                         </div>
                     </li>

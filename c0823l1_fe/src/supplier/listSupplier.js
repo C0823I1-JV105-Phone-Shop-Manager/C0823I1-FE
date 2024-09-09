@@ -1,10 +1,11 @@
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
-import * as supplierService from "../service/SupplierService";
+import * as supplierService from "../components/service/SupplierService";
 import Footer from "../components/common/Footer";
 import { SideNav } from "../components/common/SideNav";
 import NavTop from "../components/common/NavTop";
-import {deleteSuppliersByUid} from "../service/SupplierService";
+import {deleteSuppliersByUid} from "../components/service/SupplierService";
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 function ListSupplier() {
     const [suppliers, setSuppliers] = useState([]);
