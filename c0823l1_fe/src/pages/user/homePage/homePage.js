@@ -90,8 +90,12 @@ const HomePage = ({search, brandS}) => {
         } else {
             allPhones = await PhoneService.filterPhones(price, brand, camera, storage, cpu, currentPage);
         }
-        setPhones(allPhones);
-        setTotalPages(allPhones.totalPages);
+        if (!allPhones || allPhones.content.length === 0) {
+            setPhones(null);
+        } else {
+            setPhones(allPhones);
+            setTotalPages(allPhones.totalPages);
+        }
     }
 
 
@@ -108,6 +112,8 @@ const HomePage = ({search, brandS}) => {
              </div>
         </>
     );
+
+
 
     return (
         <>
