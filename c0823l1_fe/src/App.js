@@ -14,23 +14,24 @@ import ListSupplier from "./SupplierComponent/listSupplier";
 
 function App() {
   return (
-      <BrowserRouter>
-            <Routes>
-              <Route  path="/login" element={<LoginPage />}  />
-                <Route path="*" element={<Navigate to="/login"/>}/>‰
-                <Route element={<PrivateRoutes/>}>
-                    <Route  path="/user" element={<Dashboard />} />
-                    <Route path="/supplier/create" element={<SupplierCreate/>}/>
-                    <Route path="/supplier/update/:id" element={<SupplierUpdate/>}/>
-                    <Route path="/user/product" element={<ProductDashboard/>}/>
-                    <Route  path="/user/product" element={<ProductDashboard/>} />
-                    <Route  path="/supplier/list" element={<ListSupplier />} />
-                </Route>
-                <Route element={<AdminRoutes />}>
-                </Route>
-            </Routes>
-          <ToastContainer />
-      </BrowserRouter>
+    <BrowserRouter>
+        <Routes>
+            {/*login*/}
+          <Route path="/login" element={<LoginPage />} />
+            {/*authonly*/}
+          <Route element={<PrivateRoutes />}>
+              <Route path="*" element={<DashboardError />} />
+              <Route path="/user/profile" element={<Dashboard />} />
+              <Route path="/user/product" element={<ProductDashboard />} />
+              <Route  path="user/supplier" element={<ListSupplier />} />
+              <Route path="/supplier/create" element={<SupplierCreate/>}/>
+              <Route path="/supplier/update/:id" element={<SupplierUpdate/>}/>
+          </Route>
+            {/*Homepage*/}
+            <Route path="/" element={<RouterCustom/>}/>
+        </Routes>
+      <ToastContainer />
+    </BrowserRouter>
   );
 }
 
