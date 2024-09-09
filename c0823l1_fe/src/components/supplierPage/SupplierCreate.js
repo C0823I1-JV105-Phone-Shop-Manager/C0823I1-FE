@@ -1,16 +1,17 @@
-import {useNavigate} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import {SideNav} from "../common/SideNav";
-import Profile from "../common/Profile";
 import Footer from "../common/Footer";
 import React, {useEffect} from "react";
 import {ErrorMessage, Field, Form, Formik} from "formik";
 import {createSupplier} from "../service/SupplierAddEditService";
 import * as Yup from "yup";
 import NavTop from "../common/NavTop";
+import {toast} from "react-toastify";
 
 
 function SupplierCreate() {
     const navigate = useNavigate();
+
     const supplier = {
         uid: "",
         name: "",
@@ -19,6 +20,7 @@ function SupplierCreate() {
         email: "",
         description: ""
     }
+
 
     const validateSupplier = {
         uid: Yup.string().required("Mã số không được để trống")
@@ -38,15 +40,24 @@ function SupplierCreate() {
         email: Yup.string().required("Email không được để trống")
             .max(150, "Email không đúng định dạng, không quá 150 ký tự")
             .matches(/[a-zA-Z][a-zA-Z0-9_.]{2,64}[^._]@[^.][a-zA-Z0-9]{2,64}\.[0-9a-z-.]{2,63}/, "Email không đúng định dạng, không quá 150 ký tự")
-
     }
-    const saveSupplier = async (value) => {
+    useEffect(() => {
+
+    }, []);
+    const createNewSupplier = async (supplier) => {
         try {
-            console.log(value)
             const token = localStorage.getItem('token');
             const response = await createSupplier(supplier, token);
+            console.log(response);
+            if (response.status === 201) {
+                toast.success("Thêm mới thành công!");
+                navigate(`/supplier/list`)
+            } else {
+                toast.error("Thêm mới thất bại");
+            }
         } catch (error) {
             console.error('Error when create supplier information:', error);
+            toast.error("Thêm mới thất bại");
         }
 
     }
@@ -58,14 +69,13 @@ function SupplierCreate() {
                     <div id="content">
                         <NavTop/>
                         <div class="container col-lg-8 col-xl-8 col-md-12 m-auto">
-                            <Formik initialValues={supplier} onSubmit={saveSupplier}
+                            <Formik initialValues={supplier} onSubmit={createNewSupplier}
                                     validationSchema={Yup.object(validateSupplier)}>
                                 <Form className="form-control">
                                     <div className="form-label">
                                         <label className="fw-medium" htmlFor="uid">Mã số</label>
                                         <label className="text-danger fw-bold ms-1">*</label>
                                         <Field className="form-control" type="text" name="uid" id="uid"
-                                               value={supplier.uid}
                                                placeholder="Mã số nhà cung cấp"/>
                                         <ErrorMessage className="text-danger fw-bold ms-1" name="uid"
                                                       component="small"></ErrorMessage>
@@ -74,8 +84,7 @@ function SupplierCreate() {
                                         <label className="fw-medium" htmlFor="name">Tên</label>
                                         <label className="text-danger fw-bold ms-1">*</label>
                                         <Field className="form-control" type="text" name="name" id="name"
-                                               placeholder="Tên nhà cung cấp" placeholder="Tên nhà cung cấp"
-                                               value={supplier.name}></Field>
+                                               placeholder="Tên nhà cung cấp" placeholder="Tên nhà cung cấp"></Field>
                                         <ErrorMessage className="text-danger fw-bold ms-1" name="name"
                                                       component="small"></ErrorMessage>
                                     </div>
@@ -83,8 +92,7 @@ function SupplierCreate() {
                                         <label className="fw-medium" htmlFor="address">Địa chỉ</label>
                                         <label className="text-danger fw-bold ms-1">*</label>
                                         <Field className="form-control" type="text" name="address" id="address"
-                                               placeholder="Số nhà, đường, thôn/buôn, xã/phường, quận/huyện, tỉnh/thành phố, quốc gia"
-                                               value={supplier.address}></Field>
+                                               placeholder="Số nhà, đường, thôn/buôn, xã/phường, quận/huyện, tỉnh/thành phố, quốc gia"></Field>
                                         <ErrorMessage className="text-danger fw-bold ms-1" name="address"
                                                       component="small"></ErrorMessage>
                                     </div>
@@ -92,7 +100,7 @@ function SupplierCreate() {
                                         <label className="fw-medium" for="phone">Số điện thoại</label>
                                         <label className="text-danger fw-bold ms-1">*</label>
                                         <Field className="form-control" type="text" name="phone" id="phone"
-                                               placeholder="0xx xxxx xxx" value={supplier.phone}></Field>
+                                               placeholder="0xx xxxx xxx"></Field>
                                         <ErrorMessage className="text-danger fw-bold ms-1" name="phone"
                                                       component="small"></ErrorMessage>
                                     </div>
@@ -100,13 +108,13 @@ function SupplierCreate() {
                                         <label className="fw-medium" htmlFor="email">Email</label>
                                         <label className="text-danger fw-bold ms-1">*</label>
                                         <Field className="form-control" type="text" name="email" id="email"
-                                               placeholder="abc@gmail.com" value={supplier.email}></Field>
+                                               placeholder="abc@gmail.com"></Field>
                                         <ErrorMessage className="text-danger fw-bold ms-1" name="email"
                                                       component="small"></ErrorMessage>
                                     </div>
                                     <div className="form-label">
-                                        <label className="fw-medium" htmlFor="email">Mô tả (Không bắt buộc)</label>
-                                        <Field class="form-control" component="textarea" value={supplier.description}
+                                        <label className="fw-medium" htmlFor="description">Mô tả (Không bắt buộc)</label>
+                                        <Field className="form-control" name="description" id="description" component="textarea"
                                                placeholder="Mô tả ngắn gọn"></Field>
                                     </div>
                                     <div className="text-center">
@@ -115,7 +123,7 @@ function SupplierCreate() {
                                                 data-bs-target="#addSupplier"
                                                 type="button">Thêm mới
                                         </button>
-                                        <button className="btn btn-danger m-1" type="button">Hủy bỏ</button>
+                                        <Link className="btn btn-danger m-1" type="button" to='/supplier/list'>Hủy bỏ</Link>
                                     </div>
                                     {/*Modal*/}
                                     <div className="modal fade" id="addSupplier" tabIndex="-1"
@@ -134,7 +142,7 @@ function SupplierCreate() {
                                                     Bạn chắc chắn muốn thêm nhà cung cấp này?
                                                 </div>
                                                 <div className="modal-footer">
-                                                    <button type="submit" className="btn btn-info">Thêm mới</button>
+                                                    <button type="submit" className="btn btn-info" onSubmit={createNewSupplier}>Thêm mới</button>
                                                     <button type="button" className="btn btn-danger"
                                                             data-bs-dismiss="modal">
                                                         Hủy bỏ

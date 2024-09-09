@@ -4,11 +4,13 @@ import axios from "axios";
 
 export const createSupplier = async (supplier,token) => {
     try {
+        console.log(supplier);
         const response = await axios.post(`${BASE_URL}/api/supplier/create`, supplier,
             {
                 headers: {Authorization: `Bearer ${token}`}
             }
             )
+        console.log(response)
         return response.data;
     } catch (err){
         return false;
@@ -21,7 +23,7 @@ export const updateSupplier = async (supplier,token,supplierId) => {
                 headers: {Authorization: `Bearer ${token}`}
             }
         )
-        return response.data;
+        return response.status;
     } catch (err){
         return false;
     }

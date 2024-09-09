@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import {Link, NavLink} from 'react-router-dom';
 import "../assets/bootstrap/css/bootstrap.min.css";
 import "bootstrap-icons/font/bootstrap-icons.css";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
@@ -24,7 +24,7 @@ export function SideNav() {
                 <hr className="sidebar-divider my-0" />
                 <ul className="navbar-nav text-light" id="accordionSidebar">
                     <li className="nav-item">
-                        <Link className="nav-link active" to="/Profile">
+                        <Link className="nav-link active" to="/user">
                             <i className="bi bi-person"></i>
                             <span>Quản lý thông tin cá nhân</span>
                         </Link>
@@ -53,7 +53,7 @@ export function SideNav() {
                             <div className="bg-white border rounded pulse animated py-2 collapse-inner">
                                 <Link className="collapse-item" to="/BuisnessList">Quản lý kinh doanh</Link>
                                 <Link className="collapse-item" to="/BuisnessList">Quản lý báo cáo</Link>
-                                <Link className="collapse-item" to="/BuisnessList">Xem thông tin hàng hóa</Link>
+                                <NavLink className="collapse-item" to="/user/product">Xem thông tin hàng hóa</NavLink>
                                 <Link className="collapse-item" to="/BuisnessList">Quản lý nhà cung cấp</Link>
                             </div>
                         </div>
