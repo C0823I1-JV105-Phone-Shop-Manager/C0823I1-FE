@@ -48,10 +48,13 @@ function SupplierCreate() {
         try {
             const token = localStorage.getItem('token');
             const response = await createSupplier(supplier, token);
-            console.log(response);
             if (response.status === 201) {
                 toast.success("Thêm mới thành công!");
-                navigate(`/supplier/list`)
+                navigate("/supplier/list")
+            } else if (response.status === 400 ) {
+                toast.error("Thêm mới thất bại. Dữ liệu nhập vào không hợp lệ.");
+            } else if (response.status === 409 || response.status === undefined) {
+                toast.error("Thêm mới thất bại. Mã số, số điện thoại hoặc email đã được dùng cho nhà cung cấp khác.");
             } else {
                 toast.error("Thêm mới thất bại");
             }
@@ -142,7 +145,7 @@ function SupplierCreate() {
                                                     Bạn chắc chắn muốn thêm nhà cung cấp này?
                                                 </div>
                                                 <div className="modal-footer">
-                                                    <button type="submit" className="btn btn-info" onSubmit={createNewSupplier}>Thêm mới</button>
+                                                    <button type="submit" className="btn btn-info" data-bs-dismiss="modal">Thêm mới</button>
                                                     <button type="button" className="btn btn-danger"
                                                             data-bs-dismiss="modal">
                                                         Hủy bỏ
