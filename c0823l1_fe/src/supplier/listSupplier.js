@@ -11,9 +11,9 @@ function ListSupplier() {
     const [selectedUids, setSelectedUids] = useState([]);
     const [selectedAddress, setSelectedAddress] = useState("");
     const [searchTerm, setSearchTerm] = useState("");
-    const [page, setPage] = useState(0); // Thêm state cho trang hiện tại
-    const [totalPages, setTotalPages] = useState(0); // Thêm state cho tổng số trang
-    const size = 5; // Kích thước trang cố định là 5
+    const [page, setPage] = useState(0);
+    const [totalPages, setTotalPages] = useState(0);
+    const size = 5;
 
     useEffect(() => {
         ListSuppliers();
@@ -161,7 +161,7 @@ function ListSupplier() {
 
                                     {/* Tìm kiếm theo từ khóa */}
                                     <div className="input-group w-25 ms-auto">
-                                    <input
+                                        <input
                                             type="text"
                                             className="form-control"
                                             placeholder="Tìm theo SDT"
@@ -179,9 +179,13 @@ function ListSupplier() {
                                     </div>
                                 </div>
                             </form>
+                            <div className="d-flex justify-content-between mb-3">
+                                {/* Nút thêm nhà cung cấp */}
+                                <Link to="/supplier/create" className="btn btn-info">
+                                    Thêm nhà cung cấp
+                                </Link>
 
-                            {/* Nút xóa nhiều nhà cung cấp */}
-                            <div className="d-flex justify-content-end mb-3">
+                                {/* Nút xóa nhiều nhà cung cấp */}
                                 <button
                                     className="btn btn-danger"
                                     onClick={handleDelete}
@@ -191,13 +195,14 @@ function ListSupplier() {
                                 </button>
                             </div>
 
+
                             {/* Bảng danh sách nhà cung cấp */}
                             <div className="table-responsive">
                                 <table className="table table-bordered">
                                     <thead className="table-light">
                                     <tr>
                                         <th scope="col">
-                                            <input
+                                        <input
                                                 type="checkbox"
                                                 onChange={handleSelectAll}
                                                 checked={selectedUids.length === suppliers.length}
@@ -223,7 +228,8 @@ function ListSupplier() {
                                                         onChange={() => handleCheckboxChange(supplier.uid)}
                                                     />
                                                 </td>
-                                                <td>{index + 1}</td> {/* STT bắt đầu từ 1 cho mỗi trang */}
+                                                <td>{index + 1}</td>
+                                                {/* STT bắt đầu từ 1 cho mỗi trang */}
                                                 <td>{supplier.uid}</td>
                                                 <td>{supplier.name}</td>
                                                 <td>{supplier.address}</td>
@@ -264,7 +270,7 @@ function ListSupplier() {
                                                 <button
                                                     className="page-link"
                                                     onClick={() => handlePageChange(index)}
-                                                    style={{ fontWeight: page === index ? 'bold' : 'normal' }}
+                                                    style={{fontWeight: page === index ? 'bold' : 'normal'}}
                                                 >
                                                     {index + 1}
                                                 </button>
@@ -286,7 +292,7 @@ function ListSupplier() {
                     </div>
                 </div>
             </div>
-            <Footer />
+            <Footer/>
         </div>
     );
 };
