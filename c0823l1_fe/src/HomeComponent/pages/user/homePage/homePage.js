@@ -16,6 +16,7 @@ const HomePage = ({search, brandS}) => {
     const [totalPages, setTotalPages] = useState(1);
 
     useEffect(() => {
+        document.title = "Home";
         if (search) {
             fetchPhones(search, currentPage);
         }
