@@ -17,7 +17,8 @@ function ListSupplier() {
     const size = 5; // Kích thước trang cố định là 5
 
   useEffect(() => {
-    ListSuppliers();
+      document.title = "Supplier List";
+      ListSuppliers();
 }, [page, selectedAddress, searchTerm]);
     const ListSuppliers = async () => {
         try {

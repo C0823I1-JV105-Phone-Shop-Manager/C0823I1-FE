@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, {useEffect, useState} from "react";
 import { Formik, Field, Form, ErrorMessage } from "formik";
 import * as Yup from 'yup';
 import UserService from "../service/UserService";
@@ -23,6 +23,9 @@ function LoginPage() {
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
 
+    useEffect(() => {
+        document.title = "Login";
+    }, []); // Empty dependency array means this effect runs once after the initial render
 
 
     const handleSubmit = async (values) => {

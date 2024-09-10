@@ -1,11 +1,11 @@
 import {Link, useNavigate, useParams} from "react-router-dom";
-import {SideNav} from "../common/SideNav";
-import Footer from "../common/Footer";
+import {SideNav} from "../components/common/SideNav";
+import Footer from "../components/common/Footer";
 import React, {useEffect, useState} from "react";
 import {ErrorMessage, Field, Form, Formik} from "formik";
-import {createSupplier, findSupplierById, updateSupplier} from "../service/SupplierAddEditService";
+import {createSupplier, findSupplierById, updateSupplier} from "./service/SupplierAddEditService";
 import * as Yup from "yup";
-import NavTop from "../common/NavTop";
+import NavTop from "../components/common/NavTop";
 import {toast} from "react-toastify";
 
 
@@ -43,6 +43,7 @@ function SupplierUpdate() {
             .matches(/[a-zA-Z][a-zA-Z0-9_.]{2,64}[^._]@[^.][a-zA-Z0-9]{2,64}\.[0-9a-z-.]{2,63}/, "Email không đúng định dạng, không quá 150 ký tự")
     }
     useEffect( () => {
+        document.title = "Supplier Update";
         console.log("ID: " + id)
         const token = localStorage.getItem('token');
         const findSupplierUpdate = async () => {
@@ -102,7 +103,7 @@ function SupplierUpdate() {
                                         <label className="fw-medium" htmlFor="name">Tên</label>
                                         <label className="text-danger fw-bold ms-1">*</label>
                                         <Field className="form-control" type="text" name="name" id="name"
-                                               placeholder="Tên nhà cung cấp" placeholder="Tên nhà cung cấp"></Field>
+                                               placeholder="Tên nhà cung cấp" ></Field>
                                         <ErrorMessage className="text-danger fw-bold ms-1" name="name"
                                                       component="small"></ErrorMessage>
                                     </div>

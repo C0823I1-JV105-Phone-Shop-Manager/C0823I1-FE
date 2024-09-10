@@ -1,23 +1,28 @@
 import './App.css';
 import React from 'react';
-import {BrowserRouter, Routes, Route, Navigate} from "react-router-dom";
+import {BrowserRouter, Routes, Route} from "react-router-dom";
 import LoginPage from './components/auth/LoginPage';
 import Dashboard from './components/userspage/Dashboard';
 import { ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import {PrivateRoutes} from "./components/routes/PrivateRoutes";
-import {AdminRoutes} from "./components/routes/AdminRoutes";
-import SupplierCreate from "./components/supplierPage/SupplierCreate";
-import SupplierUpdate from "./components/supplierPage/SupplierUpdate";
+import SupplierCreate from "./SupplierComponent/SupplierCreate";
+import SupplierUpdate from "./SupplierComponent/SupplierUpdate";
 import ProductDashboard from "./ProductComponent/ProductDashboard";
 import ListSupplier from "./SupplierComponent/listSupplier";
+import DashboardError from "./components/userspage/DashboardError";
+import RouterCustom from "./HomeComponent/RouterCustom";
+import {PublicRoutes} from "./components/routes/PublicRoutes";
+import ErrorPage from "./components/common/Error";
 
 function App() {
   return (
     <BrowserRouter>
         <Routes>
-            {/*login*/}
-          <Route path="/login" element={<LoginPage />} />
+            <Route element={<PublicRoutes />}>
+                {/*login*/}
+                <Route path="/login" element={<LoginPage />} />
+            </Route>
             {/*authonly*/}
           <Route element={<PrivateRoutes />}>
               <Route path="*" element={<DashboardError />} />

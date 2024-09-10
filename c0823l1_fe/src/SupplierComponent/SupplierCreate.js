@@ -1,11 +1,11 @@
 import {Link, useNavigate} from "react-router-dom";
-import {SideNav} from "../common/SideNav";
-import Footer from "../common/Footer";
+import {SideNav} from "../components/common/SideNav";
+import Footer from "../components/common/Footer";
 import React, {useEffect} from "react";
 import {ErrorMessage, Field, Form, Formik} from "formik";
-import {createSupplier} from "../service/SupplierAddEditService";
+import {createSupplier} from "./service/SupplierAddEditService";
 import * as Yup from "yup";
-import NavTop from "../common/NavTop";
+import NavTop from "../components/common/NavTop";
 import {toast} from "react-toastify";
 
 
@@ -42,6 +42,7 @@ function SupplierCreate() {
             .matches(/[a-zA-Z][a-zA-Z0-9_.]{2,64}[^._]@[^.][a-zA-Z0-9]{2,64}\.[0-9a-z-.]{2,63}/, "Email không đúng định dạng, không quá 150 ký tự")
     }
     useEffect(() => {
+        document.title = "Create Supplier";
 
     }, []);
     const createNewSupplier = async (supplier) => {
