@@ -127,7 +127,7 @@ function SupplierCreate() {
                                                 data-bs-target="#addSupplier"
                                                 type="button">Thêm mới
                                         </button>
-                                        <Link className="btn btn-danger m-1" type="button" to='/supplier/list'>Hủy bỏ</Link>
+                                        <Link className="btn btn-danger m-1" type="button" to='/user/supplier'>Hủy bỏ</Link>
                                     </div>
                                     {/*Modal*/}
                                     <div className="modal fade" id="addSupplier" tabIndex="-1"

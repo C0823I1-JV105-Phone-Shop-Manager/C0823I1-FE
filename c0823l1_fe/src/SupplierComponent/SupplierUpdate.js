@@ -12,16 +12,8 @@ import {toast} from "react-toastify";
 function SupplierUpdate() {
     const navigate = useNavigate();
     const {id} = useParams();
-    const [supplierUpdate, setSupplierUpdate] =useState([])
-    const supplier = {
-        id: "",
-        uid: "",
-        name: "",
-        address: "",
-        phone: "",
-        email: "",
-        description: ""
-    }
+    const [supplierUpdate, setSupplierUpdate] = useState({})
+
 
     const validateSupplier = {
         uid: Yup.string().required("Mã số không được để trống")
@@ -44,34 +36,39 @@ function SupplierUpdate() {
     }
     useEffect( () => {
         document.title = "Supplier Update";
-        console.log("ID: " + id)
-        const token = localStorage.getItem('token');
-        const findSupplierUpdate = async () => {
-            try {
-                const response =  findSupplierById(id, token);
-                setSupplierUpdate(response.data)
-            } catch (err) {
-                toast.info("Không tìm thấy nhà cung cấp!")
-            }
-        };
         findSupplierUpdate();
     }, [id]);
+
+    const findSupplierUpdate = async () => {
+        try {
+            const token = localStorage.getItem('token');
+            const response = await findSupplierById(id, token);
+            if (response.status === 403){
+                toast.warn("Không tìm thấy nhà cung cấp!")
+                navigate("/user/supplier")
+            } else {
+                setSupplierUpdate(response)
+                toast.info("Dữ liệu đã sẵn sàng để chỉnh sửa!")
+            }
+        } catch (err) {
+            toast.warn("Không tìm thấy nhà cung cấp!")
+            navigate("/user/supplier")
+        }
+    };
     const updateSupplierById = async (supplier) => {
         try {
-            console.log(id)
             const token = localStorage.getItem('token');
-            // const response = await updateSupplier(supplier, token);
-            // console.log("TT:" + response.status)
-            // if (response.status === 201) {
-            //     toast.success("Thêm mới thành công!");
-            //     navigate("/supplier/list")
-            // } else if (response.status === 400 ) {
-            //     toast.error("Thêm mới thất bại. Dữ liệu nhập vào không hợp lệ.");
-            // } else if (response.status === 409 || response.status === undefined) {
-            //     toast.error("Thêm mới thất bại. Mã số, số điện thoại hoặc email đã được dùng cho nhà cung cấp khác.");
-            // } else {
-            //     toast.error("Thêm mới thất bại");
-            // }
+            const response = await updateSupplier(supplier, token,id);
+            if (response.status === 201) {
+                toast.success("Cập nhật thành công!");
+                navigate("/user/supplier")
+            } else if (response.status === 400) {
+                toast.error("Cập nhật thất bại. Dữ liệu nhập vào không hợp lệ.");
+            } else if (response.status === 409) {
+                toast.error("Cập nhật thất bại. Mã số, số điện thoại hoặc email đã được dùng cho nhà cung cấp khác.");
+            } else {
+                toast.error("Cập nhật thất bại");
+            }
         } catch (error) {
             console.error('Error when create supplier information:', error);
             toast.error("Thêm mới thất bại");
@@ -85,8 +82,11 @@ function SupplierUpdate() {
                 <div className="d-flex flex-column" id="content-wrapper">
                     <div id="content">
                         <NavTop/>
+
                         <div class="container col-lg-8 col-xl-8 col-md-12 m-auto">
-                            <Formik initialValues={supplierUpdate} onSubmit={updateSupplierById}
+                            <Formik
+                                enableReinitialize
+                                initialValues={supplierUpdate} onSubmit={updateSupplierById}
                                     validationSchema={Yup.object(validateSupplier)}
                             enableReinitialize>
                                 <Form className="form-control">
@@ -140,9 +140,10 @@ function SupplierUpdate() {
                                         <button className="btn btn-info m-1 "
                                                 data-bs-toggle="modal"
                                                 data-bs-target="#addSupplier"
-                                                type="button">Thêm mới
+                                                type="button">Cập nhật
                                         </button>
-                                        <Link className="btn btn-danger m-1" type="button" to='/supplier/list'>Hủy bỏ</Link>
+                                        <Link className="btn btn-danger m-1" type="button" to='/user/supplier'>Hủy
+                                            bỏ</Link>
                                     </div>
                                     {/*Modal*/}
                                     <div className="modal fade" id="addSupplier" tabIndex="-1"
@@ -150,9 +151,8 @@ function SupplierUpdate() {
                                         <div className="modal-dialog">
                                             <div className="modal-content">
                                                 <div className="modal-header">
-                                                    <h1 className="modal-title fs-5" id="exampleModalLabel">Thêm nhà
-                                                        cung
-                                                        cấp</h1>
+                                                    <h1 className="modal-title fs-5" id="exampleModalLabel">Cập nhật nhà
+                                                        cung cấp</h1>
                                                     <button type="button" className="btn-close"
                                                             data-bs-dismiss="modal"
                                                             aria-label="Close"></button>
@@ -161,7 +161,7 @@ function SupplierUpdate() {
                                                     Bạn chắc chắn muốn thêm nhà cung cấp này?
                                                 </div>
                                                 <div className="modal-footer">
-                                                    <button type="submit" className="btn btn-info" data-bs-dismiss="modal" onSubmit={updateSupplierById}>Thêm mới</button>
+                                                    <button type="submit" className="btn btn-info" data-bs-dismiss="modal" onSubmit={updateSupplierById}>Cập nhật</button>
                                                     <button type="button" className="btn btn-danger"
                                                             data-bs-dismiss="modal">
                                                         Hủy bỏ

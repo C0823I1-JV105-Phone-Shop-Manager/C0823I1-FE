@@ -22,13 +22,16 @@ export const findSupplierById = async (supplierId,token) => {
                 headers: {Authorization: `Bearer ${token}`}
             }
         )
-        return response;
+        return response.data;
     } catch (err){
-        return false;
+        return null;
     }
 }
 export const updateSupplier = async (supplier,token,supplierId) => {
+
     try {
+        console.log(supplier);
+        console.log(supplierId);
         const response = await axios.put(`${BASE_URL}/api/supplier/update/${supplierId}`, supplier,
             {
                 headers: {Authorization: `Bearer ${token}`}
