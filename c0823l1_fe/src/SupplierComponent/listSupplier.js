@@ -15,6 +15,10 @@ function ListSupplier() {
     const [page, setPage] = useState(0); // Thêm state cho trang hiện tại
     const [totalPages, setTotalPages] = useState(0); // Thêm state cho tổng số trang
     const size = 5; // Kích thước trang cố định là 5
+    useEffect(() => {
+        document.title = "Supplier List";
+        ListSuppliers();
+    }, []);
 
   useEffect(() => {
       document.title = "Supplier List";
@@ -237,7 +241,7 @@ function ListSupplier() {
                                                 <td>{supplier.phone}</td>
                                                 <td>{supplier.email}</td>
                                                 <td>
-                                                    <Link to={`/supplier/update/${supplier.uid}`}
+                                                    <Link to={`/supplier/update/${supplier.id}`}
                                                           className="btn btn-warning">
                                                         Cập nhật
                                                     </Link>
