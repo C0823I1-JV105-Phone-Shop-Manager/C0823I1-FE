@@ -30,8 +30,10 @@ function SalePage() {
     const onSearchSubmit =  (values => {
         console.log(values)
         getCustomers(values.name)
-
     })
+    const handleOrderCreate = () => {
+
+    }
   return (
       <div className="d-flex flex-column" id="content-wrapper">
             <NavTop/>
@@ -46,7 +48,13 @@ function SalePage() {
                 Thông tin khách hàng
             </p>
         </div>
-        <form className=" card-body ">
+        <Formik
+            initialValues={selectedCustomer}
+            onSubmit={handleOrderCreate}
+            enableReinitialize={true}
+        >
+
+        <Form className=" card-body ">
             <div className="row px-5">
                 <div className="col">
                     <button type='button' onClick={showModal} className="btn btn-info form-control col fw-bold ">Chọn khách hàng cũ</button>
@@ -57,44 +65,46 @@ function SalePage() {
             </div>
             <div className="row g-2 mt-3 px-5">
                 <div className="col">
+                    <Field name="id" type="hidden" />
                     <div className="row mb-3">
                         <label for="name" className="form-label col-3 fw-bold">Họ và tên</label>
                         <div className="col-9">
-                            <input type="text" className="form-control form-control-sm" id="name"/>
+                            <Field name="name" type="text" className="form-control form-control-sm" id="name"/>
                         </div>
                     </div>
                     <div className="row mb-3">
                         <label for="phone" className="form-label col-3 fw-bold">Số điện thoại</label>
                         <div className="col-9">
-                            <input type="text" className="form-control form-control-sm" id="phone">
-                            </input>
+                            <Field name="phone" type="text" className="form-control form-control-sm" id="phone">
+                            </Field>
                         </div>
                     </div>
 
                     <div className="row mb-3">
                         <label for="address" className="form-label col-3 fw-bold">Địa chỉ</label>
                         <div className="col-9">
-                            <input type="text" className="form-control form-control-sm" id="address"/>
+                            <Field name="address" type="text" className="form-control form-control-sm" id="address"/>
                         </div>
                     </div>
 
                     <div className="row mb-3">
                         <label for="birthdate" className="form-label col-3 fw-bold">Ngày sinh</label>
                         <div className="col-9">
-                            <input type="text" className="form-control form-control-sm" id="birthdate"/>
+                            <Field name="birthdate" type="text" className="form-control form-control-sm" id="birthdate"/>
                         </div>
                     </div>
 
                     <div className="row mb-3">
                         <label for="email" className="form-label col-3 fw-bold">Email</label>
                         <div className="col-9">
-                            <input type="text" className="form-control form-control-sm" id="email"/>
+                            <Field name="email" type="text" className="form-control form-control-sm" id="email"/>
                         </div>
                     </div>
 
                 </div>
             </div>
-        </form>
+        </Form>
+        </Formik>
     </div>
     <div className="card w-75 mb-3 mx-auto shadow">
         <div className="card-header">
@@ -241,6 +251,7 @@ function SalePage() {
                           name: ""
                       }}
                       onSubmit={onSearchSubmit}
+                      enableReinitialize={true}
                   >
                               <Form className="row g-3 mb-3">
                                   <div className="col-md-2 col-12 ">
@@ -344,6 +355,7 @@ function SalePage() {
                                                   <td>{customer.email}</td>
                                                   <td>
                                                       <button onClick={()=>{
+                                                          console.log(customer)
                                                           setSelectedCustomer(customer)
                                                           hideModal()
                                                       }} className="btn btn-info btn-sm">Chọn</button>
