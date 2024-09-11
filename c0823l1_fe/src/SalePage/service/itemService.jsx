@@ -1,0 +1,16 @@
+import axios from "axios";
+
+export const searchItems = async (name) => {
+    try {
+        const token = localStorage.getItem('token');
+        console.log(token)
+        let result = await axios.get(`http://localhost:1010/api/items?name=${name}`,
+            {
+                headers: {Authorization: `Bearer ${token}`}
+            });
+        console.log(result.data)
+        return result.data;
+    } catch (error) {
+        console.log(error);
+    }
+};
