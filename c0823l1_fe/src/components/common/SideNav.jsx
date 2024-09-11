@@ -34,7 +34,7 @@ export function SideNav() {
                         <li className="nav-item">
                             <a className="btn btn-link nav-link btn-side-nav" data-bs-toggle="collapse" aria-expanded="true" aria-controls="collapse-3" href="#collapse-3" role="button" id="adminDashboard">
                                 <i className="bi bi-people"></i>
-                                <span>Admin</span>
+                                <span> Admin</span>
                             </a>
                             <div className="collapse" id="collapse-3">
                                 <div className="bg-white border rounded pulse animated py-2 collapse-inner">
