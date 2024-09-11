@@ -1,4 +1,5 @@
 import {memo, useState} from "react";
+import  'mdb-react-ui-kit/dist/css/mdb.min.css';
 import "@fortawesome/fontawesome-free/css/all.min.css";
 import '../header/style.css';
 import {ROUTERS} from "../../../../utils/router";
