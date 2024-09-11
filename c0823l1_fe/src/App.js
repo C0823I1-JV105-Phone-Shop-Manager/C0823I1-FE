@@ -13,8 +13,6 @@ import ListSupplier from "./SupplierComponent/listSupplier";
 import DashboardError from "./components/userspage/DashboardError";
 import RouterCustom from "./HomeComponent/RouterCustom";
 import {PublicRoutes} from "./components/routes/PublicRoutes";
-import ErrorPage from "./components/common/Error";
-
 function App() {
   return (
     <BrowserRouter>
