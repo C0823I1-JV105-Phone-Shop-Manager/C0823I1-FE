@@ -14,3 +14,18 @@ export const searchItems = async (name) => {
         console.log(error);
     }
 };
+
+export const findById = async (id) => {
+    try {
+        const token = localStorage.getItem('token');
+        console.log(token)
+        let result = await axios.get(`http://localhost:1010/api/items/${id}`,
+            {
+                headers: {Authorization: `Bearer ${token}`}
+            });
+        console.log(result.data)
+        return result.data;
+    } catch (error) {
+        console.log(error);
+    }
+};

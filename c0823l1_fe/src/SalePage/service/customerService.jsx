@@ -8,7 +8,7 @@ export const searchCustomer = async (name) => {
             {
                 headers: {Authorization: `Bearer ${token}`}
             });
-        console.log(result.data)
+
         return result.data;
     } catch (error) {
         console.log(error);
