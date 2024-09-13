@@ -1,8 +1,6 @@
 import { Modal, Button } from 'react-bootstrap';
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import {Link} from "react-router-dom";
-import {useEffect, useState} from "react";
 import * as supplierService from "./service/SupplierService";
 import Footer from "../components/common/Footer";
 import {SideNav} from "../components/common/SideNav";
@@ -26,9 +24,6 @@ function ListSupplier() {
         ListSuppliers();
     }, [page, selectedAddress, searchTerm]);
 
-    const [page, setPage] = useState(0); // Thêm state cho trang hiện tại
-    const [totalPages, setTotalPages] = useState(0); // Thêm state cho tổng số trang
-    const size = 5; // Kích thước trang cố định là 5
     useEffect(() => {
         document.title = "Supplier List";
         ListSuppliers();

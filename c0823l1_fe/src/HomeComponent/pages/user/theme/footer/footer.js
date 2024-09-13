@@ -12,26 +12,24 @@ const Footer = () => {
                                     <i className="fas fa-gem me-3"></i>Code Gym
                                 </h6>
                                 <p>
-                                    Here you can use rows and columns to organize your footer content. Lorem ipsum dolor
-                                    sit amet,
-                                    consectetur adipisicing elit.
+                                    Ứng dụng mua sắm trực tuyến thú vị, tin cậy, an toàn và miễn phí
                                 </p>
                             </div>
 
                             <div className="col-md-2 col-lg-2 col-xl-2 mx-auto mb-4">
-                                <h6 className="text-uppercase fw-bold mb-4">Products</h6>
-                                <p><a href="#!" className="text-reset">Angular</a></p>
-                                <p><a href="#!" className="text-reset">React</a></p>
-                                <p><a href="#!" className="text-reset">Vue</a></p>
-                                <p><a href="#!" className="text-reset">Laravel</a></p>
+                                <h6 className="text-uppercase fw-bold mb-4">CHĂM SÓC KHÁCH HÀNG</h6>
+                                <p><a href="#!" className="text-reset">Trung Tâm Trợ Giúp</a></p>
+                                <p><a href="#!" className="text-reset">Codegym education</a></p>
+                                <p><a href="#!" className="text-reset">Chính Sách Bảo Hành</a></p>
+                                <p><a href="#!" className="text-reset">Chăm Sóc Khách Hàng</a></p>
                             </div>
 
                             <div className="col-md-3 col-lg-2 col-xl-2 mx-auto mb-4">
-                                <h6 className="text-uppercase fw-bold mb-4">Useful links</h6>
-                                <p><a href="#!" className="text-reset">Pricing</a></p>
-                                <p><a href="#!" className="text-reset">Settings</a></p>
-                                <p><a href="#!" className="text-reset">Orders</a></p>
-                                <p><a href="#!" className="text-reset">Help</a></p>
+                                <h6 className="text-uppercase fw-bold mb-4">VỀ Codegym</h6>
+                                <p><a href="#!" className="text-reset">Giới Thiệu Về Codegym</a></p>
+                                <p><a href="#!" className="text-reset">Tuyển Dụng</a></p>
+                                <p><a href="#!" className="text-reset">Liên Hệ Với Truyền Thông</a></p>
+                                <p><a href="#!" className="text-reset">Kênh Người Bán</a></p>
                             </div>
 
                             <div className="col-md-4 col-lg-3 col-xl-3 mx-auto mb-md-0 mb-4">
