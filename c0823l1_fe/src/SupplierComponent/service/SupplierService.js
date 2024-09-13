@@ -22,7 +22,7 @@ export const list = async (address = "", searchTerm = "", page = 0, size = 5, so
 // Hàm xóa nhiều nhà cung cấp theo UID
 export const deleteSuppliersByUid = async (uids) => {
     try {
-        const response = await axios.post('http://localhost:1010/api/supplier/deleteByUid', uids, {
+        const response = await axios.post('http://localhost:1010/api/supplier/delete', uids, {
             headers: {
                 'Content-Type': 'application/json',
             }
