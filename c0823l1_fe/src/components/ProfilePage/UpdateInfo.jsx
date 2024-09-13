@@ -14,7 +14,8 @@ const isLeapYear = (year) => {
 };
 
 const validationSchema = Yup.object().shape({
-    fullName: Yup.string().required('Họ và tên là bắt buộc'),
+    fullName: Yup.string().required('Họ và tên là bắt buộc')
+        .matches(/^[a-zA-Z\s]*$/, 'Họ và tên không hợp lệ'),
     dob: Yup.string()
     .required('Ngày sinh là bắt buộc')
     .matches(/^\d{4}\/\d{2}\/\d{2}$/, 'Ngày sinh phải có định dạng YYYY/MM/DD')
@@ -35,6 +36,7 @@ const validationSchema = Yup.object().shape({
         return true;
     }),
     phoneNumber: Yup.string().required('Số điện thoại là bắt buộc')
+        .matches(/^[0-9]+$/, 'Số điện thoại không hợp lệ')
         .min(10, 'Số điện thoại phải có ít nhất 10 số')
         .max(10, 'Số điện thoại tối đa 10 số'),
     address: Yup.string().required('Địa chỉ là bắt buộc')
@@ -96,7 +98,7 @@ function UpdateInfo() {
             validationSchema={validationSchema}
             onSubmit={handleSubmit}
         >
-            {({ isValid }) => (
+            {({ isValid, dirty }) => (
                 <Form>
                     <div className="row">
                         <div className="col">
@@ -148,7 +150,7 @@ function UpdateInfo() {
                                         </div>
                                     </div>
                                     <div className="mb-3">
-                                        <button className={`btn btn-info btn-sm link-light ${isValid ? 'btn-valid' : ''}`} type="submit" disabled={!isValid || loading}>
+                                        <button className={`btn btn-info btn-sm link-light ${isValid ? 'btn-valid' : ''}`} type="submit" disabled={!isValid || !dirty || loading}>
                                             {loading ? 'Loading...' : 'Lưu thông tin thay đổi'}
                                         </button>
                                     </div>

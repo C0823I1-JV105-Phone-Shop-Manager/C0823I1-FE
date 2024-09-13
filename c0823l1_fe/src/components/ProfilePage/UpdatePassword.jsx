@@ -5,6 +5,7 @@ import UserService from '../service/UserService';
 import "bootstrap-icons/font/bootstrap-icons.css"; // Correctly import Bootstrap Icons CSS
 import "../assets/bootstrap/css/bootstrap.min.css";
 import Swal from 'sweetalert2';
+import {useNavigate} from "react-router-dom";
 
 const validationSchemaPassword = Yup.object().shape({
     currentPassword: Yup.string().required('Mật khẩu cũ là bắt buộc'),
@@ -17,7 +18,7 @@ const validationSchemaPassword = Yup.object().shape({
 
 function UpdatePassword() {
     const [oldPassword, setOldPassword] = useState();
-
+    const navigator = useNavigate();
     const [password, setPassword] = useState({
         currentPassword: '',
         newPassword: '',
@@ -43,12 +44,15 @@ function UpdatePassword() {
     const token = localStorage.getItem('token');
     const response = await UserService.updateYourPassword(oldPassword.id, token, values);
     if (response.message === "Password updated successfully") {
+        UserService.logout();
+        navigator("/login");
         Swal.fire({
             icon: 'success',
             title: 'Cập nhật mật khẩu thành công',
             showConfirmButton: false,
             timer: 1500
         });
+
     } else {
         Swal.fire({
             icon: 'error',
