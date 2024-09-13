@@ -25,16 +25,16 @@ export function SideNav() {
                 <hr className="sidebar-divider my-0" />
                 <ul className="navbar-nav text-light" id="accordionSidebar">
                     <li className="nav-item">
-                        <NavLink className="nav-link" to="/user/profile">
+                        <NavLink className="nav-link btn-side-nav" to="/user/profile">
                             <i className="bi bi-person"></i>
                             <span>Quản lý thông tin cá nhân</span>
                         </NavLink>
                     </li>
                     {UserService.isAdmin() && (
                         <li className="nav-item">
-                            <a className="btn btn-link nav-link btn-side-nav" data-bs-toggle="collapse" aria-expanded="true" aria-controls="collapse-3" href="#collapse-3" role="button" id="adminDashboard">
+                            <a className=" nav-link btn-side-nav" data-bs-toggle="collapse" aria-expanded="true" aria-controls="collapse-3" href="#collapse-3" role="button" id="adminDashboard">
                                 <i className="bi bi-people"></i>
-                                <span>Admin</span>
+                                <span> Admin</span>
                             </a>
                             <div className="collapse" id="collapse-3">
                                 <div className="bg-white border rounded pulse animated py-2 collapse-inner">
@@ -46,7 +46,7 @@ export function SideNav() {
                         </li>
                     )}
                     <li className="nav-item">
-                        <a className="btn btn-link nav-link btn-side-nav" data-bs-toggle="collapse" aria-expanded="true" aria-controls="collapse-1" href="#collapse-1" role="button" id="buisnessStaff">
+                        <a className=" nav-link btn-side-nav" data-bs-toggle="collapse" aria-expanded="true" aria-controls="collapse-1" href="#collapse-1" role="button" id="buisnessStaff">
                             <i className="bi bi-briefcase"></i>
                             <span> Kinh doanh</span>
                         </a>
@@ -60,7 +60,7 @@ export function SideNav() {
                         </div>
                     </li>
                     <li className="nav-item">
-                        <a className="btn btn-link nav-link btn-side-nav" data-bs-toggle="collapse" aria-expanded="true" aria-controls="collapse-4" href="#collapse-4" role="button" id="saleStaff">
+                        <a className="  nav-link btn-side-nav" data-bs-toggle="collapse" aria-expanded="true" aria-controls="collapse-4" href="#collapse-4" role="button" id="saleStaff">
                             <i className="bi bi-cart"></i>
                             <span> Bán hàng</span>
                         </a>
@@ -71,7 +71,7 @@ export function SideNav() {
                         </div>
                     </li>
                     <li className="nav-item">
-                        <a className="btn btn-link pulse animated nav-link btn-side-nav" data-bs-toggle="collapse" aria-expanded="true" aria-controls="collapse-2" href="#collapse-2" role="button" id="storageStaff">
+                        <a className="  pulse animated nav-link btn-side-nav" data-bs-toggle="collapse" aria-expanded="true" aria-controls="collapse-2" href="#collapse-2" role="button" id="storageStaff">
                             <i className="bi bi-box"></i>
                             <span>Thủ kho</span>
                         </a>
@@ -82,7 +82,7 @@ export function SideNav() {
                         </div>
                     </li>
                     <li className="nav-item">
-                        <Link className="nav-link" to="/login" onClick={() => UserService.logout()}>
+                        <Link className="nav-link btn-side-nav-logout" to="/login" onClick={() => UserService.logout()}>
                             <i className="bi bi-box-arrow-right"></i>
                             <span>Log out</span>
                         </Link>

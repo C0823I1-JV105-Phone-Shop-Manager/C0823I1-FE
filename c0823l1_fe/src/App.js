@@ -8,7 +8,6 @@ import 'react-toastify/dist/ReactToastify.css';
 import {PrivateRoutes} from "./components/routes/PrivateRoutes";
 import SupplierCreate from "./SupplierComponent/SupplierCreate";
 import SupplierUpdate from "./SupplierComponent/SupplierUpdate";
-import ProductDashboard from "./ProductComponent/ProductDashboard";
 import ListSupplier from "./SupplierComponent/listSupplier";
 import DashboardError from "./components/userspage/DashboardError";
 import RouterCustom from "./HomeComponent/RouterCustom";
@@ -27,7 +26,7 @@ function App() {
           <Route element={<PrivateRoutes />}>
               <Route path="*" element={<DashboardError />} />
               <Route path="/user/profile" element={<Dashboard />} />
-              <Route path="/user/product" element={<ProductDashboard />} />
+              {/*<Route path="/user/product" element={<ProductDashboard />} />*/}
               <Route  path="user/supplier" element={<ListSupplier />} />
               <Route  path="user/sale" element={<SalePageDashboard />} />
               <Route path="/supplier/create" element={<SupplierCreate/>}/>
