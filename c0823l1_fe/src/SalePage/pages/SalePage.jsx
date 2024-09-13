@@ -10,10 +10,11 @@ import "../../components/assets/bootstrap/css/bootstrap.min.css";
 import { ErrorMessage, Field, Form, Formik } from "formik";
 import * as Yup from "yup";
 import UserService from "../../components/service/UserService";
-import {toast} from "react-toastify";
+import { Bounce, toast } from "react-toastify";
 
 function SalePage() {
   const [isShowModal, setIsShowModal] = useState(false);
+  const [isShowConfirmModal, setIsShowConfirmModal] = useState(false);
   const [isShowItemModal, setIsShowItemModal] = useState(false);
   const [customers, setCustomers] = useState([]);
   const [items, setItems] = useState([]);
@@ -21,7 +22,6 @@ function SalePage() {
   const [initCustomer, setInitCustomer] = useState({});
   const [initItem, setInitItem] = useState({
     id: null,
-
     serial: "",
     product: {
       name: "",
@@ -44,8 +44,10 @@ function SalePage() {
     setCustomers(fetchData);
   };
   useEffect(() => {
-      getItems();
-    setAvailableItems(items.filter((item1) => !selectedItemList.some(id => id === item1.id)));
+    getItems();
+    setAvailableItems(
+      items.filter((item1) => !selectedItemList.some((id) => id === item1.id)),
+    );
   }, []);
   const fetchProfileInfo = async () => {
     try {
@@ -56,11 +58,18 @@ function SalePage() {
         response.userDto.username,
       );
       setStaff(staff);
-
     } catch (error) {
       console.error("Error fetching profile information:", error);
     }
   };
+  const VND = new Intl.NumberFormat("vi-VN", {
+    style: "currency",
+    currency: "VND",
+  });
+  const isEmptyObject = (obj) => {
+    return JSON.stringify(obj) === "{}";
+  };
+
   const getItems = async (name) => {
     const fetchData = await itemService.searchItems(name);
     setItems(fetchData);
@@ -80,12 +89,29 @@ function SalePage() {
   const hideModal = () => {
     setIsShowModal(false);
   };
+
+  const showConfirmModal = () => {
+    console.log("HIển thị confirm");
+    setIsShowConfirmModal(true);
+  };
+
+  const confirmCreate = () => {
+    submitOrder();
+    hideConfirmModal();
+  };
+  const hideConfirmModal = () => {
+    setIsShowConfirmModal(false);
+  };
+
   const onSearchSubmit = (values) => {
     getCustomers(values.name);
   };
   const customerSubmit = (values) => {
+    console.log(values)
+
     setSelectedCustomer(values);
     toast.info("Đã chọn khách hàng");
+
   };
 
   function hideItemModal() {
@@ -115,14 +141,56 @@ function SalePage() {
   }
 
   const submitOrder = async () => {
-    const itemIdList = selectedItemList.map((item) => item.id);
-    const orderReq = {
-      staff: { ...staff },
-      customer: { ...selectedCustomer },
-      productItemList: [...itemIdList],
-    };
-    console.log(orderReq);
-    const order = await orderService.createOrder(orderReq);
+    if (
+      isEmptyObject(selectedCustomer) ||
+      isEmptyObject(staff) ||
+      selectedItemList.length === 0
+    ) {
+      if (isEmptyObject(selectedCustomer))
+        toast.error("Cần nhập thông tin khách hàng vào đơn", {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
+          transition: Bounce,
+        });
+      else if (isEmptyObject(staff))
+        toast.error("Thiếu thông tin nhân viên bán hàng", {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
+          transition: Bounce,
+        });
+      else if (selectedItemList.length === 0)
+        toast.error("Đơn hàng chưa có sản phẩm", {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
+          transition: Bounce,
+        });
+    } else {
+      const itemIdList = selectedItemList.map((item) => item.id);
+      const orderReq = {
+        staff: { ...staff },
+        customer: { ...selectedCustomer },
+        productItemList: [...itemIdList],
+      };
+      console.log(orderReq);
+      const order = await orderService.createOrder(orderReq);
       // setInitCustomer({});
       setInitItem({
         id: null,
@@ -133,9 +201,10 @@ function SalePage() {
           image: "",
           price: null,
         },
-      })
+      });
       setSelectedItemList([]);
-      setSelectedCustomer({})
+      setSelectedCustomer({});
+    }
   };
 
   return (
@@ -191,7 +260,10 @@ function SalePage() {
                   </button>
                 </div>
                 <div className="col">
-                  <button type='button' className="form-control btn btn-secondary col fw-bold">
+                  <button
+                    type="button"
+                    className="form-control btn btn-secondary col fw-bold"
+                  >
                     Quét mã QR
                   </button>
                 </div>
@@ -211,7 +283,7 @@ function SalePage() {
                         id="name"
                       />
                       <ErrorMessage
-                        className="text-danger"
+                        className="text-danger small font-italic"
                         name="name"
                         component="div"
                       ></ErrorMessage>
@@ -229,7 +301,7 @@ function SalePage() {
                         id="phone"
                       ></Field>
                       <ErrorMessage
-                        className="text-danger"
+                        className="text-danger small font-italic"
                         name="phone"
                         component="div"
                       ></ErrorMessage>
@@ -251,7 +323,7 @@ function SalePage() {
                         id="address"
                       />
                       <ErrorMessage
-                        className="text-danger"
+                        className="text-danger small font-italic"
                         name="address"
                         component="div"
                       ></ErrorMessage>
@@ -273,7 +345,7 @@ function SalePage() {
                         id="birthdate"
                       />
                       <ErrorMessage
-                        className="text-danger"
+                        className="text-danger small font-italic"
                         name="birthdate"
                         component="div"
                       ></ErrorMessage>
@@ -292,7 +364,7 @@ function SalePage() {
                         id="email"
                       />
                       <ErrorMessage
-                        className="text-danger"
+                        className="text-danger small font-italic"
                         name="email"
                         component="div"
                       ></ErrorMessage>
@@ -329,24 +401,29 @@ function SalePage() {
           <Formik
             initialValues={{ ...initItem }}
             onSubmit={(values, { resetForm }) => {
-              setSelectedItemList([...selectedItemList, values]);
-              const newList = items.filter((item) => {
-                return item.id !== values.id;
-              });
-              console.log(newList);
-              setItems(newList);
-              toast.info("Đã thêm vào giỏ hàng")
-              setInitItem({
-                id: null,
-                serial: "",
-                product: {
-                  name: "",
+              console.log(values);
+              if (isEmptyObject(values) || values.id === null) {
+                toast.error("Không có thông tin sản phẩm");
+              } else {
+                setSelectedItemList([...selectedItemList, values]);
+                const newList = items.filter((item) => {
+                  return item.id !== values.id;
+                });
+                console.log(newList);
+                setItems(newList);
+                toast.info("Đã thêm vào giỏ hàng");
+                setInitItem({
                   id: null,
-                  image: "",
-                  price: "",
-                },
-              });
-              console.log(selectedItemList);
+                  serial: "",
+                  product: {
+                    name: "",
+                    id: null,
+                    image: "",
+                    price: "",
+                  },
+                });
+                console.log(selectedItemList);
+              }
             }}
             enableReinitialize={true}
           >
@@ -456,69 +533,103 @@ function SalePage() {
           </Formik>
         </div>
         <div className="card w-75 mb-3 mx-auto shadow">
-          <div className="container mt-2 mb-1 px-5">
-            <p className="fw-bolder fs-4">Thông tin đơn hàng</p>
-            <div className="row">
-              <div className="col-md-4">
-                <strong>Tên khách hàng : </strong> {selectedCustomer.name}
-              </div>
-              <div className="col-md-4">
-                <strong>Điện thoại:</strong> {selectedCustomer.phone}
-              </div>
-              <div className="col-md-4">
-                <strong>Email:</strong> {selectedCustomer.email}
-              </div>
-            </div>
+          <div className="container mt-2 mb-3 px-5">
+            <p className="fw-bolder fs-4 text-center">Thông tin đơn hàng</p>
+            {/*{ isEmptyObject(selectedCustomer)?<p className='text-danger'>Chưa có thông tin khách hàng</p>:*/}
+            {/*<div className="row px-2">*/}
+            {/*  <div className="col-lg-4">*/}
+            {/*    <strong>Tên khách hàng : </strong> {selectedCustomer.name}*/}
+            {/*  </div>*/}
+            {/*  <div className="col-lg-4">*/}
+            {/*    <strong>Điện thoại:</strong> {selectedCustomer.phone}*/}
+            {/*  </div>*/}
+            {/*  <div className="col-lg-4">*/}
+            {/*    <strong>Email:</strong> {selectedCustomer.email}*/}
+            {/*  </div>*/}
+            {/*</div>*/}
+            {/*}*/}
           </div>
+
           <form className="card-body">
             <div className="row px-5">
-              <table className="table">
-                <thead className="">
-                  <th className="fw-bold">Hình ảnh</th>
-                  <th className="fw-bold">Tên sản phẩm</th>
-                  <th className="fw-bold">Serial</th>
-                  <th className="fw-bold">Đơn giá</th>
-                </thead>
-                <tbody>
-                  {selectedItemList.map((item) => {
-                    return (
-                      <tr>
-                        <td>
-                          <img
-                            height="50px"
-                            src={item.product.image}
-                            alt="thumnails"
-                          />
-                        </td>
-                        <td>
-                          <span
-                            htmlFor="product-name"
-                            className="form-label col-5"
-                          >
-                            {item.product.name}
-                          </span>
-                        </td>
-                        <td>
-                          <span className="form-label col-5">
-                            {item.serial}
-                          </span>
-                        </td>
-                        <td>
-                          <span className="form-label col-5">
-                            {item.product.price}
-                          </span>
-                        </td>
-                      </tr>
-                    );
-                  })}
-                </tbody>
-              </table>
+              {isEmptyObject(selectedCustomer) ? (
+                <p className="text-danger">Chưa có thông tin khách hàng</p>
+              ) : (
+                <div className="row px-2 mb-3">
+                  <div className="col-lg-4">
+                    <strong>Tên khách hàng : </strong> {selectedCustomer.name}
+                  </div>
+                  <div className="col-lg-4">
+                    <strong>Điện thoại:</strong> {selectedCustomer.phone}
+                  </div>
+                  <div className="col-lg-4">
+                    <strong>Email:</strong> {selectedCustomer.email}
+                  </div>
+                </div>
+              )}
+              {selectedItemList.length === 0 ? (
+                <p className="text-danger ">Chưa có sản phẩm </p>
+              ) : (
+                <div>
+                  <table className="table">
+                    <thead className="">
+                      <th className="fw-bold">Hình ảnh</th>
+                      <th className="fw-bold">Tên sản phẩm</th>
+                      <th className="fw-bold">Serial</th>
+                      <th className="fw-bold">Đơn giá</th>
+                    </thead>
+                    <tbody>
+                      {selectedItemList.map((item) => {
+                        return (
+                          <tr>
+                            <td>
+                              <img
+                                height="50px"
+                                src={item.product.image}
+                                alt="thumnails"
+                              />
+                            </td>
+                            <td>
+                              <span
+                                htmlFor="product-name"
+                                className="form-label col-5"
+                              >
+                                {item.product.name}
+                              </span>
+                            </td>
+                            <td>
+                              <span className="form-label col-5">
+                                {item.serial}
+                              </span>
+                            </td>
+                            <td>
+                              <span className="form-label col-5">
+                                {item.product.price}
+                              </span>
+                            </td>
+                          </tr>
+                        );
+                      })}
+                    </tbody>
+                  </table>
+                  <p className="fw-bold">
+                    Tổng cộng :{" "}
+                    <span className="text-">
+                      {VND.format(
+                        selectedItemList.reduce((sum, item) => {
+                          return sum + item.product.price;
+                        }, 0),
+                      )}
+                    </span>
+                  </p>
+                </div>
+              )}
             </div>
             <div className="row px-5">
               <button
                 type="button"
                 className="btn btn-info fw-bold"
-                onClick={submitOrder}
+                onClick={showConfirmModal}
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -626,13 +737,12 @@ function SalePage() {
             onSubmit={onSearchItemSubmit}
             enableReinitialize={true}
           >
-            <Form className="row g-3 mb-3">
+            <Form className="row g-2 mb-3">
               <div className="col-md-2 col-12 ">
                 <label htmlFor="search-field" className="form-label fw-bold">
                   Tìm theo tên
                 </label>
               </div>
-
               <div className="col-md-4 col-12">
                 <Field
                   name="name"
@@ -696,6 +806,23 @@ function SalePage() {
             </table>
           </div>
         </Modal.Body>
+      </Modal>
+
+      <Modal show={isShowConfirmModal} onHide={hideConfirmModal} className="">
+        <Modal.Header closeButton>
+          <Modal.Title className="fw-bold">Xác nhận thông tin </Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <p>Bạn có muốn tạo đơn hàng mới ?</p>
+        </Modal.Body>
+        <Modal.Footer>
+          <button className="btn btn-secondary" onClick={hideConfirmModal}>
+            Hủy
+          </button>
+          <button className="btn btn-info" onClick={confirmCreate}>
+            Thêm mới
+          </button>
+        </Modal.Footer>
       </Modal>
     </div>
   );
