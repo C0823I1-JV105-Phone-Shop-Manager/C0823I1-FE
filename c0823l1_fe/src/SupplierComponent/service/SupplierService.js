@@ -36,13 +36,4 @@ export const deleteSuppliersByUid = async (uids) => {
 
 
 
-// Hàm lấy toàn bộ danh sách nhà cung cấp
-export const listSupplier = async () => {
-    try {
-        const response = await axios.get("http://localhost:1010/api/supplier");
-        return response.data.content; // Nếu API trả về cấu trúc giống như phân trang
-    } catch (err) {
-        console.error("Failed to fetch all suppliers:", err);
-        throw err;
-    }
-}
+

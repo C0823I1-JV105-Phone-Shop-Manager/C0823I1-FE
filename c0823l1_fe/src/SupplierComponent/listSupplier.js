@@ -20,14 +20,6 @@ function ListSupplier() {
     // State to control modal visibility
     const [showDeleteModal, setShowDeleteModal] = useState(false);
 
-    useEffect(() => {
-        ListSuppliers();
-    }, [page, selectedAddress, searchTerm]);
-
-    useEffect(() => {
-        document.title = "Supplier List";
-        ListSuppliers();
-    }, []);
 
   useEffect(() => {
       document.title = "Supplier List";
@@ -89,7 +81,7 @@ function ListSupplier() {
             ListSuppliers(); // Refresh supplier list
             toast.success("Xóa nhà cung cấp thành công!");
         } catch (error) {
-            toast.error("Có lỗi xảy ra khi xóa đơn hàng!");
+            toast.error("Có lỗi xảy ra khi xóa nhà cung cấp !");
         }
     };
 

@@ -34,7 +34,9 @@ const validationSchema = Yup.object().shape({
         }
         return true;
     }),
-    phoneNumber: Yup.string().required('Số điện thoại là bắt buộc'),
+    phoneNumber: Yup.string().required('Số điện thoại là bắt buộc')
+        .min(10, 'Số điện thoại phải có ít nhất 10 số')
+        .max(10, 'Số điện thoại tối đa 10 số'),
     address: Yup.string().required('Địa chỉ là bắt buộc')
 });
 
