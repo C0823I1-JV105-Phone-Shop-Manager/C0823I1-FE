@@ -107,11 +107,10 @@ function SalePage() {
     getCustomers(values.name);
   };
   const customerSubmit = (values) => {
-    console.log(values)
+    console.log(values);
 
     setSelectedCustomer(values);
     toast.info("Đã chọn khách hàng");
-
   };
 
   function hideItemModal() {
@@ -206,6 +205,12 @@ function SalePage() {
       setSelectedCustomer({});
     }
   };
+
+  function removeCartItem(id) {
+      const removedItemList = selectedItemList.filter((item) => item.id !== id)
+      console.log(removedItemList)
+      setSelectedItemList(removedItemList);
+  }
 
   return (
     <div className="d-flex flex-column" id="content-wrapper">
@@ -572,11 +577,14 @@ function SalePage() {
               ) : (
                 <div>
                   <table className="table">
-                    <thead className="">
-                      <th className="fw-bold">Hình ảnh</th>
-                      <th className="fw-bold">Tên sản phẩm</th>
-                      <th className="fw-bold">Serial</th>
-                      <th className="fw-bold">Đơn giá</th>
+                    <thead>
+                      <tr className="">
+                        <th className="fw-bold">Hình ảnh</th>
+                        <th className="fw-bold">Tên sản phẩm</th>
+                        <th className="fw-bold">Serial</th>
+                        <th className="fw-bold">Đơn giá</th>
+                        <th className="fw-bold">Xóa</th>
+                      </tr>
                     </thead>
                     <tbody>
                       {selectedItemList.map((item) => {
@@ -590,10 +598,7 @@ function SalePage() {
                               />
                             </td>
                             <td>
-                              <span
-                                htmlFor="product-name"
-                                className="form-label col-5"
-                              >
+                              <span className="form-label col-5">
                                 {item.product.name}
                               </span>
                             </td>
@@ -604,8 +609,19 @@ function SalePage() {
                             </td>
                             <td>
                               <span className="form-label col-5">
-                                {item.product.price}
+                                {VND.format(item.product.price)}
                               </span>
+                            </td>
+                            <td>
+                              <div onClick={() => removeCartItem(item.id)} role='button'>
+                              <svg cursor="pointer"  xmlns="http://www.w3.org/2000/svg" color='red' width="16" height="16" fill="currentColor"
+                                   className="bi bi-x-square" viewBox="0 0 16 16">
+                                <path
+                                    d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2z"/>
+                                <path
+                                    d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708"/>
+                              </svg>
+                              </div>
                             </td>
                           </tr>
                         );
@@ -616,9 +632,9 @@ function SalePage() {
                     Tổng cộng :{" "}
                     <span className="text-">
                       {VND.format(
-                        selectedItemList.reduce((sum, item) => {
-                          return sum + item.product.price;
-                        }, 0),
+                          selectedItemList.reduce((sum, item) => {
+                            return sum + item.product.price;
+                          }, 0),
                       )}
                     </span>
                   </p>
@@ -757,7 +773,7 @@ function SalePage() {
               </div>
             </Form>
           </Formik>
-
+          {(items && items.length > 0) ?
           <div
             className="table-responsive"
             style={{ "overflow-y": "auto", maxHeight: "600px" }}
@@ -786,7 +802,7 @@ function SalePage() {
                       </td>
                       <td>{item.product.name}</td>
                       <td>{item.serial}</td>
-                      <td>{item.product.price}</td>
+                      <td>{VND.format(item.product.price)}</td>
                       <td>
                         <button
                           onClick={() => {
@@ -804,10 +820,9 @@ function SalePage() {
                 })}
               </tbody>
             </table>
-          </div>
+          </div> : <p className='text-danger'>Không có sản phẩm</p>}
         </Modal.Body>
       </Modal>
-
       <Modal show={isShowConfirmModal} onHide={hideConfirmModal} className="">
         <Modal.Header closeButton>
           <Modal.Title className="fw-bold">Xác nhận thông tin </Modal.Title>
