@@ -1,13 +1,10 @@
 import React, {useEffect} from 'react';
-import  {SideNav} from "../common/SideNav";
+import  {SideNav} from "../components/common/SideNav";
 import "bootstrap-icons/font/bootstrap-icons.css"; // Correctly import Bootstrap Icons CSS
-import "../assets/bootstrap/css/bootstrap.min.css";
-import Profile from "../ProfilePage/Profile";
-import Footer from "../common/Footer";
-import "../assets/css/animate.min.css";
-import "../assets/fonts/fontawesome-all.min.css";
+import Footer from "../components/common/Footer";
+import SalePage from "./pages/SalePage";
 
-export default function Dashboard() {
+export default function SalePageDashboard() {
     useEffect(() => {
         document.title = "Profile";
     }, []); // Empty dependency array means this effect runs once after the initial render
@@ -16,7 +13,7 @@ export default function Dashboard() {
         <div id="page-top" className="d-flex flex-column min-vh-100">
             <div id="wrapper" className="flex-grow-1">
                 <SideNav />
-                <Profile />
+                <SalePage />
             </div>
             <Footer />
         </div>

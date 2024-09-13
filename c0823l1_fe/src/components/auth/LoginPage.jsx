@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, {useEffect, useState} from "react";
 import { Formik, Field, Form, ErrorMessage } from "formik";
 import * as Yup from 'yup';
 import UserService from "../service/UserService";
@@ -23,6 +23,9 @@ function LoginPage() {
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
 
+    useEffect(() => {
+        document.title = "Login";
+    }, []); // Empty dependency array means this effect runs once after the initial render
 
 
     const handleSubmit = async (values) => {
@@ -37,7 +40,7 @@ function LoginPage() {
             if (userData.token) {
                 localStorage.setItem('token', userData.token);
                 localStorage.setItem('role', userData.role);
-                    navigate('/user/'  );
+                    navigate('/user/profile'  );
                 toast.success("Login successfully", {
                     position: "top-right",
                     autoClose: 3000,
