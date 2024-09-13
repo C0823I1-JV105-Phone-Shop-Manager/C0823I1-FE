@@ -1,9 +1,11 @@
 import { Modal, Button } from 'react-bootstrap';
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import {Link} from "react-router-dom";
+import {useEffect, useState} from "react";
 import * as supplierService from "./service/SupplierService";
 import Footer from "../components/common/Footer";
-import { SideNav } from "../components/common/SideNav";
+import {SideNav} from "../components/common/SideNav";
 import NavTop from "../components/common/NavTop";
 import { deleteSuppliersByUid } from "./service/SupplierService";
 import { toast } from 'react-toastify';
@@ -24,6 +26,18 @@ function ListSupplier() {
         ListSuppliers();
     }, [page, selectedAddress, searchTerm]);
 
+    const [page, setPage] = useState(0); // Thêm state cho trang hiện tại
+    const [totalPages, setTotalPages] = useState(0); // Thêm state cho tổng số trang
+    const size = 5; // Kích thước trang cố định là 5
+    useEffect(() => {
+        document.title = "Supplier List";
+        ListSuppliers();
+    }, []);
+
+  useEffect(() => {
+      document.title = "Supplier List";
+      ListSuppliers();
+}, [page, selectedAddress, searchTerm]);
     const ListSuppliers = async () => {
         try {
             const data = await supplierService.list(selectedAddress, searchTerm, page, size);
@@ -87,10 +101,10 @@ function ListSupplier() {
     return (
         <div id="page-top" className="d-flex flex-column min-vh-100">
             <div id="wrapper" className="flex-grow-1">
-                <SideNav />
+                <SideNav/>
                 <div className="d-flex flex-column" id="content-wrapper">
                     <div id="content">
-                        <NavTop />
+                        <NavTop/>
                         <div className="container mt-5">
                             <form className="row mb-4">
                                 <div className="col-md-12 d-flex justify-content-between align-items-center">
@@ -180,13 +194,14 @@ function ListSupplier() {
                                                     />
                                                 </td>
                                                 <td>{index + 1}</td>
+                                                {/* STT bắt đầu từ 1 cho mỗi trang */}
                                                 <td>{supplier.uid}</td>
                                                 <td>{supplier.name}</td>
                                                 <td>{supplier.address}</td>
                                                 <td>{supplier.phone}</td>
                                                 <td>{supplier.email}</td>
                                                 <td>
-                                                    <Link to={`/supplier/update/${supplier.uid}`}
+                                                    <Link to={`/supplier/update/${supplier.id}`}
                                                           className="btn btn-warning">
                                                         Cập nhật
                                                     </Link>

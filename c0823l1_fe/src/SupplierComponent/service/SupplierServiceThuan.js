@@ -1,4 +1,4 @@
-import axios from "axios";
+    import axios from "axios";
 
 // Hàm list nhà cung cấp với các tham số lọc bao gồm địa chỉ và phân trang
 export const list = async (address = "", searchTerm = "", page = 0, size = 5, sortField = 'phone', sortOrder = 'desc') => {
@@ -12,6 +12,7 @@ export const list = async (address = "", searchTerm = "", page = 0, size = 5, so
                 sort: `${sortField},${sortOrder}`
             }
         });
+        console.log(response.data)
         return response.data; // Trả về dữ liệu phân trang từ API
     } catch (err) {
         console.log(err);
