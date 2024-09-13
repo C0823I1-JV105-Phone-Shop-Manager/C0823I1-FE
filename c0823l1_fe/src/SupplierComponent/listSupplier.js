@@ -17,41 +17,46 @@ function ListSupplier() {
     const [totalPages, setTotalPages] = useState(0);
     const size = 5;
 
-    // State to control modal visibility
     const [showDeleteModal, setShowDeleteModal] = useState(false);
 
     useEffect(() => {
         ListSuppliers();
     }, [page, selectedAddress, searchTerm]);
 
+    // Hàm lấy danh sách nhà cung cấp từ server
     const ListSuppliers = async () => {
         try {
             const data = await supplierService.list(selectedAddress, searchTerm, page, size);
-            setSuppliers(data.content);
-            setTotalPages(data.totalPages);
+            setSuppliers(data.content); // Cập nhật danh sách nhà cung cấp
+            setTotalPages(data.totalPages); // Cập nhật tổng số trang
         } catch (error) {
             console.error("Không tìm được nhà cung cấp:", error);
         }
     };
 
+    // Xử lý thay đổi từ khóa tìm kiếm
     const handleSearchTermChange = (e) => {
         setSearchTerm(e.target.value);
     };
 
+    // Xử lý tìm kiếm
     const handleSearch = () => {
         setPage(0); // Reset trang khi tìm kiếm
         ListSuppliers();
     };
 
+    // Xử lý thay đổi địa chỉ lọc
     const handleSelectAddress = (e) => {
         setSelectedAddress(e.target.value);
         setPage(0); // Reset trang khi thay đổi địa chỉ
     };
 
+    // Xử lý thay đổi số trang
     const handlePageChange = (newPage) => {
         setPage(newPage);
     };
 
+    // Xử lý chọn tất cả nhà cung cấp
     const handleSelectAll = (e) => {
         if (e.target.checked) {
             setSelectedUids(suppliers.map(supplier => supplier.uid));
@@ -60,37 +65,38 @@ function ListSupplier() {
         }
     };
 
+    // Xử lý thay đổi checkbox của từng nhà cung cấp
     const handleCheckboxChange = (uid) => {
         setSelectedUids((prev) =>
             prev.includes(uid) ? prev.filter((id) => id !== uid) : [...prev, uid]
         );
     };
 
-    // Function to show the delete modal
+    // Hiển thị modal xác nhận xóa
     const showDeleteConfirmation = () => {
         setShowDeleteModal(true);
     };
 
-    // Function to delete suppliers after confirming
+    // Xác nhận xóa các nhà cung cấp đã chọn
     const confirmDelete = async () => {
         try {
-            await deleteSuppliersByUid(selectedUids);
-            setSelectedUids([]); // Clear selected suppliers
-            setShowDeleteModal(false); // Hide modal after delete
-            ListSuppliers(); // Refresh supplier list
-            toast.success("Xóa nhà cung cấp thành công!");
+            await deleteSuppliersByUid(selectedUids); // Gọi hàm xóa nhà cung cấp
+            setSelectedUids([]); // Xóa các UID đã chọn
+            setShowDeleteModal(false); // Ẩn modal sau khi xóa
+            ListSuppliers(); // Làm mới danh sách nhà cung cấp
+            toast.success("Xóa nhà cung cấp thành công!"); // Hiển thị thông báo thành công
         } catch (error) {
-            toast.error("Có lỗi xảy ra khi xóa đơn hàng!");
+            toast.error("Có lỗi xảy ra khi xóa đơn hàng!"); // Hiển thị thông báo lỗi
         }
     };
 
     return (
         <div id="page-top" className="d-flex flex-column min-vh-100">
             <div id="wrapper" className="flex-grow-1">
-                <SideNav />
+                <SideNav /> {/* Thanh điều hướng bên trái */}
                 <div className="d-flex flex-column" id="content-wrapper">
                     <div id="content">
-                        <NavTop />
+                        <NavTop /> {/* Thanh điều hướng trên cùng */}
                         <div className="container mt-5">
                             <form className="row mb-4">
                                 <div className="col-md-12 d-flex justify-content-between align-items-center">
@@ -107,7 +113,6 @@ function ListSupplier() {
                                             <option value="Hồ Chí Minh">Hồ Chí Minh</option>
                                             <option value="Quảng Nam">Quảng Nam</option>
                                             <option value="Quảng Trị">Quảng Trị</option>
-
                                         </select>
                                     </div>
 
@@ -116,7 +121,7 @@ function ListSupplier() {
                                         <input
                                             type="text"
                                             className="form-control"
-                                            placeholder="Tìm theo SDT"
+                                            placeholder="Tìm theo số điện thoại"
                                             value={searchTerm}
                                             onChange={handleSearchTermChange}
                                         />
