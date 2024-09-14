@@ -1,49 +1,44 @@
+import React, { useState, useEffect, useCallback } from 'react';
 import Swal from "sweetalert2";
 import { SideNav } from "../components/common/SideNav";
-import "bootstrap-icons/font/bootstrap-icons.css"; // Correctly import Bootstrap Icons CSS
+import "bootstrap-icons/font/bootstrap-icons.css";
 import "../components/assets/bootstrap/css/bootstrap.min.css";
 import Footer from "../components/common/Footer";
 import "../components/assets/css/animate.min.css";
 import "../components/assets/fonts/fontawesome-all.min.css";
-import { Modal, Button, Container, Table } from 'react-bootstrap';
+import { Modal, Button, Container, Table, Pagination, Form } from 'react-bootstrap';
 import * as productService from "./service/ProductService";
 import { ToastContainer } from "react-toastify";
-import { Pagination } from 'react-bootstrap';
-import React, { useState, useEffect } from 'react';
 
 function ProductDashboard3() {
     const [currentPage, setCurrentPage] = useState(1);
-    const [selectedAddress, setSelectedAddress] = useState("");
-    const [selectedUids, setSelectedUids] = useState([]);
-    const [searchTerm, setSearchTerm] = useState("");
-    const [totalPages, setTotalPages] = useState(0);
-    const productsPerPage = 10;
-
     const [products, setProducts] = useState([]);
-    const [showAddModal, setShowAddModal] = useState(false);
-    const [searchCategory, setSearchCategory] = useState('');
-    const [currentProducts, setCurrentProducts] = useState([]);
+    const [totalPages, setTotalPages] = useState(0);
     const [selectedProduct, setSelectedProduct] = useState(null);
     const [productToDelete, setProductToDelete] = useState(null);
     const [showDetailsModal, setShowDetailsModal] = useState(false);
     const [showDeleteModal, setShowDeleteModal] = useState(false);
+    const [searchCategory, setSearchCategory] = useState('name');
+    const [searchTerm, setSearchTerm] = useState('');
+
+    const productsPerPage = 8;
 
     useEffect(() => {
         fetchProducts(currentPage);
-    }, [currentPage, selectedAddress, searchTerm]);
+    }, [currentPage]);
 
-    const fetchProducts = async (page) => {
+    const fetchProducts = useCallback(async (page) => {
         try {
-            const data = await productService.listProduct(); // Ensure the list method is available
-            setProducts(data.content);
-            setTotalPages(data.totalPages);
-            setCurrentProducts(data.content.slice((page - 1) * productsPerPage, page * productsPerPage));
+            const data = await productService.listProduct(page - 1, productsPerPage);
+            setProducts(data.content || []);
+            setTotalPages(data.totalPages || 0);
         } catch (error) {
             console.error("Failed to fetch products:", error);
+            setProducts([]);
         }
-    };
+    }, [productsPerPage]);
 
-    const handleDelete = async () => {
+    const handleDelete = useCallback(async () => {
         try {
             await productService.deleteProduct(productToDelete.id);
             setProducts(products.filter(p => p.id !== productToDelete.id));
@@ -51,37 +46,20 @@ function ProductDashboard3() {
         } catch (error) {
             console.error("Error deleting product:", error);
         }
-    };
+    }, [productToDelete, products]);
 
-    const handlePageChange = (pageNumber) => {
+    const handlePageChange = useCallback((pageNumber) => {
         setCurrentPage(pageNumber);
-    };
+    }, []);
 
-    const handleReset = () => {
-        setSearchTerm('');
-        setSearchCategory('');
-        setCurrentPage(1);
-        fetchProducts(1);
-        setSelectedProduct(null);
-        setShowDetailsModal(false);
-        setShowDeleteModal(false);
-        setProductToDelete(null);
-        window.scrollTo(0, 0);
-    };
-
-    const handleSearch = () => {
-        setCurrentPage(1);
-        fetchProducts(1);
-    };
-
-    const viewProductDetails = (product) => {
+    const viewProductDetails = useCallback((product) => {
         setSelectedProduct(product);
         setShowDetailsModal(true);
-    };
+    }, []);
 
-    const confirmDelete = (product) => {
+    const confirmDelete = useCallback((product) => {
         Swal.fire({
-            title: "Warning!!!",
+            title: " Cảnh báo!!!",
             text: `Bạn có chắc chắn muốn xóa hàng hóa: ${product.name} ?`,
             icon: "warning",
             showCancelButton: true,
@@ -91,11 +69,15 @@ function ProductDashboard3() {
             cancelButtonText: "Hủy!"
         }).then((result) => {
             if (result.isConfirmed) {
-                setProductToDelete(product);
+                setProductToDelete(product); const handleSearch = () => {
+                    // Implement search logic here
+                };
                 setShowDeleteModal(true);
             }
         });
-    };
+    }, []);
+
+
 
     return (
         <div id="page-top" className="d-flex flex-column min-vh-100">
@@ -103,17 +85,52 @@ function ProductDashboard3() {
                 <SideNav />
                 <Container className="my-5">
                     <h2 className="text-center mb-4">Thông tin hàng hóa</h2>
-                    <div className="d-flex flex-wrap mb-4">
-                        <Button
-                            variant="primary"
-                            className="mr-3 mb-2"
-                            onClick={() => setShowAddModal(true)}
-                        >
+                    <div className="d-flex justify-content-between align-items-center mb-4">
+                        <Button variant="primary">
                             Thêm mới hàng hóa
                         </Button>
+
+                        <Form inline className="d-flex align-items-center" onSubmit={(e) => e.preventDefault()}>
+                            <Form.Label className="mr-3 mb-0" style={{ whiteSpace: 'nowrap' }}>Tìm kiếm theo:</Form.Label>
+                            <Form.Control
+                                as="select"
+                                className="mr-2"
+                                style={{ maxWidth: '120px' }}
+                                value={searchCategory}
+                                onChange={(e) => setSearchCategory(e.target.value)}
+                            >
+                                <option value="name">Tên hàng hóa</option>
+                                <option value="cpu">CPU</option>
+                                <option value="storage">Lưu trữ</option>
+                                {/* thêm lựa chọn tìm kiếm */}
+                            </Form.Control>
+                            <Form.Control
+                                type="text"
+                                placeholder="Tìm kiếm..."
+                                className="mr-2 m-1"
+                                style={{ maxWidth: '150px' }}
+                                value={searchTerm}
+                                onChange={(e) => setSearchTerm(e.target.value)}
+                            />
+                            <Button
+                                variant="primary"
+                                onClick={handleSearch}
+                                style={{
+                                    padding: '0.5rem 1rem',
+                                    fontSize: '1rem',
+                                    borderRadius: '0.375rem', // Rounded corners
+                                    transition: 'background-color 0.3s ease' // Smooth hover effect
+                                }}
+                                className="btn-search" // Add a custom class for hover effect
+                            >
+                                Tìm kiếm
+                            </Button>
+                        </Form>
                     </div>
 
-                    <Table bordered hover responsive>
+
+
+                    <Table bordered hover responsive striped className="mb-4">
                         <thead className="thead-light">
                         <tr>
                             <th>#</th>
@@ -121,35 +138,35 @@ function ProductDashboard3() {
                             <th>Giá</th>
                             <th>CPU</th>
                             <th>Lưu trữ</th>
-                            <th>Số lượng</th>
+                            <th>Hãng sản xuất</th>
                             <th>Hành động</th>
                         </tr>
                         </thead>
                         <tbody>
-                        {currentProducts.length > 0 ? (
-                            currentProducts.map((product, index) => (
+                        {products.length > 0 ? (
+                            products.map((product, index) => (
                                 <tr key={product.id}>
                                     <td>{(currentPage - 1) * productsPerPage + index + 1}</td>
                                     <td>{product.name}</td>
                                     <td>{product.price}</td>
                                     <td>{product.cpu}</td>
-                                    <td>{product.storage}</td>
-                                    <td>{product.quantity}</td>
+                                    <td>{product.storage} GB</td>
+                                    <td>{product.brand?.name || 'N/A'}</td> {/* Display quantity */}
                                     <td>
-                                        <div className="d-flex">
+                                        <div className="d-flex justify-content-around">
                                             <i
-                                                className="fas fa-book text-info mr-3"
+                                                className="fas fa-book text-info mx-2"
                                                 style={{ cursor: 'pointer' }}
                                                 onClick={() => viewProductDetails(product)}
                                                 title="Xem chi tiết"
                                             ></i>
                                             <i
-                                                className="fas fa-edit text-warning mr-3"
+                                                className="fas fa-edit text-warning mx-2"
                                                 style={{ cursor: 'pointer' }}
                                                 title="Chỉnh sửa"
                                             ></i>
                                             <i
-                                                className="fas fa-trash-alt text-danger"
+                                                className="fas fa-trash-alt text-danger mx-2"
                                                 style={{ cursor: 'pointer' }}
                                                 onClick={() => confirmDelete(product)}
                                                 title="Xóa"
@@ -160,9 +177,7 @@ function ProductDashboard3() {
                             ))
                         ) : (
                             <tr>
-                                <td colSpan="7" className="text-center">
-                                    Không có dữ liệu.
-                                </td>
+                                <td colSpan="7" className="text-center">Không có dữ liệu.</td>
                             </tr>
                         )}
                         </tbody>
@@ -199,14 +214,38 @@ function ProductDashboard3() {
                     {selectedProduct && (
                         <Modal show={showDetailsModal} onHide={() => setShowDetailsModal(false)}>
                             <Modal.Header closeButton>
-                                <Modal.Title>Chi tiết sản phẩm</Modal.Title>
+                                <Modal.Title className="text-center text-uppercase" style={{ width: '100%' }}>
+                                    Chi tiết sản phẩm
+                                </Modal.Title>
                             </Modal.Header>
                             <Modal.Body>
-                                <p><strong>Tên:</strong> {selectedProduct.name}</p>
-                                <p><strong>Giá:</strong> {selectedProduct.price}</p>
-                                <p><strong>CPU:</strong> {selectedProduct.cpu}</p>
-                                <p><strong>Lưu trữ:</strong> {selectedProduct.storage}</p>
-                                <p><strong>Số lượng:</strong> {selectedProduct.quantity}</p>
+                                <div className="row">
+                                    <div className="col-md-6 text-center mb-4 d-flex align-items-center justify-content-center">
+                                        <img
+                                            src={selectedProduct.image}
+                                            alt={selectedProduct.name}
+                                            className="img-fluid rounded"
+                                            style={{ maxWidth: '100%', height: '100%', objectFit: 'cover' }}
+                                        />
+                                    </div>
+                                    <div className="col-md-6">
+                                        <div className="mb-3">
+                                            <p className="mb-2"><strong>Tên:</strong> {selectedProduct.name}</p>
+                                            <p className="mb-2"><strong>Thương hiệu:</strong> {selectedProduct.brand?.name || 'N/A'}</p>
+                                            <p className="mb-2"><strong>Giá:</strong> {selectedProduct.price} VNĐ</p>
+                                            <p className="mb-2"><strong>CPU:</strong> {selectedProduct.cpu}</p>
+                                            <p className="mb-2"><strong>Camera selfie:</strong> {selectedProduct.selfieCamera}</p>
+                                            <p className="mb-2"><strong>Lưu trữ:</strong> {selectedProduct.storage} GB</p>
+                                            <p className="mb-2"><strong>Số lượng:</strong> {selectedProduct.quantity || 'N/A'}</p>
+                                            <p className="mb-2"><strong>Kích thước màn hình:</strong> {selectedProduct.screenSize} inch</p>
+                                            <p className="mb-2"><strong>Camera:</strong> {selectedProduct.camera}</p>
+                                        </div>
+                                        <div>
+                                            <p className="mb-2"><strong>Mô tả:</strong></p>
+                                            <p>{selectedProduct.description}</p>
+                                        </div>
+                                    </div>
+                                </div>
                             </Modal.Body>
                             <Modal.Footer>
                                 <Button variant="secondary" onClick={() => setShowDetailsModal(false)}>

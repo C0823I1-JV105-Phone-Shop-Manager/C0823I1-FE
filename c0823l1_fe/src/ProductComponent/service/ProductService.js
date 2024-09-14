@@ -78,22 +78,25 @@ export const filterPhonesByBrand = async (brand, page = 1, size = 8) => {
     }
 }
 
-// Hàm lấy toàn bộ danh sách sản phẩm
-export const listProduct = async () => {
+// Hàm lấy danh sách sản phẩm và thông tin phân trang
+export const listProduct = async (page = 0, size = 8) => {
     try {
-        const response = await axios.get("http://localhost:1010/api/[product]");
-        return response.data.content; // Nếu API trả về cấu trúc giống như phân trang
+        const response = await axios.get("http://localhost:1010/api/products", {
+            params: {
+                page,
+                size
+            }
+        });
+        return response.data; // Trả về toàn bộ đối tượng dữ liệu
     } catch (err) {
-        console.error(" Không tìm được danh sách sản phẩm :", err);
+        console.error("Không tìm được danh sách sản phẩm:", err);
         throw err;
     }
-
 }
-
 // Hàm xóa 1 sản phẩm theo ID
 export const deleteProduct = async (productId) => {
     try {
-        const response = await axios.delete(`http://localhost:1010/api/product/delete/${productId}`, {
+        const response = await axios.delete(`http://localhost:1010/api/delete/${productId}`, {
             headers: {
                 'Content-Type': 'application/json',
             }
@@ -104,6 +107,7 @@ export const deleteProduct = async (productId) => {
         throw error;
     }
 };
+
 // Hàm hiển thị chi tiết sản phẩm theo ID
 export const getProductById = async (productId) => {
     try {
@@ -118,5 +122,39 @@ export const getProductById = async (productId) => {
         throw error;
     }
 };
+
+// Hàm tìm kiếm sản phẩm
+export const searchProducts = async (keyword, price, brand, camera, storage, cpu, page = 1, size = 8) => {
+    try {
+        let query = "http://localhost:1010/api/search/search?";
+        if (keyword) {
+            query += `keyword=${keyword}&`;
+        }
+        if (price) {
+            query += `price=${price}&`;
+        }
+        if (brand) {
+            query += `brand=${brand}&`;
+        }
+        if (camera) {
+            query += `camera=${camera}&`;
+        }
+        if (storage) {
+            query += `storage=${storage}&`;
+        }
+        if (cpu) {
+            query += `cpu=${cpu}&`;
+        }
+        query += `page=${page}&size=${size}`;
+        query = query.endsWith('&') ? query.slice(0, -1) : query;
+        if (query.endsWith('?')) {
+            query = query.slice(0, -1);
+        }
+        let result = await axios.get(query);
+        return result.data;
+    } catch (e) {
+        console.log(e);
+    }
+}
 
 
