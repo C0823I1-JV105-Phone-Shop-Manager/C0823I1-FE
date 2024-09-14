@@ -137,7 +137,7 @@ const HomePage = ({search, brandS}) => {
                                     <label htmlFor="priceRange" className="form-label">Price Range</label>
                                     <input type="range" className="form-range" id="priceRange" min="0" max="1000"
                                            step="10" value={price} onChange={(e) => setPrice(e.target.value)}/>
-                                    <p>Price: <span id="priceRangeValue">${price}</span></p>
+                                    <p>Price: <span id="priceRangeValue">${price} VNĐ</span></p>
                                 </div>
                                 {/* Brands */}
                                 <div className="mb-3">
@@ -237,7 +237,7 @@ const HomePage = ({search, brandS}) => {
                                                     <a href="#!" className="text-reset">
                                                         <p>{phone.brand.name}</p>
                                                     </a>
-                                                    <h6 className="mb-3 price">{phone.price}$</h6>
+                                                    <h6 className="mb-3 price">{phone.price} VNĐ</h6>
                                                 </div>
                                             </div>
                                         </div>
