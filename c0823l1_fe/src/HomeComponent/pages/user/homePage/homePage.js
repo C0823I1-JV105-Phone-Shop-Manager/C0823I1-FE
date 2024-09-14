@@ -12,22 +12,28 @@ const HomePage = ({search, brandS}) => {
     const [camera, setCamera] = useState('');
     const [storage, setStorage] = useState('');
     const [brand, setBrand] = useState('');
-    const [currentPage, setCurrentPage] = useState(0);
+    const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
 
     useEffect(() => {
         document.title = "Home";
         if (search) {
-            fetchPhones(search, currentPage);
+            fetchPhones(search, currentPage-1);
         }
+    }, [search,currentPage]);
+    useEffect(() => {
+        document.title = "Home";
         if (brandS) {
-            filterPhonesByBrand(brandS, currentPage);
+            filterPhonesByBrand(brandS, currentPage-1);
         }
-    }, [search, brandS, currentPage]);
+    }, [brandS, currentPage]);
 
     const fetchPhones = async (name, page) => {
+        if (page === undefined || page === null) {
+            setCurrentPage(0); // Reset to the first page if no page is passed
+        }
         try {
-            let allPhones = await PhoneService.getAllPhone(name, page);
+            let allPhones = await PhoneService.getAllPhone(name, page || 0); // Default to page 0
             setPhones(allPhones);
             setTotalPages(allPhones.totalPages);
         } catch (error) {
@@ -46,7 +52,7 @@ const HomePage = ({search, brandS}) => {
     }
 
     useEffect(() => {
-        getAllPhones(name, price, cpu, camera, storage, brand, currentPage);
+        getAllPhones(name, price, cpu, camera, storage, brand, currentPage-1);
         getAllBrands();
     }, [brand, camera, cpu, name, price, storage, currentPage]);
 
@@ -85,19 +91,22 @@ const HomePage = ({search, brandS}) => {
     };
     const handleFilterSubmit = async (event) => {
         event.preventDefault();
+        setCurrentPage(1); // Reset to the first page when filtering
+
         let allPhones;
         if (brand === " ") {
-            allPhones = await PhoneService.filterPhones(price, camera, storage, cpu, currentPage);
+            allPhones = await PhoneService.filterPhones(price, camera, storage, cpu, 0); // Start from page 0
         } else {
-            allPhones = await PhoneService.filterPhones(price, brand, camera, storage, cpu, currentPage);
+            allPhones = await PhoneService.filterPhones(price, brand, camera, storage, cpu, 0); // Start from page 0
         }
+
         if (!allPhones || allPhones.content.length === 0) {
             setPhones(null);
         } else {
             setPhones(allPhones);
             setTotalPages(allPhones.totalPages);
         }
-    }
+    };
 
 
     const handlePageChange = (page) => {
@@ -240,24 +249,24 @@ const HomePage = ({search, brandS}) => {
             </div>
             <nav aria-label="Page navigation">
                 <MDBPagination className="mb-0 d-flex justify-content-center">
-                    <MDBPaginationItem disabled={currentPage === 0}>
+                    <MDBPaginationItem disabled={currentPage === 1}>
                         <MDBPaginationLink
                             tag="button"
                             onClick={() => handlePageChange(currentPage - 1)}
-                            aria-disabled={currentPage === 0}
+                            aria-disabled={currentPage === 1}
                         >
                             Previous
                         </MDBPaginationLink>
                     </MDBPaginationItem>
 
-                    {currentPage > 1 && (
+                    {currentPage > 2 && (
                         <>
                             <MDBPaginationItem>
-                                <MDBPaginationLink tag="button" onClick={() => handlePageChange(0)}>
+                                <MDBPaginationLink tag="button" onClick={() => handlePageChange(1)}>
                                     1
                                 </MDBPaginationLink>
                             </MDBPaginationItem>
-                            {currentPage > 2 && (
+                            {currentPage > 3 && (
                                 <MDBPaginationItem disabled>
                                     <MDBPaginationLink tag="button">...</MDBPaginationLink>
                                 </MDBPaginationItem>
@@ -265,46 +274,46 @@ const HomePage = ({search, brandS}) => {
                         </>
                     )}
 
-                    {currentPage > 0 && (
+                    {currentPage > 1 && (
                         <MDBPaginationItem>
                             <MDBPaginationLink tag="button" onClick={() => handlePageChange(currentPage - 1)}>
-                                {currentPage}
+                                {currentPage - 1}
                             </MDBPaginationLink>
                         </MDBPaginationItem>
                     )}
 
                     <MDBPaginationItem active aria-current="page">
-                        <MDBPaginationLink tag="button">{currentPage + 1}</MDBPaginationLink>
+                        <MDBPaginationLink tag="button">{currentPage}</MDBPaginationLink>
                     </MDBPaginationItem>
 
-                    {currentPage < totalPages - 1 && (
+                    {currentPage < totalPages && (
                         <MDBPaginationItem>
                             <MDBPaginationLink tag="button" onClick={() => handlePageChange(currentPage + 1)}>
-                                {currentPage + 2}
+                                {currentPage + 1}
                             </MDBPaginationLink>
                         </MDBPaginationItem>
                     )}
 
-                    {currentPage < totalPages - 2 && (
+                    {currentPage < totalPages - 1 && (
                         <>
-                            {currentPage < totalPages - 3 && (
+                            {currentPage < totalPages - 2 && (
                                 <MDBPaginationItem disabled>
                                     <MDBPaginationLink tag="button">...</MDBPaginationLink>
                                 </MDBPaginationItem>
                             )}
                             <MDBPaginationItem>
-                                <MDBPaginationLink tag="button" onClick={() => handlePageChange(totalPages - 1)}>
+                                <MDBPaginationLink tag="button" onClick={() => handlePageChange(totalPages)}>
                                     {totalPages}
                                 </MDBPaginationLink>
                             </MDBPaginationItem>
                         </>
                     )}
 
-                    <MDBPaginationItem disabled={currentPage === totalPages - 1}>
+                    <MDBPaginationItem disabled={currentPage === totalPages}>
                         <MDBPaginationLink
                             tag="button"
                             onClick={() => handlePageChange(currentPage + 1)}
-                            aria-disabled={currentPage === totalPages - 1}
+                            aria-disabled={currentPage === totalPages}
                         >
                             Next
                         </MDBPaginationLink>
