@@ -205,7 +205,6 @@ function ListSupplier() {
                                                 <td>{supplier.phone}</td>
                                                 <td>{supplier.email}</td>
                                                 <td>
-                                                    <Link to={`/supplier/update/${supplier.uid}`}
                                                     <Link to={`/supplier/update/${supplier.id}`}
                                                           className="btn btn-warning">
                                                         Cập nhật
