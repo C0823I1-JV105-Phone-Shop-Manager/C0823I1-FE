@@ -13,6 +13,7 @@ import DashboardError from "./components/userspage/DashboardError";
 import RouterCustom from "./HomeComponent/RouterCustom";
 import {PublicRoutes} from "./components/routes/PublicRoutes";
 import SalePageDashboard from "./SalePage/SalePageDashboard";
+import ProductDashboard from "./ProductComponent/ProductDashboard";
 
 function App() {
   return (
@@ -26,7 +27,7 @@ function App() {
           <Route element={<PrivateRoutes />}>
               <Route path="*" element={<DashboardError />} />
               <Route path="/user/profile" element={<Dashboard />} />
-              {/*<Route path="/user/product" element={<ProductDashboard />} />*/}
+              <Route path="/user/product" element={<ProductDashboard />} />
               <Route  path="user/supplier" element={<ListSupplier />} />
               <Route  path="user/sale" element={<SalePageDashboard />} />
               <Route path="/supplier/create" element={<SupplierCreate/>}/>
