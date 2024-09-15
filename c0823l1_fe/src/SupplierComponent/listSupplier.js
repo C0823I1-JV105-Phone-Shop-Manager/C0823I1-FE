@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import * as supplierService from "./service/SupplierService";
 import Footer from "../components/common/Footer";
+import { SideNav } from "../components/common/SideNav";
 import {SideNav} from "../components/common/SideNav";
 import NavTop from "../components/common/NavTop";
 import { deleteSuppliersByUid } from "./service/SupplierService";
@@ -95,6 +96,7 @@ function ListSupplier() {
             ListSuppliers(); // Làm mới danh sách nhà cung cấp
             toast.success("Xóa nhà cung cấp thành công!"); // Hiển thị thông báo thành công
         } catch (error) {
+            toast.error("Có lỗi xảy ra khi xóa đơn hàng!"); // Hiển thị thông báo lỗi
             toast.error("Có lỗi xảy ra khi xóa nhà cung cấp !");
         }
     };
@@ -203,6 +205,7 @@ function ListSupplier() {
                                                 <td>{supplier.phone}</td>
                                                 <td>{supplier.email}</td>
                                                 <td>
+                                                    <Link to={`/supplier/update/${supplier.uid}`}
                                                     <Link to={`/supplier/update/${supplier.id}`}
                                                           className="btn btn-warning">
                                                         Cập nhật
