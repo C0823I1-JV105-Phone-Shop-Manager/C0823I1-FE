@@ -1,213 +1,145 @@
-// import React from 'react';
-import  {SideNav} from "../components/common/SideNav";
-import "bootstrap-icons/font/bootstrap-icons.css"; // Correctly import Bootstrap Icons CSS
+import React, { useState, useEffect, useCallback } from 'react';
+import Swal from "sweetalert2";
+import { SideNav } from "../components/common/SideNav";
+import "bootstrap-icons/font/bootstrap-icons.css";
 import "../components/assets/bootstrap/css/bootstrap.min.css";
 import Footer from "../components/common/Footer";
 import "../components/assets/css/animate.min.css";
 import "../components/assets/fonts/fontawesome-all.min.css";
-import {Modal, Button, Container, Table} from 'react-bootstrap';
+import { Modal, Button, Container, Table, Pagination, Form } from 'react-bootstrap';
 import * as productService from "./service/ProductService";
-import {Form} from "formik";
-import {ToastContainer} from "react-toastify";
-import { Pagination } from 'react-bootstrap';
-import {getProductById} from './service/ProductService'; // Adjust path as necessary
-import {deleteProduct} from './service/ProductService';
-import React, {useState, useEffect, Component} from 'react';
-import * as PropTypes from "prop-types";
+import { ToastContainer } from "react-toastify";
 
-
-Component.propTypes = {handleReset: PropTypes.func};
-export default function ProductDashboard() {
-
-    // Khởi tạo currentPage với giá trị mặc định, ví dụ là 1
+function ProductDashboard() {
     const [currentPage, setCurrentPage] = useState(1);
-    const [selectedAddress, setSelectedAddress] = useState("");
-    const [searchTerm, setSearchTerm] = useState("");
-    const [page, setPage] = useState(0); // Thêm state cho trang hiện tại
-    const [totalPages, setTotalPages] = useState(0); // Thêm state cho tổng số trang
-    const productsPerPage = 10; // Giả sử mỗi trang hiển thị 10 sản phẩm
-    const indexOfLastProduct = currentPage * productsPerPage;
-    const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
-
-
-    const [products, setProducts] = useState([]); // Example product state
-    const [showAddModal, setShowAddModal] = useState(false);
-    const [searchCategory, setSearchCategory] = useState('');
-    const [currentProducts, setCurrentProducts] = useState([]);
+    const [products, setProducts] = useState([]);
+    const [totalPages, setTotalPages] = useState(0);
     const [selectedProduct, setSelectedProduct] = useState(null);
     const [productToDelete, setProductToDelete] = useState(null);
     const [showDetailsModal, setShowDetailsModal] = useState(false);
     const [showDeleteModal, setShowDeleteModal] = useState(false);
+    const [searchCategory, setSearchCategory] = useState('name');
+    const [searchTerm, setSearchTerm] = useState('');
 
-
+    const productsPerPage = 8;
 
     useEffect(() => {
-        // Lấy sản phẩm dựa trên trang hiện tại
-        ListProduct(); // Call the function to fetch product data
-        document.title = `Danh sách`;
-        window.scrollTo(0, 0);
         fetchProducts(currentPage);
-    },[currentPage]);
-    const ListProduct = async () => {
+    }, [currentPage]);
+
+    const fetchProducts = useCallback(async (page) => {
         try {
-            const data = await productService.listProduct();
-            setProducts(data.content);
-            setTotalPages(data.totalPages);
-        }catch (error){
-            console.error("Failed to fetch service:", error);
-        }
-    };
-
-    // Cập nhật trạng thái searchTerm mỗi khi người dùng thay đổi từ khóa tìm kiếm.
-    const handleSearchTermChange = (e) => {
-        setSearchTerm(e.target.value);
-    };
-    const paginate = (pageNumber) => {
-        setCurrentPage(pageNumber);
-    };
-
-    const handleDelete = () => {
-        // Logic xóa sản phẩm
-    };
-
-    const handleAddProduct = (newProduct) => {
-        // Logic thêm sản phẩm
-    };
-    const handlePageChange = (newPage) => {
-        setCurrentPage(newPage);
-    };
-    const handleReset = () => {
-        console.log("..");
-        setSearchTerm('');  // Clear the search term
-        setSearchCategory('');  // Reset the selected search category
-        setCurrentPage(1);  // Reset the pagination to the first page
-        ListProduct();  // Fetch all products without any filters applied
-        setSelectedProduct(null);
-        setShowDetailsModal(false);
-        setShowDeleteModal(false);
-        setProductToDelete(null);
-        window.scrollTo(0, 0);
-    };
-
-
-
-    // Khi người dùng nhấn nút "Tìm kiếm", trang sẽ được reset về 0 và gọi lại hàm để lấy danh sách.
-    const handleSearch = () => {
-        setPage(0);  // Reset lại trang về 0.
-        ListProduct();  // Gọi lại hàm lấy danh sách nhà cung cấp.
-    };
-
-    // // Xử lý sự kiện khi người dùng chọn địa chỉ trong bộ lọc.
-    // const handleSelectAddress = (e) => {
-    //     setSelectedAddress(e.target.value);  // Cập nhật địa chỉ đã chọn.
-    //     setPage(0);  // Reset trang về 0 khi thay đổi địa chỉ.
-    // };
-    //
-    // // Xử lý sự kiện khi người dùng chuyển trang.
-    // const handlePageChange = (newPage) => {
-    //     setPage(newPage);  // Cập nhật trạng thái trang.
-    // }
-
-    function viewProductDetails({ show, handleClose, product }) {
-        return (
-            <Modal show={show} onHide={handleClose}>
-                <Modal.Header closeButton className="bg-primary text-white">
-                    <Modal.Title>Chi tiết hàng hóa</Modal.Title>
-                </Modal.Header>
-                <Modal.Body>
-                    <p><strong>Tên:</strong> {product.name}</p>
-                    <p><strong>CPU:</strong> {product.cpu}</p>
-                    <p><strong>Lưu trữ:</strong> {product.storage}</p>
-                    <p><strong>Số lượng:</strong> {product.quantity}</p>
-                    <p><strong>Giá:</strong> {product.price}</p>
-                </Modal.Body>
-                <Modal.Footer>
-                    <Button variant="secondary" onClick={handleClose}>
-                        Đóng
-                    </Button>
-                </Modal.Footer>
-            </Modal>
-        );
-    }
-
-
-    function confirmDelete({ show, handleClose, handleDelete, productName }) {
-        return (
-            <Modal show={show} onHide={handleClose}>
-                <Modal.Header closeButton className="bg-danger text-white">
-                    <Modal.Title>Xác nhận xóa</Modal.Title>
-                </Modal.Header>
-                <Modal.Body>
-                    Bạn có chắc chắn muốn xóa hàng hóa: <strong>{productName}</strong>?
-                </Modal.Body>
-                <Modal.Footer>
-                    <Button variant="secondary" onClick={handleClose}>
-                        Hủy
-                    </Button>
-                    <Button variant="danger" onClick={handleDelete}>
-                        Xóa
-                    </Button>
-                </Modal.Footer>
-            </Modal>
-        );
-    }
-    const fetchProducts = async (page) => {
-        try {
-            // Thay thế bằng API của bạn
-            const response = await fetch(`/api/products?page=${page}`);
-            const data = await response.json();
-            setProducts(data);
+            const data = await productService.listProduct(page - 1, productsPerPage);
+            setProducts(data.content || []);
+            setTotalPages(data.totalPages || 0);
         } catch (error) {
-            console.error('Lỗi khi lấy dữ liệu sản phẩm:', error);
+            console.error("Failed to fetch products:", error);
+            setProducts([]);
         }
-    };
+    }, [productsPerPage]);
+
+    const handleDelete = useCallback(async () => {
+        try {
+            await productService.deleteProduct(productToDelete.id);
+            setProducts(products.filter(p => p.id !== productToDelete.id));
+            setShowDeleteModal(false);
+        } catch (error) {
+            console.error("Error deleting product:", error);
+        }
+    }, [productToDelete, products]);
+
+    const handlePageChange = useCallback((pageNumber) => {
+        setCurrentPage(pageNumber);
+    }, []);
+
+    const viewProductDetails = useCallback((product) => {
+        setSelectedProduct(product);
+        setShowDetailsModal(true);
+    }, []);
+
+    const handleSearch = async () => {
+    try {
+        const data = await productService.searchProducts(searchTerm, null, null, null, null, null, currentPage, productsPerPage);
+        setProducts(data.content || []);
+        setTotalPages(data.totalPages || 0);
+    } catch (error) {
+        console.error("Failed to search products:", error);
+        setProducts([]);
+    }
+};
+
+    const confirmDelete = useCallback((product) => {
+        Swal.fire({
+            title: " Cảnh báo!!!",
+            text: `Bạn có chắc chắn muốn xóa hàng hóa: ${product.name} ?`,
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Xóa!",
+            cancelButtonText: "Hủy!"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                setProductToDelete(product);
+                setShowDeleteModal(true);
+            }
+        });
+    }, []);
+
 
 
     return (
         <div id="page-top" className="d-flex flex-column min-vh-100">
             <div id="wrapper" className="flex-grow-1">
                 <SideNav />
-                { <Container className="my-5">
+                <Container className="my-5">
                     <h2 className="text-center mb-4">Thông tin hàng hóa</h2>
-                    <div className="d-flex flex-wrap mb-4">
-                        <Button
-                            variant="primary"
-                            className="mr-3 mb-2"
-                            onClick={() => setShowAddModal(true)}
-                        >
+                    <div className="d-flex justify-content-between align-items-center mb-4">
+                        <Button variant="primary">
                             Thêm mới hàng hóa
                         </Button>
-                        <Form inline className="ml-auto mb-2" onSubmit={(e) => e.preventDefault()}>
-                            <Form.Label className="mr-2">Tìm kiếm theo</Form.Label>
+
+                        <Form inline className="d-flex align-items-center" onSubmit={(e) => e.preventDefault()}>
+                            <Form.Label className="mr-3 mb-0" style={{ whiteSpace: 'nowrap' }}>Tìm kiếm theo:</Form.Label>
                             <Form.Control
                                 as="select"
                                 className="mr-2"
+                                style={{ maxWidth: '120px' }}
                                 value={searchCategory}
                                 onChange={(e) => setSearchCategory(e.target.value)}
                             >
                                 <option value="name">Tên hàng hóa</option>
                                 <option value="cpu">CPU</option>
                                 <option value="storage">Lưu trữ</option>
-                                <option value="price">Giá</option>
-                                {/* Add more options if needed */}
+                                {/* thêm lựa chọn tìm kiếm */}
                             </Form.Control>
                             <Form.Control
                                 type="text"
                                 placeholder="Tìm kiếm..."
-                                className="mr-2"
+                                className="mr-2 m-1"
+                                style={{ maxWidth: '150px' }}
                                 value={searchTerm}
                                 onChange={(e) => setSearchTerm(e.target.value)}
                             />
-                            <Button variant="primary" onClick={handleSearch}>
+                            <Button
+                                variant="primary"
+                                onClick={handleSearch}
+                                style={{
+                                    padding: '0.5rem 1rem',
+                                    fontSize: '1rem',
+                                    borderRadius: '0.375rem', // Rounded corners
+                                    transition: 'background-color 0.3s ease' // Smooth hover effect
+                                }}
+                                className="btn-search" // Add a custom class for hover effect
+                            >
                                 Tìm kiếm
                             </Button>
-                            <Button variant="secondary" onClick={handleReset} className="ml-2">
-                                Reset
-                            </Button>
-
                         </Form>
                     </div>
-                    <Table bordered hover responsive>
+
+
+
+                    <Table bordered hover responsive striped className="mb-4">
                         <thead className="thead-light">
                         <tr>
                             <th>#</th>
@@ -215,36 +147,35 @@ export default function ProductDashboard() {
                             <th>Giá</th>
                             <th>CPU</th>
                             <th>Lưu trữ</th>
-                            <th>Số lượng</th>
+                            <th>Hãng sản xuất</th>
                             <th>Hành động</th>
                         </tr>
                         </thead>
                         <tbody>
-                        {currentProducts.length > 0 ? (
-                            currentProducts.map((product, index) => (
+                        {products.length > 0 ? (
+                            products.map((product, index) => (
                                 <tr key={product.id}>
-                                    <td>{indexOfFirstProduct + index + 1}</td>
+                                    <td>{(currentPage - 1) * productsPerPage + index + 1}</td>
                                     <td>{product.name}</td>
                                     <td>{product.price}</td>
                                     <td>{product.cpu}</td>
-                                    <td>{product.storage}</td>
-                                    <td>{product.quantity}</td>
+                                    <td>{product.storage} GB</td>
+                                    <td>{product.brand?.name || 'N/A'}</td> {/* Display quantity */}
                                     <td>
-                                        <div className="d-flex">
+                                        <div className="d-flex justify-content-around">
                                             <i
-                                                className="fas fa-book text-info mr-3"
+                                                className="fas fa-book text-info mx-2"
                                                 style={{ cursor: 'pointer' }}
                                                 onClick={() => viewProductDetails(product)}
                                                 title="Xem chi tiết"
                                             ></i>
                                             <i
-                                                className="fas fa-edit text-warning mr-3"
+                                                className="fas fa-edit text-warning mx-2"
                                                 style={{ cursor: 'pointer' }}
                                                 title="Chỉnh sửa"
-                                                // Implement edit functionality if needed
                                             ></i>
                                             <i
-                                                className="fas fa-trash-alt text-danger"
+                                                className="fas fa-trash-alt text-danger mx-2"
                                                 style={{ cursor: 'pointer' }}
                                                 onClick={() => confirmDelete(product)}
                                                 title="Xóa"
@@ -255,18 +186,16 @@ export default function ProductDashboard() {
                             ))
                         ) : (
                             <tr>
-                                <td colSpan="7" className="text-center">
-                                    Không có dữ liệu.
-                                </td>
+                                <td colSpan="7" className="text-center">Không có dữ liệu.</td>
                             </tr>
                         )}
                         </tbody>
                     </Table>
-                    {/* Pagination */}
+
                     {totalPages > 1 && (
                         <Pagination className="justify-content-center">
                             <Pagination.Prev
-                                onClick={() => paginate(currentPage - 1)}
+                                onClick={() => handlePageChange(currentPage - 1)}
                                 disabled={currentPage === 1}
                             >
                                 Trang trước
@@ -275,13 +204,13 @@ export default function ProductDashboard() {
                                 <Pagination.Item
                                     key={idx + 1}
                                     active={currentPage === idx + 1}
-                                    onClick={() => paginate(idx + 1)}
+                                    onClick={() => handlePageChange(idx + 1)}
                                 >
                                     {idx + 1}
                                 </Pagination.Item>
                             ))}
                             <Pagination.Next
-                                onClick={() => paginate(currentPage + 1)}
+                                onClick={() => handlePageChange(currentPage + 1)}
                                 disabled={currentPage === totalPages}
                             >
                                 Trang tiếp
@@ -289,37 +218,75 @@ export default function ProductDashboard() {
                         </Pagination>
                     )}
 
-                    {/* Toast Container */}
                     <ToastContainer position="top-right" autoClose={3000} />
 
-                    {/* Product Details Modal */}
                     {selectedProduct && (
-                        <getProductById
-                            show={showDetailsModal}
-                            handleClose={() => setShowDetailsModal(false)}
-                            product={selectedProduct}
-                        />
+                        <Modal show={showDetailsModal} onHide={() => setShowDetailsModal(false)}>
+                            <Modal.Header closeButton>
+                                <Modal.Title className="text-center text-uppercase" style={{ width: '100%' }}>
+                                    Chi tiết sản phẩm
+                                </Modal.Title>
+                            </Modal.Header>
+                            <Modal.Body>
+                                <div className="row">
+                                    <div className="col-md-6 text-center mb-4 d-flex align-items-center justify-content-center">
+                                        <img
+                                            src={selectedProduct.image}
+                                            alt={selectedProduct.name}
+                                            className="img-fluid rounded"
+                                            style={{ maxWidth: '100%', height: '100%', objectFit: 'cover' }}
+                                        />
+                                    </div>
+                                    <div className="col-md-6">
+                                        <div className="mb-3">
+                                            <p className="mb-2"><strong>Tên:</strong> {selectedProduct.name}</p>
+                                            <p className="mb-2"><strong>Thương hiệu:</strong> {selectedProduct.brand?.name || 'N/A'}</p>
+                                            <p className="mb-2"><strong>Giá:</strong> {selectedProduct.price} VNĐ</p>
+                                            <p className="mb-2"><strong>CPU:</strong> {selectedProduct.cpu}</p>
+                                            <p className="mb-2"><strong>Camera selfie:</strong> {selectedProduct.selfieCamera}</p>
+                                            <p className="mb-2"><strong>Lưu trữ:</strong> {selectedProduct.storage} GB</p>
+                                            <p className="mb-2"><strong>Số lượng:</strong> {selectedProduct.quantity || 'N/A'}</p>
+                                            <p className="mb-2"><strong>Kích thước màn hình:</strong> {selectedProduct.screenSize} inch</p>
+                                            <p className="mb-2"><strong>Camera:</strong> {selectedProduct.camera}</p>
+                                        </div>
+                                        <div>
+                                            <p className="mb-2"><strong>Mô tả:</strong></p>
+                                            <p>{selectedProduct.description}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </Modal.Body>
+                            <Modal.Footer>
+                                <Button variant="secondary" onClick={() => setShowDetailsModal(false)}>
+                                    Đóng
+                                </Button>
+                            </Modal.Footer>
+                        </Modal>
                     )}
 
-                    {/* Delete Confirmation Modal */}
                     {productToDelete && (
-                        <deleteProduct
-                            show={showDeleteModal}
-                            handleClose={() => setShowDeleteModal(false)}
-                            handleDelete={handleDelete}
-                            productName={productToDelete.name}
-                        />
+                        <Modal show={showDeleteModal} onHide={() => setShowDeleteModal(false)}>
+                            <Modal.Header closeButton>
+                                <Modal.Title>Xác nhận xóa</Modal.Title>
+                            </Modal.Header>
+                            <Modal.Body>
+                                Bạn có chắc chắn muốn xóa sản phẩm {productToDelete.name} không?
+                            </Modal.Body>
+                            <Modal.Footer>
+                                <Button variant="danger" onClick={handleDelete}>
+                                    Xóa
+                                </Button>
+                                <Button variant="secondary" onClick={() => setShowDeleteModal(false)}>
+                                    Hủy
+                                </Button>
+                            </Modal.Footer>
+                        </Modal>
                     )}
-
-                    {/* Add Product Modal */}
-                    {/*<AddProductModal*/}
-                    show={showAddModal}
-                    handleClose={() => setShowAddModal(false)}
-                    handleAdd={handleAddProduct}
-                    />
-                </Container>}
+                </Container>
             </div>
             <Footer />
         </div>
     );
 }
+
+export default ProductDashboard;
