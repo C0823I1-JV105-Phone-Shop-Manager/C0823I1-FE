@@ -21,7 +21,7 @@ export const createOrder = async (order) => {
         })
         return result.data;
     } catch (error) {
-        toast.error('Có lỗi xảy ra')
+        toast.error('Không tạo được đơn hàng dó lỗi xảy ra')
         console.log(error);
     }
 };
