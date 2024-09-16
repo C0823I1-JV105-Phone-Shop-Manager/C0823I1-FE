@@ -17,32 +17,22 @@ const validationSchemaPassword = Yup.object().shape({
 });
 
 function UpdatePassword() {
-    const [oldPassword, setOldPassword] = useState();
     const navigator = useNavigate();
     const [password, setPassword] = useState({
-        currentPassword: '',
-        newPassword: '',
-        confirmationPassword: ''
+        currentPassword: '11111111',
+        newPassword: '111111112',
+        confirmationPassword: '111111112'
     });
 
     useEffect(() => {
-        fetchPassword();
     }, []);
 
-    const fetchPassword = async () => {
-        try {
-            const token = localStorage.getItem('token'); // Retrieve the token from localStorage
-            const response = await UserService.getYourPassword(token);
-            setOldPassword(response);
-        } catch (error) {
-            console.error('Error fetching profile information:', error);
-        }
-    };
+
 
     const handleSubmitPassword = async (values) => {
    try {
     const token = localStorage.getItem('token');
-    const response = await UserService.updateYourPassword(oldPassword.id, token, values);
+    const response = await UserService.updateYourPassword(token, values);
     if (response.message === "Password updated successfully") {
         UserService.logout();
         navigator("/login");
