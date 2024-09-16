@@ -49,10 +49,10 @@ function ListSupplier() {
     };
 
     // Xử lý tìm kiếm
-    const handleSearch = () => {
-        setPage(0); // Reset trang khi tìm kiếm
-        ListSuppliers();
-    };
+    // const handleSearch = () => {
+    //     setPage(0); // Reset trang khi tìm kiếm
+    //     ListSuppliers();
+    // };
 
     // Xử lý thay đổi địa chỉ lọc
     const handleSelectAddress = (e) => {
@@ -133,17 +133,17 @@ function ListSupplier() {
                                         <input
                                             type="text"
                                             className="form-control"
-                                            placeholder="Tìm theo số điện thoại"
+                                            placeholder="Tìm theo số điện thoại hoặc tên"
                                             value={searchTerm}
                                             onChange={handleSearchTermChange}
                                         />
-                                        <button
-                                            className="btn btn-info"
-                                            type="button"
-                                            onClick={handleSearch}
-                                        >
-                                            Tìm kiếm
-                                        </button>
+                                        {/*<button*/}
+                                        {/*    className="btn btn-info"*/}
+                                        {/*    type="button"*/}
+                                        {/*    onClick={handleSearch}*/}
+                                        {/*>*/}
+                                        {/*    Tìm kiếm*/}
+                                        {/*</button>*/}
                                     </div>
                                 </div>
                             </form>
