@@ -85,7 +85,14 @@ function ProductDashboard() {
             }
         });
     }, []);
-
+    const comingSoon = ()=>{
+        Swal.fire({
+            title: " Coming soon!!!",
+            text: `Chức năng này sẽ được cập nhật sớm nhất!`,
+            icon: "warning",
+            confirmButtonColor: "#3085d6",
+        })
+    }
 
 
     return (
@@ -95,7 +102,7 @@ function ProductDashboard() {
                 <Container className="my-5">
                     <h2 className="text-center mb-4">Thông tin hàng hóa</h2>
                     <div className="d-flex justify-content-between align-items-center mb-4">
-                        <Button variant="primary">
+                        <Button variant="primary" onClick={comingSoon}>
                             Thêm mới hàng hóa
                         </Button>
 
@@ -173,6 +180,7 @@ function ProductDashboard() {
                                                 className="fas fa-edit text-warning mx-2"
                                                 style={{ cursor: 'pointer' }}
                                                 title="Chỉnh sửa"
+                                                onClick={comingSoon}
                                             ></i>
                                             <i
                                                 className="fas fa-trash-alt text-danger mx-2"
