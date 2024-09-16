@@ -15,6 +15,7 @@ import {PublicRoutes} from "./components/routes/PublicRoutes";
 import SalePageDashboard from "./SalePage/SalePageDashboard";
 import OrderDetail from "./SalePage/pages/OrderDetail";
 import OrderDetailPageDashboard from "./SalePage/OrderDetailPageDashboard";
+import ProductDashboard from "./ProductComponent/ProductDashboard";
 
 function App() {
   return (
@@ -28,7 +29,7 @@ function App() {
           <Route element={<PrivateRoutes />}>
               <Route path="*" element={<DashboardError />} />
               <Route path="/user/profile" element={<Dashboard />} />
-              {/*<Route path="/user/product" element={<ProductDashboard />} />*/}
+              <Route path="/user/product" element={<ProductDashboard />} />
               <Route  path="user/supplier" element={<ListSupplier />} />
               <Route  path="user/sale" element={<SalePageDashboard />} />
               <Route  path="/order/:id" element={<OrderDetailPageDashboard />} />
