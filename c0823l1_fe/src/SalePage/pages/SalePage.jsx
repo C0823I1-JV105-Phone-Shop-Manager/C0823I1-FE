@@ -14,6 +14,7 @@ import { Bounce, toast } from "react-toastify";
 import {PDFViewer} from "@react-pdf/renderer";
 import Invoice from "../component/Invoice";
 import {useNavigate} from "react-router-dom";
+import Swal from "sweetalert2";
 
 function SalePage() {
   const [isShowModal, setIsShowModal] = useState(false);
@@ -123,6 +124,14 @@ function SalePage() {
     resetForm();
     setSelectedItemList([...selectedItemList, values]);
     console.log(selectedItemList);
+  }
+  const comingSoon = ()=>{
+    Swal.fire({
+      title: " Coming soon!!!",
+      text: `Chức năng này sẽ được cập nhật sớm nhất!`,
+      icon: "warning",
+      confirmButtonColor: "#3085d6",
+    })
   }
 
   const submitOrder = async () => {
@@ -281,6 +290,7 @@ function SalePage() {
                       <button
                           type="button"
                           className="form-control btn btn-secondary col fw-bold"
+                          onClick={comingSoon}
                       >
                         <div className="d-flex align-items-center justify-content-center gap-2">
                           <svg
