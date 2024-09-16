@@ -1,48 +1,9 @@
 import React, {Fragment} from 'react';
 import { Image, Text, View, Page, Document, StyleSheet,Font } from '@react-pdf/renderer';
-const Invoice = () => {
+const Invoice = ({order}) => {
     // Đăng ký font Roboto
 
-    const reciept_data = {
 
-        "id": "642be0b4bbe5d71a5341dfb1",
-        "invoice_no": "20200669",
-        "address": "739 Porter Avenue, Cade, Missouri, 1134",
-        "date": "24-09-2019",
-        "items": [
-            {
-                "id": 1,
-                "desc": "do ex anim quis velit excepteur non",
-                "qty": 8,
-                "price": 179.25
-            },
-            {
-                "id": 2,
-                "desc": "incididunt cillum fugiat aliqua Lorem sit Lorem",
-                "qty": 9,
-                "price": 107.78
-            },
-            {
-                "id": 3,
-                "desc": "quis Lorem ad laboris proident aliqua laborum",
-                "qty": 4,
-                "price": 181.62
-            },
-            {
-                "id": 4,
-                "desc": "exercitation non do eu ea ullamco cillum",
-                "qty": 4,
-                "price": 604.55
-            },
-            {
-                "id": 5,
-                "desc": "ea nisi non excepteur irure Lorem voluptate",
-                "qty": 6,
-                "price": 687.08
-            }
-        ]
-        // update reciept_data here
-    }
 
     const styles = StyleSheet.create({
         page: {fontSize: 11,paddingTop: 20,paddingLeft: 40,paddingRight: 40,lineHeight: 1.5,flexDirection: 'column' },
@@ -91,13 +52,13 @@ const Invoice = () => {
             <View style={styles.spaceBetween}>
                 <View>
                     <Text style={styles.invoice}>Đơn hàng</Text>
-                    <Text style={styles.invoiceNumber}>Số đơn hàng: {reciept_data.invoice_no} </Text>
+                    <Text style={styles.invoiceNumber}>Số đơn hàng: {order.id} </Text>
                 </View>
-                <View>
-                    <Text style={styles.addressTitle}>7, Ademola Odede, </Text>
-                    <Text style={styles.addressTitle}>Ikeja,</Text>
-                    <Text style={styles.addressTitle}>Lagos, Nigeria.</Text>
-                </View>
+                {/*<View>*/}
+                {/*    <Text style={styles.addressTitle}>Tên Khách hàng: {order.customer.name}</Text>*/}
+                {/*    <Text style={styles.addressTitle}>Số điện thoại: {order.customer.phone}</Text>*/}
+                {/*    <Text style={styles.addressTitle}>Email: {order.customer.email}</Text>*/}
+                {/*</View>*/}
             </View>
         </View>
     );
@@ -109,10 +70,9 @@ const Invoice = () => {
                 <View style={{maxWidth : 200}}>
                     <Text style={styles.addressTitle}>Địa chỉ  </Text>
                     <Text style={styles.address}>
-                        {reciept_data.address}
+                        {order.customer.address}
                     </Text>
                 </View>
-                <Text style={styles.addressTitle}>{reciept_data.date}</Text>
             </View>
         </View>
     );
@@ -120,37 +80,35 @@ const Invoice = () => {
     const TableHead = () => (
         // update TableHead component here
         <View style={{ width:'100%', flexDirection :'row', marginTop:10}}>
-            <View style={[styles.theader, styles.theader2]}>
-                <Text >Items</Text>
+            <View style={styles.theader}>
+                <Text >Tên sản phẩm</Text>
             </View>
             <View style={styles.theader}>
-                <Text>Price</Text>
+                <Text>Serial</Text>
             </View>
             <View style={styles.theader}>
-                <Text>Qty</Text>
+                <Text>Đơn giá</Text>
             </View>
-            <View style={styles.theader}>
-                <Text>Amount</Text>
-            </View>
+
         </View>
     );
 
     const TableBody = () => (
         // update TableBody component here
-        reciept_data.items.map((receipt)=>(
-            <Fragment key={receipt.id}>
+        order.productItemList.map((item)=>(
+            <Fragment key={item.id}>
                 <View style={{ width:'100%', flexDirection :'row'}}>
-                    <View style={[styles.tbody, styles.tbody2]}>
-                        <Text >{receipt.desc}</Text>
+                    {/*<View style={[styles.tbody, styles.tbody2]}>*/}
+                    {/*    <Text >{receipt.desc}</Text>*/}
+                    {/*</View>*/}
+                    <View style={styles.tbody}>
+                        <Text>{item.product.name} </Text>
                     </View>
                     <View style={styles.tbody}>
-                        <Text>{receipt.price} </Text>
+                        <Text>{item.serial}</Text>
                     </View>
                     <View style={styles.tbody}>
-                        <Text>{receipt.qty}</Text>
-                    </View>
-                    <View style={styles.tbody}>
-                        <Text>{(receipt.price * receipt.qty).toFixed(2)}</Text>
+                        <Text>{item.product.price}</Text>
                     </View>
                 </View>
             </Fragment>
@@ -167,11 +125,11 @@ const Invoice = () => {
                 <Text> </Text>
             </View>
             <View style={styles.tbody}>
-                <Text>Total</Text>
+                <Text>Tổng cộng</Text>
             </View>
             <View style={styles.tbody}>
                 <Text>
-                    {reciept_data.items.reduce((sum, item)=> sum + (item.price * item.qty), 0)}
+                    {order.productItemList.reduce((sum, item)=> sum + (item.product.price), 0)}
                 </Text>
             </View>
         </View>

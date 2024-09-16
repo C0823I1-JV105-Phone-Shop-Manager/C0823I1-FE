@@ -13,6 +13,8 @@ import DashboardError from "./components/userspage/DashboardError";
 import RouterCustom from "./HomeComponent/RouterCustom";
 import {PublicRoutes} from "./components/routes/PublicRoutes";
 import SalePageDashboard from "./SalePage/SalePageDashboard";
+import OrderDetail from "./SalePage/pages/OrderDetail";
+import OrderDetailPageDashboard from "./SalePage/OrderDetailPageDashboard";
 
 function App() {
   return (
@@ -29,6 +31,7 @@ function App() {
               {/*<Route path="/user/product" element={<ProductDashboard />} />*/}
               <Route  path="user/supplier" element={<ListSupplier />} />
               <Route  path="user/sale" element={<SalePageDashboard />} />
+              <Route  path="/order/:id" element={<OrderDetailPageDashboard />} />
               <Route path="/supplier/create" element={<SupplierCreate/>}/>
               <Route path="/supplier/update/:id" element={<SupplierUpdate/>}/>
           </Route>

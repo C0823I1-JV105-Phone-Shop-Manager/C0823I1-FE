@@ -13,6 +13,7 @@ import UserService from "../../components/service/UserService";
 import { Bounce, toast } from "react-toastify";
 import {PDFViewer} from "@react-pdf/renderer";
 import Invoice from "../component/Invoice";
+import {useNavigate} from "react-router-dom";
 
 function SalePage() {
   const [isShowModal, setIsShowModal] = useState(false);
@@ -34,6 +35,7 @@ function SalePage() {
   const [selectedCustomer, setSelectedCustomer] = useState({});
   const [selectedItemList, setSelectedItemList] = useState([]);
   const [staff, setStaff] = useState({});
+  const navigate = useNavigate();
   useEffect(() => {
     fetchProfileInfo();
   }, []);
@@ -187,6 +189,7 @@ function SalePage() {
       });
       setSelectedItemList([]);
       setSelectedCustomer({});
+      navigate(`/order/${order.id}`)
     }
   };
 

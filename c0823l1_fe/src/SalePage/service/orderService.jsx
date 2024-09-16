@@ -21,12 +21,26 @@ export const createOrder = async (order) => {
         })
         return result.data;
     } catch (error) {
-        for (const key in error.response.data.details) {
-            if (error.response.data.details.hasOwnProperty(key)) {
-                toast.error(`${error.response.data.details[key]}`);
-            }
-        }
-        // toast.error(error.response.data.details.toString);
+        // for (const key in error.response.data.details) {
+        //     if (error.response.data.details.hasOwnProperty(key)) {
+        //         toast.error(`${error.response.data.details[key]}`);
+        //     }
+        // }
+        toast.error('Có lỗi xảy ra');
+        console.log(error);
+    }
+};
+
+export const getOrderById = async (id) => {
+    try {
+        const token = localStorage.getItem('token');
+        let result = await axios.get(`http://localhost:1010/api/orders/${id}`,
+            {
+                headers: {Authorization: `Bearer ${token}`}
+            });
+
+        return result.data;
+    } catch (error) {
         console.log(error);
     }
 };
