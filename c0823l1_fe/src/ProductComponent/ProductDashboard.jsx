@@ -69,22 +69,23 @@ function ProductDashboard() {
 };
 
     const confirmDelete = useCallback((product) => {
-        Swal.fire({
-            title: " Cảnh báo!!!",
-            text: `Bạn có chắc chắn muốn xóa hàng hóa: ${product.name} ?`,
-            icon: "warning",
-            showCancelButton: true,
-            confirmButtonColor: "#3085d6",
-            cancelButtonColor: "#d33",
-            confirmButtonText: "Xóa!",
-            cancelButtonText: "Hủy!"
-        }).then((result) => {
-            if (result.isConfirmed) {
-                setProductToDelete(product);
-                setShowDeleteModal(true);
-            }
-        });
-    }, []);
+    Swal.fire({
+        title: " Cảnh báo!!!",
+        text: `Bạn có chắc chắn muốn xóa hàng hóa: ${product.name} ?`,
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Xóa!",
+        cancelButtonText: "Hủy!"
+    }).then((result) => {
+        if (result.isConfirmed) {
+            setProductToDelete(product);
+            handleDelete(product.id);
+
+        }
+    });
+}, [handleDelete]);
     const comingSoon = ()=>{
         Swal.fire({
             title: " Coming soon!!!",
@@ -274,20 +275,20 @@ function ProductDashboard() {
 
                     {productToDelete && (
                         <Modal show={showDeleteModal} onHide={() => setShowDeleteModal(false)}>
-                            <Modal.Header closeButton>
-                                <Modal.Title>Xác nhận xóa</Modal.Title>
-                            </Modal.Header>
-                            <Modal.Body>
-                                Bạn có chắc chắn muốn xóa sản phẩm {productToDelete.name} không?
-                            </Modal.Body>
-                            <Modal.Footer>
-                                <Button variant="danger" onClick={handleDelete}>
-                                    Xóa
-                                </Button>
-                                <Button variant="secondary" onClick={() => setShowDeleteModal(false)}>
-                                    Hủy
-                                </Button>
-                            </Modal.Footer>
+                        {/*    <Modal.Header closeButton>*/}
+                        {/*        <Modal.Title>Xác nhận xóa</Modal.Title>*/}
+                        {/*    </Modal.Header>*/}
+                        {/*    <Modal.Body>*/}
+                        {/*        Bạn có chắc chắn muốn xóa sản phẩm {productToDelete.name} không?*/}
+                        {/*    </Modal.Body>*/}
+                        {/*    <Modal.Footer>*/}
+                        {/*        <Button variant="danger" onClick={handleDelete}>*/}
+                        {/*            Xóa*/}
+                        {/*        </Button>*/}
+                        {/*        <Button variant="secondary" onClick={() => setShowDeleteModal(false)}>*/}
+                        {/*            Hủy*/}
+                        {/*        </Button>*/}
+                        {/*    </Modal.Footer>*/}
                         </Modal>
                     )}
                 </Container>

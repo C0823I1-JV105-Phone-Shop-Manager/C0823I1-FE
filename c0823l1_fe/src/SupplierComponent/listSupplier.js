@@ -16,7 +16,6 @@ function ListSupplier() {
     const [page, setPage] = useState(0);
     const [totalPages, setTotalPages] = useState(0);
     const size = 5;
-
     const [showDeleteModal, setShowDeleteModal] = useState(false);
 
     useEffect(() => {
