@@ -21,7 +21,12 @@ export const createOrder = async (order) => {
         })
         return result.data;
     } catch (error) {
-        toast.error('Không tạo được đơn hàng dó lỗi xảy ra')
+        for (const key in error.response.data.details) {
+            if (error.response.data.details.hasOwnProperty(key)) {
+                toast.error(`${error.response.data.details[key]}`);
+            }
+        }
+        // toast.error(error.response.data.details.toString);
         console.log(error);
     }
 };
