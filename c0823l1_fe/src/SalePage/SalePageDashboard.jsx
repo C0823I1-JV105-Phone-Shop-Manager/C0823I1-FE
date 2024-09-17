@@ -1,12 +1,12 @@
-import React, {useEffect} from 'react';
-import  {SideNav} from "../components/common/SideNav";
+import React, { useEffect } from 'react';
+import { SideNav } from "../components/common/SideNav";
 import "bootstrap-icons/font/bootstrap-icons.css"; // Correctly import Bootstrap Icons CSS
 import Footer from "../components/common/Footer";
 import SalePage from "./pages/SalePage";
 
 export default function SalePageDashboard() {
     useEffect(() => {
-        document.title = "Profile";
+        document.title = "Quản lý bán hàng";
     }, []); // Empty dependency array means this effect runs once after the initial render
 
     return (
