@@ -49,9 +49,9 @@ class UserService{
             throw err;
         }
     }
-    static async updateYourPassword(userId,token, userData){
+    static async updateYourPassword(token, userData){
         try{
-            const response = await axios.put(`${UserService.BASE_URL}/adminstaff/update/password/${userId}`, userData,
+            const response = await axios.put(`${UserService.BASE_URL}/adminstaff/update/password`, userData,
                 {
                     headers: {Authorization: `Bearer ${token}`}
                 })
@@ -86,9 +86,9 @@ class UserService{
     }
 
 
-    static async updateUser(userId, userData, token){
+    static async updateUser(userData, token){
         try{
-            const response = await axios.put(`${UserService.BASE_URL}/adminstaff/update/${userId}`, userData,
+            const response = await axios.put(`${UserService.BASE_URL}/adminstaff/update`, userData,
             {
                 headers: {Authorization: `Bearer ${token}`}
             })

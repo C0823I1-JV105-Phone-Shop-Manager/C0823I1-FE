@@ -15,7 +15,7 @@ const isLeapYear = (year) => {
 
 const validationSchema = Yup.object().shape({
     fullName: Yup.string().required('Họ và tên là bắt buộc')
-        .matches(/^[a-zA-Z\s]*$/, 'Họ và tên không hợp lệ'),
+        .matches(/^[\p{L}\s]+$/u, 'Họ và tên không hợp lệ'),
     dob: Yup.string()
     .required('Ngày sinh là bắt buộc')
     .matches(/^\d{4}\/\d{2}\/\d{2}$/, 'Ngày sinh phải có định dạng YYYY/MM/DD')
@@ -64,7 +64,7 @@ function UpdateInfo() {
         setLoading(true);
         try {
             const token = localStorage.getItem('token');
-            await UserService.updateUser(profileInfo.id, values, token);
+            await UserService.updateUser( values, token);
             console.log(values)
             Swal.fire({
                 icon: 'success',
