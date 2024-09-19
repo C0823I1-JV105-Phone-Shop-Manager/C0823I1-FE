@@ -22,7 +22,7 @@ function LoginPage() {
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
-    const [sessionTimeout, setSessionTimeout] = useState(6000)
+    const [sessionTimeout, setSessionTimeout] = useState(60000)
     useEffect(() => {
         document.title = "Login";
         const maxAttemptsExceeded = sessionStorage.getItem('maxAttemptsExceeded');
@@ -43,12 +43,12 @@ function LoginPage() {
     const handleSubmit = async (values) => {
         setLoading(true);
         if (sessionStorage.getItem('maxAttemptsExceeded')) {
-    setError('You have exceeded the maximum number of attempts, please wait for 1 minute : ' + sessionTimeout / 1000 + ' seconds');
+    setError('You have exceeded the maximum number of attempts, please wait for 1 minute ');
     setLoading(false);
     return;
 }
 if (count === 1) {
-    setError('You have exceeded the maximum number of attempts, please wait for 1 minute : ' + sessionTimeout / 1000 + ' seconds');
+    setError('You have exceeded the maximum number of attempts, please wait for 1 minute ');
     setLoading(false);
     sessionStorage.setItem('maxAttemptsExceeded', 'true');
     // Set a timer to clear the session after 1 hour (3600000 milliseconds)
