@@ -1,38 +1,45 @@
-import React, {Fragment} from 'react';
-import { Image, Text, View, Page, Document, StyleSheet,Font } from '@react-pdf/renderer';
-const Invoice = ({order}) => {
+import React, { Fragment } from 'react';
+import { Image, Text, View, Page, Document, StyleSheet, Font } from '@react-pdf/renderer';
+import MyFont from '../assets/Roboto-Regular.ttf'
+const Invoice = ({ order }) => {
     // Đăng ký font Roboto
+    Font.register({
+        family: 'Roboto',
+        src: MyFont
+    });
 
-
-
+    const VND = new Intl.NumberFormat("vi-VN", {
+        style: "currency",
+        currency: "VND",
+    });
     const styles = StyleSheet.create({
-        page: {fontSize: 11,paddingTop: 20,paddingLeft: 40,paddingRight: 40,lineHeight: 1.5,flexDirection: 'column' },
+        page: { fontFamily: 'Roboto', fontSize: 11, paddingTop: 20, paddingLeft: 40, paddingRight: 40, lineHeight: 1.5, flexDirection: 'column' },
 
-        spaceBetween : {flex : 1,flexDirection: 'row',alignItems:'center',justifyContent:'space-between',color: "#3E3E3E" },
+        spaceBetween: { flex: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', color: "#3E3E3E" },
 
-        titleContainer: {flexDirection: 'row',marginTop: 24},
+        titleContainer: { flexDirection: 'row', marginTop: 24 },
 
         logo: { width: 90 },
 
-        reportTitle: {  fontSize: 16,  textAlign: 'center' },
+        reportTitle: { fontSize: 16, textAlign: 'center' },
 
-        addressTitle : {fontSize: 11,fontStyle: 'bold'},
+        addressTitle: { fontSize: 12, },
 
-        invoice : {fontSize: 20},
+        invoice: { fontSize: 20 },
 
-        invoiceNumber : {fontSize: 11},
+        invoiceNumber: { fontSize: 11 },
 
-        address : {  fontSize: 10},
+        address: { fontSize: 11 },
 
-        theader : {marginTop : 20,fontSize : 10,paddingTop: 4 ,paddingLeft: 7 ,flex:1,height:20,backgroundColor : '#DEDEDE',borderColor : 'whitesmoke',borderRightWidth:1,borderBottomWidth:1},
+        theader: { marginTop: 20, fontSize: 11, paddingTop: 4, paddingLeft: 7, flex: 1, height: 20, backgroundColor: '#DEDEDE', borderColor: 'whitesmoke', borderRightWidth: 1, borderBottomWidth: 1 },
 
-        theader2 : { flex:2, borderRightWidth:0, borderBottomWidth:1},
+        theader2: { flex: 2, borderRightWidth: 0, borderBottomWidth: 1 },
 
-        tbody:{ fontSize : 9, paddingTop: 4 , paddingLeft: 7 , flex:1, borderColor : 'whitesmoke', borderRightWidth:1, borderBottomWidth:1},
+        tbody: { fontSize: 10, paddingTop: 4, paddingLeft: 7, flex: 1, borderColor: 'whitesmoke', borderRightWidth: 1, borderBottomWidth: 1 },
 
-        total:{ fontSize : 9, paddingTop: 4 , paddingLeft: 7 , flex:1.5, borderColor : 'whitesmoke', borderBottomWidth:1},
+        total: { fontSize: 10, paddingTop: 4, paddingLeft: 7, flex: 1.5, borderColor: 'whitesmoke', borderBottomWidth: 1 },
 
-        tbody2:{ flex:2, borderRightWidth:1, }
+        tbody2: { flex: 2, borderRightWidth: 1, }
 
     })
 
@@ -66,8 +73,15 @@ const Invoice = ({order}) => {
     const UserAddress = () => (
         // update UserAddress component here
         <View style={styles.titleContainer}>
-            <View style={styles.spaceBetween}>
-                <View style={{maxWidth : 200}}>
+            <View >
+
+                <View style={{ maxWidth: 200 }}>
+                    <Text style={styles.addressTitle}>Tên khách hàng </Text>
+                    <Text style={styles.address}>
+                        {order.customer.name}
+                    </Text>
+                </View>
+                <View style={{ maxWidth: 200 }}>
                     <Text style={styles.addressTitle}>Địa chỉ  </Text>
                     <Text style={styles.address}>
                         {order.customer.address}
@@ -79,7 +93,7 @@ const Invoice = ({order}) => {
 
     const TableHead = () => (
         // update TableHead component here
-        <View style={{ width:'100%', flexDirection :'row', marginTop:10}}>
+        <View style={{ width: '100%', flexDirection: 'row', marginTop: 10 }}>
             <View style={styles.theader}>
                 <Text >Tên sản phẩm</Text>
             </View>
@@ -95,9 +109,9 @@ const Invoice = ({order}) => {
 
     const TableBody = () => (
         // update TableBody component here
-        order.productItemList.map((item)=>(
+        order.productItemList.map((item) => (
             <Fragment key={item.id}>
-                <View style={{ width:'100%', flexDirection :'row'}}>
+                <View style={{ width: '100%', flexDirection: 'row' }}>
                     {/*<View style={[styles.tbody, styles.tbody2]}>*/}
                     {/*    <Text >{receipt.desc}</Text>*/}
                     {/*</View>*/}
@@ -117,33 +131,33 @@ const Invoice = ({order}) => {
 
     const TableTotal = () => (
         // update TableTotal component here
-        <View style={{ width:'100%', flexDirection :'row'}}>
-            <View style={styles.total}>
+        <View style={{ width: '100%', flexDirection: 'row' }}>
+            {/* <View style={styles.total}>
                 <Text></Text>
             </View>
             <View style={styles.total}>
                 <Text> </Text>
-            </View>
+            </View> */}
             <View style={styles.tbody}>
-                <Text>Tổng cộng</Text>
+                <Text>Tổng cộng : {VND.format(order.productItemList.reduce((sum, item) => sum + (item.product.price), 0))}</Text>
             </View>
-            <View style={styles.tbody}>
+            {/* <View style={styles.tbody}>
                 <Text>
-                    {order.productItemList.reduce((sum, item)=> sum + (item.product.price), 0)}
+                    {VND.format(order.productItemList.reduce((sum, item) => sum + (item.product.price), 0))}
                 </Text>
-            </View>
+            </View> */}
         </View>
     );
 
     return (
         <Document>
             <Page size="A4" style={styles.page}>
-                <InvoiceTitle  />
-                <Address/>
-                <UserAddress/>
-                <TableHead/>
-                <TableBody/>
-                <TableTotal/>
+                <InvoiceTitle />
+                <Address />
+                <UserAddress />
+                <TableHead />
+                <TableBody />
+                <TableTotal />
             </Page>
         </Document>
     )
