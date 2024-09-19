@@ -22,19 +22,45 @@ function LoginPage() {
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
-
+    const [sessionTimeout, setSessionTimeout] = useState(6000)
     useEffect(() => {
         document.title = "Login";
+        const maxAttemptsExceeded = sessionStorage.getItem('maxAttemptsExceeded');
+        if (maxAttemptsExceeded) {
+            setError('You have exceeded the maximum number of attempts, please wait for 1 minute.');
+            setTimeout(() => {
+                sessionStorage.removeItem('maxAttemptsExceeded');
+                count = 3; // Reset the counter
+                setError(''); // Clear the error message
+            }, sessionTimeout);
+        } else {
+            setError('');
+        }
+
     }, []); // Empty dependency array means this effect runs once after the initial render
 
 
     const handleSubmit = async (values) => {
         setLoading(true);
-        if (count === 0) {
-            setError('You have exceeded the maximum number of attempts');
-            setLoading(false);
-            return;
-        }
+        if (sessionStorage.getItem('maxAttemptsExceeded')) {
+    setError('You have exceeded the maximum number of attempts, please wait for 1 minute : ' + sessionTimeout / 1000 + ' seconds');
+    setLoading(false);
+    return;
+}
+if (count === 1) {
+    setError('You have exceeded the maximum number of attempts, please wait for 1 minute : ' + sessionTimeout / 1000 + ' seconds');
+    setLoading(false);
+    sessionStorage.setItem('maxAttemptsExceeded', 'true');
+    // Set a timer to clear the session after 1 hour (3600000 milliseconds)
+
+ setTimeout(() => {
+        sessionStorage.removeItem('maxAttemptsExceeded');
+        count = 3;
+     setError(''); // Clear the error message
+ }, sessionTimeout);
+
+    return;
+}
         try {
             const userData = await UserService.login(values.username, values.password);
             if (userData.token) {
