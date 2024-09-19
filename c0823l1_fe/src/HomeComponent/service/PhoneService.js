@@ -3,9 +3,6 @@ import axios from "axios";
 export const getAllPhone = async (name, page = 1, size = 8) => {
     try {
         let query = "http://localhost:1010/api/products?"
-        // if (name) {
-        //     query += `name=${name}&`;
-        // }
         if (name && name.trim()) {
             query += `name=${name.trim()}&`;
         }
