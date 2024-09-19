@@ -80,13 +80,14 @@ const Header = ({handleSearch,onBrandClick}) => {
                         <form onSubmit={handleSearchSubmit}>
                             <MDBInputGroup>
                                 <MDBInput
-                                    label="Search"
+                                    color="white"
+                                    label="Tìm kiếm..."
                                     id="form1"
                                     value={searchTerm}
                                     onChange={(e) => setSearchTerm(e.target.value)}
                                 />
-                                <MDBBtn color="primary" type="submit">
-                                    <span className="visually-hidden">Search</span>
+                                <MDBBtn color="white" type="submit">
+                                    <span className="visually-hidden" >Search</span>
                                     <MDBIcon fas icon="search"/>
                                 </MDBBtn>
                             </MDBInputGroup>
