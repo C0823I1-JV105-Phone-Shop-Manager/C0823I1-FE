@@ -4,7 +4,6 @@ import { Link } from "react-router-dom";
 import * as supplierService from "./service/SupplierService";
 import Footer from "../components/common/Footer";
 import { SideNav } from "../components/common/SideNav";
-import {SideNav} from "../components/common/SideNav";
 import NavTop from "../components/common/NavTop";
 import { deleteSuppliersByUid } from "./service/SupplierService";
 import { toast } from 'react-toastify';
