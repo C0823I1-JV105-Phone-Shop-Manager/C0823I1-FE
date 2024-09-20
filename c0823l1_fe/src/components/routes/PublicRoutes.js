@@ -3,7 +3,7 @@ import UserService from "../service/UserService";
 import Swal from 'sweetalert2';
 
 export const PublicRoutes = () => {
-    if (UserService.isAuthenticated()) {
+    if (localStorage.getItem('token')) {
         Swal.fire({
             title: 'Please logout before',
             icon: 'warning',
