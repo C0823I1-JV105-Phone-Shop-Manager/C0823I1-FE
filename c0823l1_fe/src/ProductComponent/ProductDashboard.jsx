@@ -125,7 +125,7 @@ function ProductDashboard() {
                     <h2 className="text-center mb-4">Thông tin hàng hóa</h2>
                     <Row className="d-flex justify-content-between align-items-center mb-4">
                         <Col md={3} className="mb-2">
-                            <Button variant="primary" href="/add-product">
+                            <Button variant="info" href="/add-product">
                                 Thêm mới hàng hóa
                             </Button>
                         </Col>
@@ -156,7 +156,7 @@ function ProductDashboard() {
                                     </Col>
                                     <Col sm="auto" className="ms-2">
                                         <Button
-                                            variant="primary"
+                                            variant="info"
                                             onClick={handleSearch}
                                             className="btn-search"
                                         >
@@ -290,9 +290,9 @@ function ProductDashboard() {
                             </Modal.Body>
                             <Modal.Footer className="border-0 d-flex justify-content-center">
                                 <Button
-                                    variant="secondary"
+                                    variant="info"
                                     onClick={() => setShowDetailsModal(false)}
-                                    className="bg-primary border-0"
+                                    className="info border-0"
                                 >
                                     Đóng
                                 </Button>
