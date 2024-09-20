@@ -84,11 +84,29 @@ function ProductDashboard() {
     };
 
         const confirmDelete = useCallback((product) => {
+    const confirmDelete = useCallback((product) => {
+    Swal.fire({
+        title: " Cảnh báo!!!",
+        text: `Bạn có chắc chắn muốn xóa hàng hóa: ${product.name} ?`,
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Xóa!",
+        cancelButtonText: "Hủy!"
+    }).then((result) => {
+        if (result.isConfirmed) {
+            setProductToDelete(product);
+            handleDelete(product.id);
+
+        }
+    });
+}, [handleDelete]);
+    const comingSoon = ()=>{
         Swal.fire({
-            title: " Cảnh báo!!!",
-            text: `Bạn có chắc chắn muốn xóa hàng hóa: ${product.name} ?`,
+            title: " Coming soon!!!",
+            text: `Chức năng này sẽ được cập nhật sớm nhất!`,
             icon: "warning",
-            showCancelButton: true,
             confirmButtonColor: "#3085d6",
             cancelButtonColor: "#d33",
             confirmButtonText: "Xóa!",
@@ -100,6 +118,9 @@ function ProductDashboard() {
             }
         });
     }, [handleDelete]);
+        })
+    }
+
 
     return (
         <div id="page-top" className="d-flex flex-column min-vh-100">
@@ -111,6 +132,45 @@ function ProductDashboard() {
                         <Col md={3} className="mb-2">
                             <Button variant="primary" href="/add-product">
                                 Thêm mới hàng hóa
+                    <div className="d-flex justify-content-between align-items-center mb-4">
+                        <Button variant="primary" onClick={comingSoon}>
+                            Thêm mới hàng hóa
+                        </Button>
+
+                        <Form inline className="d-flex align-items-center" onSubmit={(e) => e.preventDefault()}>
+                            <Form.Label className="mr-3 mb-0" style={{ whiteSpace: 'nowrap' }}>Tìm kiếm theo:</Form.Label>
+                            <Form.Control
+                                as="select"
+                                className="mr-2"
+                                style={{ maxWidth: '120px' }}
+                                value={searchCategory}
+                                onChange={(e) => setSearchCategory(e.target.value)}
+                            >
+                                <option value="name">Tên hàng hóa</option>
+                                <option value="cpu">CPU</option>
+                                <option value="storage">Lưu trữ</option>
+                                {/* thêm lựa chọn tìm kiếm */}
+                            </Form.Control>
+                            <Form.Control
+                                type="text"
+                                placeholder="Tìm kiếm..."
+                                className="mr-2 m-1"
+                                style={{ maxWidth: '150px' }}
+                                value={searchTerm}
+                                onChange={(e) => setSearchTerm(e.target.value)}
+                            />
+                            <Button
+                                variant="primary"
+                                onClick={handleSearch}
+                                style={{
+                                    padding: '0.5rem 1rem',
+                                    fontSize: '1rem',
+                                    borderRadius: '0.375rem', // Rounded corners
+                                    transition: 'background-color 0.3s ease' // Smooth hover effect
+                                }}
+                                className="btn-search" // Add a custom class for hover effect
+                            >
+                                Tìm kiếm
                             </Button>
                         </Col>
                         <Col md={9}>
@@ -187,6 +247,7 @@ function ProductDashboard() {
                                                 style={{ cursor: 'pointer' }}
                                                 onClick={() => window.location.href = `/edit-product/${product.id}`}
                                                 title="Chỉnh sửa"
+                                                onClick={comingSoon}
                                             ></i>
                                             <i
                                                 className="fas fa-trash-alt text-danger mx-2"
@@ -287,6 +348,21 @@ function ProductDashboard() {
                     {productToDelete && (
                         <Modal show={showDeleteModal} onHide={() => setShowDeleteModal(false)} centered>
 
+                        <Modal show={showDeleteModal} onHide={() => setShowDeleteModal(false)}>
+                        {/*    <Modal.Header closeButton>*/}
+                        {/*        <Modal.Title>Xác nhận xóa</Modal.Title>*/}
+                        {/*    </Modal.Header>*/}
+                        {/*    <Modal.Body>*/}
+                        {/*        Bạn có chắc chắn muốn xóa sản phẩm {productToDelete.name} không?*/}
+                        {/*    </Modal.Body>*/}
+                        {/*    <Modal.Footer>*/}
+                        {/*        <Button variant="danger" onClick={handleDelete}>*/}
+                        {/*            Xóa*/}
+                        {/*        </Button>*/}
+                        {/*        <Button variant="secondary" onClick={() => setShowDeleteModal(false)}>*/}
+                        {/*            Hủy*/}
+                        {/*        </Button>*/}
+                        {/*    </Modal.Footer>*/}
                         </Modal>
                     )}
                 </Container>

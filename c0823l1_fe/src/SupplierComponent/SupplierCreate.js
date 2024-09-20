@@ -7,6 +7,7 @@ import {createSupplier} from "./service/SupplierAddEditService";
 import * as Yup from "yup";
 import NavTop from "../components/common/NavTop";
 import {toast} from "react-toastify";
+import error from "../components/common/Error";
 
 
 function SupplierCreate() {
@@ -49,19 +50,24 @@ function SupplierCreate() {
         try {
             const token = localStorage.getItem('token');
             const response = await createSupplier(supplier, token);
+            console.log(response.message);
             if (response.status === 201) {
                 toast.success("Thêm mới thành công!");
                 navigate("/user/supplier")
             } else if (response.status === 400 ) {
-                toast.error("Thêm mới thất bại. Dữ liệu nhập vào không hợp lệ.");
-            } else if (response.status === 409 || response.status === undefined) {
+                const errorData = response.data;
+                let errorMessage = "Thêm mới thất bại.";
+                if (errorData) {
+                    errorMessage = Object.values(errorData).join(", ");
+                }
+                toast.error(errorMessage);
+            } else if (response.status === 409) {
                 toast.error("Thêm mới thất bại. Mã số, số điện thoại hoặc email đã được dùng cho nhà cung cấp khác.");
             } else {
                 toast.error("Thêm mới thất bại");
             }
         } catch (error) {
-            console.error('Error when create supplier information:', error);
-            toast.error("Thêm mới thất bại");
+              toast.error("Thêm mới thất bại");
         }
 
     }
