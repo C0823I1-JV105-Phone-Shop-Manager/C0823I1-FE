@@ -11,7 +11,23 @@ export const createSupplier = async (supplier,token) => {
             )
         return response;
     } catch (err){
-        return false;
+        // Nếu có lỗi, in chi tiết lỗi ra console và trả về lỗi
+        if (err.response) {
+            // Khi server trả về lỗi
+
+            return err.response;
+        } else if (err.request) {
+            // Khi không nhận được phản hồi từ server
+            console.log(2)
+            console.error("Error request:", err.request);
+            return { message: 'No response from server.' };
+        } else {
+            // Khi có lỗi trong cấu hình yêu cầu
+            console.log(3)
+            console.error('Error message:', err.message);
+            return { message: err.message };
+        }
+        // return err.response;
     }
 }
 
